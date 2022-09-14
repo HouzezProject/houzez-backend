@@ -1,7 +1,7 @@
 # Read Me First
 The following was discovered as part of building this project:
 
-* The original package name 'com.eta.Houzez-backend' is invalid and this project uses 'com.eta.Houzezbackend' instead.
+* The original package name 'com.eta.Houzez-backend' is invalid and this project uses 'com.eta.houzezbackend' instead.
 
 # Getting Started
 
