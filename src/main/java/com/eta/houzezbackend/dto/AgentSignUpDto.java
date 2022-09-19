@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AgentDto {
+public class AgentSignUpDto {
 
     @NotNull
     private String email;

@@ -1,6 +1,7 @@
 package com.eta.houzezbackend.controller;
 
-import com.eta.houzezbackend.dto.AgentDto;
+
+import com.eta.houzezbackend.dto.AgentSignUpDto;
 import com.eta.houzezbackend.service.AgentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,8 +19,8 @@ public class SignUpController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public String signUp(@Valid @RequestBody AgentDto agentDto){
-        long id = agentService.signUpNewAgent(agentDto);
+    public String signUp(@Valid @RequestBody AgentSignUpDto agentSignUpDto){
+        long id = agentService.signUpNewAgent(agentSignUpDto);
         return "success, new agent's id is " + id;
     }
 }
