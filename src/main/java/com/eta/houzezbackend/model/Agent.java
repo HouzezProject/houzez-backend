@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 import java.util.Objects;
 
@@ -16,6 +17,7 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
+@AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "agent")
 public class Agent {
@@ -35,7 +37,7 @@ public class Agent {
     @Column(nullable = true)
     private String companyLogo;
 
-    //@Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false)
     @Email
     private String email;
 
@@ -60,6 +62,7 @@ public class Agent {
     @LastModifiedDate
     @Column( nullable = true)
     private Date updatedTime;
+
 
     @Override
     public boolean equals(Object o) {
