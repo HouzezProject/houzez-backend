@@ -19,7 +19,6 @@ public record AgentService(AgentRepository agentRepository,PasswordEncoder passw
     public AgentGetDto signUpNewAgent(AgentSignUpDto agentSignUpDto){
 
         Agent agent = agentMapper.agentSignUpDtoToAgent(agentSignUpDto);
-
         agent.setPassword(passwordEncoder.encode(agentSignUpDto.getPassword()));
         agent = agentRepository.save(agent);
         return agentMapper.agentToAgentGetDto(agent);

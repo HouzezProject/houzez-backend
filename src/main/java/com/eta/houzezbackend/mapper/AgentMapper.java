@@ -17,8 +17,7 @@ public interface AgentMapper {
     @Mapping(target = "name", expression = "java(UUID.randomUUID().toString())")
     @Mapping(target = "ifDelete", constant = "false")
     @Mapping(target = "status", constant = "false")
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "createdTime", ignore = true)
-    @Mapping(target = "updatedTime", ignore = true)
+
     Agent agentSignUpDtoToAgent(AgentSignUpDto agentSignUpDto);
+
 }
