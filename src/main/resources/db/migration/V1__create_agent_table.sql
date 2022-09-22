@@ -8,9 +8,9 @@ CREATE TABLE "agent"
     "email"        VARCHAR(255) UNIQUE NOT NULL,
     "password"     VARCHAR(64)         NOT NULL,
     "phone"        VARCHAR(255),
-    "if_delete"    INTEGER             NOT NULL,
+    "if_delete"    BOOL DEFAULT FALSE  NOT NULL,
     "active_link"  VARCHAR(512),
-    "status"       VARCHAR(64)         NOT NULL,
+    "status"       BOOL DEFAULT FALSE  NOT NULL,
     "created_time" TIMESTAMP WITH TIME ZONE,
     "updated_time" TIMESTAMP WITH TIME ZONE
 )

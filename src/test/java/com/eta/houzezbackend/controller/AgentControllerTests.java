@@ -63,8 +63,8 @@ class AgentControllerTests {
 
     @Test
     void shouldReturn200AndAgentDtoWhenGetAgentDto() throws Exception {
-        mockMvc.perform(get("/Agents/" + mockUserId.toString()))
+        mockMvc.perform(get("/Agents/" + mockUserId))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(mockUserId.toString()));
+                .andExpect(jsonPath("$.id").value(mockUserId));
     }
 }

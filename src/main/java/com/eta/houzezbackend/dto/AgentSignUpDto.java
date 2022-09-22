@@ -26,12 +26,10 @@ public class AgentSignUpDto {
             message = "Your password must be at least 8 character long and contains at least one non-letter character.")
 
     private String password;
-
     private String photo;
-    public String company;
-    public String companyLogo;
-    public String phone;
+    private String company;
+    private String companyLogo;
+    private String phone;
     private String activeLink;
-
 
 }
