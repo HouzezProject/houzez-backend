@@ -1,13 +1,14 @@
 package com.eta.houzezbackend.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
 import java.util.Date;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class AgentGetDto {
 
 
@@ -19,8 +20,8 @@ public class AgentGetDto {
     private String companyLogo;
     private String phone;
     private String activeLink;
-    private Boolean ifDelete;
-    private Boolean status;
+    private Boolean deleted;
+    private Boolean activated;
     private Date createdTime;
     private Date updatedTime;
 

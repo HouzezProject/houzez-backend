@@ -6,7 +6,6 @@ import com.eta.houzezbackend.mapper.AgentMapper;
 import com.eta.houzezbackend.model.Agent;
 import com.eta.houzezbackend.repository.AgentRepository;
 
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -27,7 +26,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class AgentServiceTest {
     @Mock
-    private AgentRepository agentRepository;//null
+    private AgentRepository agentRepository;
     @Mock
     private PasswordEncoder passwordEncoder;
     @Mock
@@ -37,16 +36,31 @@ class AgentServiceTest {
     private AgentService agentService;
 
 
-    private final AgentSignUpDto mockAgentSignUpDto = new AgentSignUpDto("test2@gmail.com",
-            "123qqqqq.",
-            "",
-            "",
-            "",
-            "","");
-    private final AgentGetDto mockAgentGetDto = new AgentGetDto(1L,"name","test2@gmail.com", "","","","","",false,false, new Date(),new Date());
-    private final Agent mockAgent = new Agent(1L,"mockName", "", "", "",
-            "test2@gmail.com","123qqqqq.","",false,"",
-            false, new Date(),new Date());
+    private final AgentSignUpDto mockAgentSignUpDto = AgentSignUpDto
+            .builder()
+            .email("test2@gmail.com")
+            .password("123qqqqq.")
+            .build();
+    private final AgentGetDto mockAgentGetDto = AgentGetDto
+            .builder().id(1L)
+            .name("name")
+            .email("test2@gmail.com")
+            .activated(false)
+            .deleted(false)
+            .createdTime(new Date())
+            .updatedTime(new Date())
+            .build();
+
+    private final Agent mockAgent = Agent.builder()
+            .id(1L)
+            .name("name")
+            .email("test2@gmail.com")
+            .password("123qqqqq.")
+            .activated(false)
+            .deleted(false)
+            .createdTime(new Date())
+            .updatedTime(new Date())
+            .build();
 
     @Test
     void shouldSaveNewAgentInAgentRepoWhenSignUpNewAgent() {

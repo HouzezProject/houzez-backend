@@ -12,7 +12,7 @@ import javax.validation.Valid;
 
 
 @RestController
-@RequestMapping("Agents")
+@RequestMapping("agents")
 @RequiredArgsConstructor
 public class AgentController {
 

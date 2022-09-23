@@ -9,15 +9,14 @@ import org.mapstruct.ReportingPolicy;
 
 import java.util.UUID;
 
-@Mapper(componentModel = "spring", unmappedSourcePolicy = ReportingPolicy.IGNORE,imports = UUID.class)
+@Mapper(componentModel = "spring", unmappedSourcePolicy = ReportingPolicy.IGNORE, imports = UUID.class)
 public interface AgentMapper {
     AgentGetDto agentToAgentGetDto(Agent agent);
 
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "name", expression = "java(UUID.randomUUID().toString())")
-    @Mapping(target = "ifDelete", constant = "false")
-    @Mapping(target = "status", constant = "false")
-
+    @Mapping(target = "deleted", constant = "false")
+    @Mapping(target = "activated", constant = "false")
     Agent agentSignUpDtoToAgent(AgentSignUpDto agentSignUpDto);
 
 }

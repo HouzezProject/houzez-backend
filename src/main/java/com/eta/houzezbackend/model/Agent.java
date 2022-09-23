@@ -8,19 +8,15 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Pattern;
 import java.util.Date;
-import java.util.Objects;
 
 @Entity
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-@EqualsAndHashCode
-@Table(name = "agent")
+@Builder
 public class Agent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,12 +40,12 @@ public class Agent {
     private String phone;
 
     @Column(nullable = false)
-    private Boolean ifDelete;
+    private Boolean deleted;
 
     private String activeLink;
 
     @Column( nullable = false)
-    private Boolean status;
+    private Boolean activated;
 
     @CreatedDate
     private Date createdTime;
