@@ -24,26 +24,24 @@ public class Agent {
 
     private String name;
 
-    private String photo;
+    private String avatar;
 
-    private String company;
+    private String companyName;
 
     private String companyLogo;
 
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Column( nullable = false)
+    @Column(nullable = false)
     private String password;
 
-    private String phone;
+    private String phoneNumber;
 
     @Column(nullable = false)
     private Boolean deleted;
 
-    private String activeLink;
-
-    @Column( nullable = false)
+    @Column(nullable = false)
     private Boolean activated;
 
     @CreatedDate
@@ -51,7 +49,6 @@ public class Agent {
 
     @LastModifiedDate
     private Date updatedTime;
-
 
 
 }

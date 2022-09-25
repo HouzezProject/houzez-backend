@@ -11,12 +11,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
-
 @Service
-public record AgentService(AgentRepository agentRepository,PasswordEncoder passwordEncoder,AgentMapper agentMapper) {
+public record AgentService(AgentRepository agentRepository, PasswordEncoder passwordEncoder, AgentMapper agentMapper) {
 
     private static final String RESOURCE = "Agent";
-    public AgentGetDto signUpNewAgent(AgentSignUpDto agentSignUpDto){
+
+    public AgentGetDto signUpNewAgent(AgentSignUpDto agentSignUpDto) {
 
         Agent agent = agentMapper.agentSignUpDtoToAgent(agentSignUpDto);
         agent.setPassword(passwordEncoder.encode(agentSignUpDto.getPassword()));
@@ -24,7 +24,7 @@ public record AgentService(AgentRepository agentRepository,PasswordEncoder passw
         return agentMapper.agentToAgentGetDto(agent);
     }
 
-    public AgentGetDto getAgent(Long id){
+    public AgentGetDto getAgent(Long id) {
         return agentMapper.agentToAgentGetDto(find(id));
     }
 

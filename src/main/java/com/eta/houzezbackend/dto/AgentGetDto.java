@@ -15,11 +15,10 @@ public class AgentGetDto {
     private long id;
     private String name;
     private String email;
-    private String photo;
-    private String company;
+    private String avatar;
+    private String companyName;
     private String companyLogo;
-    private String phone;
-    private String activeLink;
+    private String phoneNumber;
     private Boolean deleted;
     private Boolean activated;
     private Date createdTime;

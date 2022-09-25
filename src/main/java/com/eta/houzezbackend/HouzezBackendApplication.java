@@ -9,8 +9,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaAuditing
 public class HouzezBackendApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(HouzezBackendApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(HouzezBackendApplication.class, args);
+    }
 
 }

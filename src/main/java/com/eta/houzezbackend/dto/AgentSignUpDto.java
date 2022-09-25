@@ -5,7 +5,6 @@ import lombok.*;
 import javax.validation.constraints.*;
 
 
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -21,10 +20,9 @@ public class AgentSignUpDto {
             message = "Your password must be at least 8 character long and contains at least one non-letter character.")
 
     private String password;
-    private String photo;
-    private String company;
+    private String avatar;
+    private String companyName;
     private String companyLogo;
-    private String phone;
-    private String activeLink;
+    private String phoneNumber;
 
 }

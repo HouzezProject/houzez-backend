@@ -20,12 +20,12 @@ public class AgentController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public AgentGetDto signUp(@Valid @RequestBody AgentSignUpDto agentSignUpDto){
+    public AgentGetDto signUp(@Valid @RequestBody AgentSignUpDto agentSignUpDto) {
         return agentService.signUpNewAgent(agentSignUpDto);
     }
 
     @GetMapping("/{id}")
-    public AgentGetDto getAgent(@PathVariable Long id){
+    public AgentGetDto getAgent(@PathVariable Long id) {
         return agentService.getAgent(id);
     }
 

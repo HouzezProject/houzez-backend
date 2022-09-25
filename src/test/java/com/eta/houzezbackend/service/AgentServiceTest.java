@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -81,7 +82,7 @@ class AgentServiceTest {
         Long mockId = 1L;
         when(agentMapper.agentToAgentGetDto(mockAgent)).thenReturn(mockAgentGetDto);
         when(agentRepository.findById(mockId)).thenReturn(Optional.of(mockAgent));
-        assertEquals(mockAgentGetDto,agentService.getAgent(mockId));
+        assertEquals(mockAgentGetDto, agentService.getAgent(mockId));
     }
 
 }
