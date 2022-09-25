@@ -31,7 +31,6 @@ public class Agent {
     private String companyLogo;
 
     @Column(unique = true, nullable = false)
-    @Email
     private String email;
 
     @Column( nullable = false)
