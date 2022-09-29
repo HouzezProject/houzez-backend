@@ -19,19 +19,20 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
-
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
-class AgentServiceTest {
+public class AgentServiceTest {
     @Mock
     private AgentRepository agentRepository;
     @Mock
     private PasswordEncoder passwordEncoder;
     @Mock
     private AgentMapper agentMapper;
+    @Mock
+    private JwtService jwtService;
 
     @InjectMocks
     private AgentService agentService;
@@ -83,6 +84,17 @@ class AgentServiceTest {
         when(agentMapper.agentToAgentGetDto(mockAgent)).thenReturn(mockAgentGetDto);
         when(agentRepository.findById(mockId)).thenReturn(Optional.of(mockAgent));
         assertEquals(mockAgentGetDto, agentService.getAgent(mockId));
+    }
+
+    @Test
+    void shouldGetActiveLinkWhenCreateSignUpLink(){
+        String baseUrl = "base";
+        String id = "id";
+        String name = "name";
+        Integer minute = 10;
+        String jwt = "jwt";
+        when(jwtService.createJWT(id,name,minute)).thenReturn(jwt);
+        assertEquals(agentService.createSignUpLink(baseUrl,id,name,minute), baseUrl + "/decode/" + jwt);
     }
 
 }

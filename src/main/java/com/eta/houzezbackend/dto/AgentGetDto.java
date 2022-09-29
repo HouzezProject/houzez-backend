@@ -11,7 +11,6 @@ import java.util.Date;
 @Builder
 public class AgentGetDto {
 
-
     private long id;
     private String name;
     private String email;
