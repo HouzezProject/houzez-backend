@@ -9,7 +9,6 @@ import com.eta.houzezbackend.repository.AgentRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -24,7 +23,6 @@ import java.util.UUID;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-
 @ExtendWith(MockitoExtension.class)
 public class AgentServiceTest {
     @Mock
@@ -38,7 +36,6 @@ public class AgentServiceTest {
 
     @InjectMocks
     private AgentService agentService;
-
 
     private final AgentSignUpDto mockAgentSignUpDto = AgentSignUpDto
             .builder()
@@ -69,10 +66,9 @@ public class AgentServiceTest {
     @Test
     void shouldSaveNewAgentInAgentRepoWhenSignUpNewAgent() {
 
-        String mockPsd = "123qqqqq.";
 
         when(agentMapper.agentSignUpDtoToAgent(mockAgentSignUpDto)).thenReturn(mockAgent);
-        when(passwordEncoder.encode(mockPsd)).thenReturn("123qqqqq.");
+        when(passwordEncoder.encode(mockAgent.getPassword())).thenReturn(mockAgent.getPassword());
         when(agentRepository.save(mockAgent)).thenReturn(mockAgent);
         when(agentMapper.agentToAgentGetDto(mockAgent)).thenReturn(mockAgentGetDto);
 
@@ -85,6 +81,7 @@ public class AgentServiceTest {
         Long mockId = 1L;
         when(agentMapper.agentToAgentGetDto(mockAgent)).thenReturn(mockAgentGetDto);
         when(agentRepository.findById(mockId)).thenReturn(Optional.of(mockAgent));
+
         assertEquals(mockAgentGetDto, agentService.getAgent(mockId));
     }
 
@@ -96,7 +93,7 @@ public class AgentServiceTest {
         Integer minute = 10;
         String jwt = "jwt";
         when(jwtService.createJWT(id,name,minute)).thenReturn(jwt);
-        assertEquals(agentService.createSignUpLink(baseUrl,id,name,minute), baseUrl + "/decode/" + jwt);
+        assertEquals(agentService.createSignUpLink(baseUrl,id,name,minute), baseUrl + "/agents/decode/" + jwt);
     }
 
 }

@@ -22,19 +22,11 @@ public class Agent {
 
     private String name;
 
-    private String avatar;
-
-    private String companyName;
-
-    private String companyLogo;
-
     @Column(unique = true, nullable = false)
     private String email;
 
     @Column(nullable = false)
     private String password;
-
-    private String phoneNumber;
 
     @Column(nullable = false)
     private Boolean deleted;

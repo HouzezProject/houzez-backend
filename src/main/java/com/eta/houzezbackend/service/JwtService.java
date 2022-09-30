@@ -1,12 +1,10 @@
 package com.eta.houzezbackend.service;
 
-
 import com.eta.houzezbackend.util.SystemParam;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.SignatureException;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.DatatypeConverter;
@@ -23,7 +21,7 @@ public record JwtService(SystemParam systemParam) {
         LocalDateTime dateTime = LocalDateTime.now().plus(Duration.of(expDateInMinutes, ChronoUnit.MINUTES));
         Date expDate = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
 
-        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS384;
+        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.ES384;
 
         byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(systemParam.getSECRET_KEY());
 
@@ -37,16 +35,11 @@ public record JwtService(SystemParam systemParam) {
     }
 
     public Claims decodeJWT(String jwt) {
-        try {
+
             return Jwts.parserBuilder()
                     .setSigningKey(DatatypeConverter.parseBase64Binary(systemParam.getSECRET_KEY()))
                     .build()
                     .parseClaimsJws(jwt).getBody();
-        } catch (SignatureException e) {
-            return null;
-        }
-
     }
-
 
 }
