@@ -21,7 +21,7 @@ public record JwtService(SystemParam systemParam) {
         LocalDateTime dateTime = LocalDateTime.now().plus(Duration.of(expDateInMinutes, ChronoUnit.MINUTES));
         Date expDate = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
 
-        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.ES384;
+        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS384;
 
         byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(systemParam.getSECRET_KEY());
 
@@ -34,7 +34,7 @@ public record JwtService(SystemParam systemParam) {
         return builder.compact();
     }
 
-    public Claims decodeJWT(String jwt) {
+    public Claims getJwtBody(String jwt) {
 
             return Jwts.parserBuilder()
                     .setSigningKey(DatatypeConverter.parseBase64Binary(systemParam.getSECRET_KEY()))

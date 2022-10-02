@@ -28,9 +28,9 @@ public class JwtServiceTest {
     @Test
     void shouldDecodeJwtWhenCreatedJwtAndDecodeJwt() {
         when(systemParam.getSECRET_KEY()).thenReturn("5970337336763979244226452948404D6351665468576D5A7134743777217A25");
-        String a = jwtService.createJWT("123","name", 10);
-        assertEquals("123", Objects.requireNonNull(jwtService.decodeJWT(a)).getId());
-        assertEquals("name", Objects.requireNonNull(jwtService.decodeJWT(a)).getSubject());
+        String token = jwtService.createJWT("123","name", 10);
+        assertEquals("123", Objects.requireNonNull(jwtService.getJwtBody(token)).getId());
+        assertEquals("name", Objects.requireNonNull(jwtService.getJwtBody(token)).getSubject());
     }
 
 }

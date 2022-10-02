@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -34,14 +35,14 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler(value = {UniqueEmailViolationException.class})
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public ErrorDto handleUniqueEmailViolationException(UniqueEmailViolationException e) {
-        return new ErrorDto(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), List.of(e.getMessage()));
+        return new ErrorDto(HttpStatus.UNPROCESSABLE_ENTITY.getReasonPhrase(), List.of(Objects.requireNonNull(e.getMessage())));
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorDto handleAllExceptions(Exception e) {
+    public ErrorDto handleUnexpectedExceptions(Exception e) {
         log.error("There is an unexpected exception occurred", e);
 
         return new ErrorDto(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), List.of(e.getMessage()));

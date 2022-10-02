@@ -42,8 +42,8 @@ public record AgentService(AgentRepository agentRepository, PasswordEncoder pass
         return agentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(RESOURCE, id));
     }
 
-    public String createSignUpLink(String baseUrl, String id, String name, Integer minute) {
-        return baseUrl + "/agents/decode/" + jwtService().createJWT(id, name, minute);
+    public String createSignUpLink(String baseUrl, String id, String name, int effectiveTimeInMinutes) {
+        return baseUrl + "/agents/decode/" + jwtService().createJWT(id, name, effectiveTimeInMinutes);
     }
 
 
