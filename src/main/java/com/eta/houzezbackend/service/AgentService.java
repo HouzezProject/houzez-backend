@@ -2,6 +2,7 @@ package com.eta.houzezbackend.service;
 
 import com.eta.houzezbackend.dto.AgentGetDto;
 import com.eta.houzezbackend.dto.AgentSignUpDto;
+import com.eta.houzezbackend.dto.DuplicateEmailCheckDto;
 import com.eta.houzezbackend.exception.ResourceNotFoundException;
 import com.eta.houzezbackend.mapper.AgentMapper;
 import com.eta.houzezbackend.model.Agent;
@@ -28,8 +29,18 @@ public record AgentService(AgentRepository agentRepository, PasswordEncoder pass
         return agentMapper.agentToAgentGetDto(find(id));
     }
 
+    public DuplicateEmailCheckDto getAgentByEmail(String email) {
+        DuplicateEmailCheckDto duplicateEmailCheckDto = agentMapper.DuplicateEmailCheckResultDto(findByEmail(email));
+        duplicateEmailCheckDto.setDuplicateEmailCheckResultDto(true);
+        return duplicateEmailCheckDto;
+    }
+
     private Agent find(Long id) {
         return agentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(RESOURCE, id));
+    }
+
+    private Agent findByEmail(String email) {
+        return agentRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException(RESOURCE, email));
     }
 
 }
