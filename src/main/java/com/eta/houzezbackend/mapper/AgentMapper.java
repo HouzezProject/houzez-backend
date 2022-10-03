@@ -13,7 +13,7 @@ import java.util.UUID;
 @Mapper(componentModel = "spring", unmappedSourcePolicy = ReportingPolicy.IGNORE, imports = UUID.class)
 public interface AgentMapper {
     AgentGetDto agentToAgentGetDto(Agent agent);
-    DuplicateEmailCheckDto DuplicateEmailCheckResultDto(Agent agent);
+    DuplicateEmailCheckDto duplicateEmailCheckResultDto(Agent agent);
 
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "name", expression = "java(UUID.randomUUID().toString())")

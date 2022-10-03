@@ -30,7 +30,7 @@ public record AgentService(AgentRepository agentRepository, PasswordEncoder pass
     }
 
     public DuplicateEmailCheckDto getAgentByEmail(String email) {
-        DuplicateEmailCheckDto duplicateEmailCheckDto = agentMapper.DuplicateEmailCheckResultDto(findByEmail(email));
+        DuplicateEmailCheckDto duplicateEmailCheckDto = agentMapper.duplicateEmailCheckResultDto(findByEmail(email));
         duplicateEmailCheckDto.setDuplicateEmailCheckResultDto(true);
         return duplicateEmailCheckDto;
     }

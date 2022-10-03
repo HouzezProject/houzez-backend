@@ -8,6 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class DuplicateEmailCheckDto {
-    private boolean DuplicateEmailCheckResultDto = true;
+    private boolean duplicateEmailCheckResultDto = true;
     private String email;
 }
