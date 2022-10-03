@@ -1,13 +1,11 @@
 package com.eta.houzezbackend.model;
 
 import lombok.*;
-import org.hibernate.Hibernate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import java.util.Date;
 
 @Entity
@@ -24,19 +22,11 @@ public class Agent {
 
     private String name;
 
-    private String avatar;
-
-    private String companyName;
-
-    private String companyLogo;
-
     @Column(unique = true, nullable = false)
     private String email;
 
     @Column(nullable = false)
     private String password;
-
-    private String phoneNumber;
 
     @Column(nullable = false)
     private Boolean deleted;
