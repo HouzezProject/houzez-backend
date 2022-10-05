@@ -42,7 +42,6 @@ class AgentControllerTests {
         agentRepository.flush();
         mockUserId = agentController.signUp(AgentSignUpDto.builder().email("test3@gmail.com")
                 .password("123qqqqq.").build()).getId();
-
     }
 
     @Test
@@ -62,4 +61,5 @@ class AgentControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(mockUserId));
     }
+
 }

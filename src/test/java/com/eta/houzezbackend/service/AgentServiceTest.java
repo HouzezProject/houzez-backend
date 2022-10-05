@@ -6,6 +6,8 @@ import com.eta.houzezbackend.mapper.AgentMapper;
 import com.eta.houzezbackend.model.Agent;
 import com.eta.houzezbackend.repository.AgentRepository;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -48,6 +50,8 @@ public class AgentServiceTest {
             .createdTime(new Date())
             .updatedTime(new Date())
             .build();
+
+    private final Claims claims = Jwts.claims().setId("123").setSubject("name").setExpiration(new Date(System.currentTimeMillis() + (5 * 60 * 1000)));
 
     private final Agent mockAgent = Agent.builder()
             .id(1L)
@@ -95,4 +99,13 @@ public class AgentServiceTest {
         assertEquals(agentService.createSignUpLink(baseUrl,id,name,minute), baseUrl + "/agents/decode/" + jwt);
     }
 
+    @Test
+    void shouldActiveAgentWhenSetAgentToActive() {
+        String jwt = "jwt";
+        when(jwtService.getJwtBody(jwt)).thenReturn(claims);
+        when(agentRepository.findById(Long.parseLong(claims.getId()))).thenReturn(Optional.of(mockAgent));
+        when(agentRepository.save(mockAgent)).thenReturn(mockAgent);
+        assertEquals(agentService.setAgentToActive(jwt), mockAgent);
+
+    }
 }

@@ -2,7 +2,7 @@ package com.eta.houzezbackend.service;
 
 import com.eta.houzezbackend.util.SystemParam;
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.SignatureException;
+
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.DatatypeConverter;
@@ -33,24 +33,14 @@ public record JwtService(SystemParam systemParam) {
     }
 
     public Claims getJwtBody(String jwt) {
-        Claims claims = null;
-        try {
-            claims = Jwts.parserBuilder()
+
+
+        return Jwts.parserBuilder()
                     .setSigningKey(DatatypeConverter.parseBase64Binary(systemParam.getSECRET_KEY()))
                     .build()
                     .parseClaimsJws(jwt).getBody();
-        } catch (ExpiredJwtException e) {
-            throw new RuntimeException(e);
-        } catch (UnsupportedJwtException e) {
-            throw new RuntimeException(e);
-        } catch (MalformedJwtException e) {
-            throw new RuntimeException(e);
-        } catch (SignatureException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException(e);
-        }
-        return claims;
+
+
     }
 
 }
