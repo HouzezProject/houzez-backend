@@ -3,6 +3,7 @@ package com.eta.houzezbackend.controller;
 import com.eta.houzezbackend.dto.AgentGetDto;
 import com.eta.houzezbackend.dto.AgentSignUpDto;
 import com.eta.houzezbackend.exception.ResourceNotFoundException;
+import com.eta.houzezbackend.model.Agent;
 import com.eta.houzezbackend.service.AgentService;
 import com.eta.houzezbackend.service.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,7 @@ public class AgentController {
     }
 
     @RequestMapping(method = {RequestMethod.HEAD})
-    public void getAgentByEmail(@RequestParam String email) {
-        agentService.findByEmail(email);
+    public Agent getAgentByEmail(@RequestParam String email) {
+        return agentService.findByEmail(email);
     }
 }

@@ -45,7 +45,7 @@ public record AgentService(AgentRepository agentRepository, PasswordEncoder pass
         return baseUrl + "/agents/decode/" + jwtService().createJWT(id, name, effectiveTimeInMinutes);
     }
 
-    public void findByEmail(String email) {
-        agentRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException(RESOURCE, email));
+    public Agent findByEmail(String email) {
+        return agentRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
     }
 }
