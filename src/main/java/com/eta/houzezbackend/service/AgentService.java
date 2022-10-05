@@ -46,6 +46,6 @@ public record AgentService(AgentRepository agentRepository, PasswordEncoder pass
     }
 
     public void findByEmail(String email) {
-        agentRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
+        agentRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException(RESOURCE, email));
     }
 }
