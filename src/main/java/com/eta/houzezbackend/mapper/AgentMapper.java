@@ -2,7 +2,6 @@ package com.eta.houzezbackend.mapper;
 
 import com.eta.houzezbackend.dto.AgentGetDto;
 import com.eta.houzezbackend.dto.AgentSignUpDto;
-import com.eta.houzezbackend.dto.DuplicateEmailCheckDto;
 import com.eta.houzezbackend.model.Agent;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -13,7 +12,6 @@ import java.util.UUID;
 @Mapper(componentModel = "spring", unmappedSourcePolicy = ReportingPolicy.IGNORE, imports = UUID.class)
 public interface AgentMapper {
     AgentGetDto agentToAgentGetDto(Agent agent);
-    DuplicateEmailCheckDto duplicateEmailCheckResultDto(Agent agent);
 
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "name", expression = "java(UUID.randomUUID().toString())")
