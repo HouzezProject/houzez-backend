@@ -14,12 +14,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -96,4 +95,12 @@ public class AgentServiceTest {
         assertEquals(agentService.createSignUpLink(baseUrl,id,name,minute), baseUrl + "/agents/decode/" + jwt);
     }
 
+    @Test
+    void shouldGetAgentWhenFindByEmail() {
+        shouldSaveNewAgentInAgentRepoWhenSignUpNewAgent();
+        String mockEmail = "test2@gmail.com";
+        when(agentRepository.findByEmail(mockEmail)).thenReturn(Optional.of(mockAgent));
+
+        assertEquals(agentService.findByEmail(mockEmail), mockAgent);
+    }
 }
