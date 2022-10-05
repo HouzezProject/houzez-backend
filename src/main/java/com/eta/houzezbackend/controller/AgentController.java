@@ -31,7 +31,7 @@ public class AgentController {
     }
 
     @RequestMapping(method = {RequestMethod.HEAD})
-    public Agent getAgentByEmail(@RequestParam String email) {
-        return agentService.findByEmail(email);
+    public void getAgentByEmail(@RequestParam String email) {
+        agentService.findByEmail(email);
     }
 }
