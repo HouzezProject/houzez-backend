@@ -11,18 +11,12 @@ import java.util.Date;
 @Builder
 public class AgentGetDto {
 
-
     private long id;
     private String name;
     private String email;
-    private String avatar;
-    private String companyName;
-    private String companyLogo;
-    private String phoneNumber;
     private Boolean deleted;
     private Boolean activated;
     private Date createdTime;
     private Date updatedTime;
-
 
 }

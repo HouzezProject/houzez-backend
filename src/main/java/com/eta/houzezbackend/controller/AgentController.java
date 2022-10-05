@@ -5,6 +5,7 @@ import com.eta.houzezbackend.dto.AgentGetDto;
 import com.eta.houzezbackend.dto.AgentSignUpDto;
 import com.eta.houzezbackend.dto.DuplicateEmailCheckDto;
 import com.eta.houzezbackend.service.AgentService;
+import com.eta.houzezbackend.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
