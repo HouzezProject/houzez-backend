@@ -7,9 +7,12 @@ import com.eta.houzezbackend.exception.UniqueEmailViolationException;
 import com.eta.houzezbackend.mapper.AgentMapper;
 import com.eta.houzezbackend.model.Agent;
 import com.eta.houzezbackend.repository.AgentRepository;
+import io.jsonwebtoken.Claims;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 
 @Service
@@ -47,4 +50,18 @@ public record AgentService(AgentRepository agentRepository, PasswordEncoder pass
     }
 
 
+    public Agent setAgentToActive(String jwt) {
+        Claims claims = jwtService.getJwtBody(jwt);
+        Agent agent = find(Long.parseLong(claims.getId()));
+        Date now = new Date();
+        if (agent != null && claims.getExpiration().after(now)){
+            agent.setActivated(true);
+            try {
+                agentRepository.save(agent);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return agent;
+    }
 }

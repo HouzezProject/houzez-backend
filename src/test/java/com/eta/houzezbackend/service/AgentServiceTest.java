@@ -15,12 +15,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Date;
 import java.util.Optional;
-import java.util.UUID;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -63,6 +60,8 @@ public class AgentServiceTest {
             .updatedTime(new Date())
             .build();
 
+
+
     @Test
     void shouldSaveNewAgentInAgentRepoWhenSignUpNewAgent() {
 
@@ -90,7 +89,7 @@ public class AgentServiceTest {
         String baseUrl = "base";
         String id = "id";
         String name = "name";
-        Integer minute = 10;
+        int minute = 10;
         String jwt = "jwt";
         when(jwtService.createJWT(id,name,minute)).thenReturn(jwt);
         assertEquals(agentService.createSignUpLink(baseUrl,id,name,minute), baseUrl + "/agents/decode/" + jwt);
