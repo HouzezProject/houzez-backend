@@ -29,7 +29,7 @@ public class AgentController {
     }
 
 
-    @GetMapping("/decode/{token}")
+    @PatchMapping("/decode/{token}")
     public Agent activeAgent(@PathVariable String token){
         return agentService.setAgentToActive(token);
     }

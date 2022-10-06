@@ -2,6 +2,7 @@ package com.eta.houzezbackend.controller;
 
 import com.eta.houzezbackend.dto.AgentSignUpDto;
 import com.eta.houzezbackend.repository.AgentRepository;
+import com.eta.houzezbackend.service.JwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,9 +31,16 @@ class AgentControllerTests {
     @Autowired
     private AgentController agentController;
 
+    @Autowired
+    private JwtService jwtService;
+
     private Long mockUserId;
 
     private String mockUserEmail;
+
+    private String mockJwt;
+
+    private String mockFakeJwt;
 
     @Autowired
     private AgentRepository agentRepository;
@@ -45,6 +53,9 @@ class AgentControllerTests {
                 .password("123qqqqq.").build()).getId();
         mockUserEmail = agentController.signUp(AgentSignUpDto.builder().email("agent002@gmail.com")
                 .password("agent002@gmail.comA.").build()).getEmail();
+        String mockUserName = agentController.getAgent(mockUserId).getName();
+        mockJwt = jwtService.createJWT(String.valueOf(mockUserId),mockUserName,80000);
+        mockFakeJwt = jwtService.createJWT(String.valueOf(mockUserId),mockUserName,-80000);
 
     }
 
@@ -76,5 +87,19 @@ class AgentControllerTests {
     void shouldReturn404WhenCannotFindByEmail() throws Exception {
         mockMvc.perform(head("/agents?email=t" + mockUserEmail))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void shouldReturn200AndAgentWhenSetAgentToActive() throws Exception{
+        mockMvc.perform(patch("/agents/decode/" + mockJwt))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.activated").value(true));
+    }
+
+    @Test
+    void shouldReturn401WhenSetAgentToActive() throws Exception{
+        mockMvc.perform(patch("/agents/decode/" + mockFakeJwt))
+                .andExpect(status().isUnauthorized());
+
     }
 }
