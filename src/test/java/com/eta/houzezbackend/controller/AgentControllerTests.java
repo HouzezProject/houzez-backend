@@ -71,4 +71,10 @@ class AgentControllerTests {
         mockMvc.perform(head("/agents?email=" + mockUserEmail))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    void shouldReturn404WhenCannotFindByEmail() throws Exception {
+        mockMvc.perform(head("/agents?email=t" + mockUserEmail))
+                .andExpect(status().isNotFound());
+    }
 }
