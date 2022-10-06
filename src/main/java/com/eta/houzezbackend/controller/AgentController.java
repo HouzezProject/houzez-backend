@@ -1,8 +1,8 @@
 package com.eta.houzezbackend.controller;
 
-
 import com.eta.houzezbackend.dto.AgentGetDto;
 import com.eta.houzezbackend.dto.AgentSignUpDto;
+import com.eta.houzezbackend.exception.ResourceNotFoundException;
 import com.eta.houzezbackend.service.AgentService;
 import com.eta.houzezbackend.service.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-
 
 @RestController
 @RequestMapping("agents")
@@ -30,4 +29,8 @@ public class AgentController {
         return agentService.getAgent(id);
     }
 
+    @RequestMapping(method = {RequestMethod.HEAD})
+    public void getAgentByEmail(@RequestParam String email) {
+        agentService.findByEmail(email);
+    }
 }
