@@ -13,8 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import javax.transaction.Transactional;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -33,6 +32,8 @@ class AgentControllerTests {
 
     private Long mockUserId;
 
+    private String mockUserEmail;
+
     @Autowired
     private AgentRepository agentRepository;
 
@@ -42,6 +43,8 @@ class AgentControllerTests {
         agentRepository.flush();
         mockUserId = agentController.signUp(AgentSignUpDto.builder().email("test3@gmail.com")
                 .password("123qqqqq.").build()).getId();
+        mockUserEmail = agentController.signUp(AgentSignUpDto.builder().email("agent002@gmail.com")
+                .password("agent002@gmail.comA.").build()).getEmail();
 
     }
 
@@ -61,5 +64,11 @@ class AgentControllerTests {
         mockMvc.perform(get("/agents/" + mockUserId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(mockUserId));
+    }
+
+    @Test
+    void shouldReturn200WhenFindByEmail() throws Exception {
+        mockMvc.perform(head("/agents?email=" + mockUserEmail))
+                .andExpect(status().isOk());
     }
 }
