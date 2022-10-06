@@ -1,6 +1,5 @@
 package com.eta.houzezbackend.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
