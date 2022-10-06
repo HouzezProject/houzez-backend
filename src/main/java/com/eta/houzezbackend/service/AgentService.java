@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
-
 @Service
 public record AgentService(AgentRepository agentRepository, PasswordEncoder passwordEncoder, AgentMapper agentMapper,
                            JwtService jwtService) {
@@ -49,6 +48,9 @@ public record AgentService(AgentRepository agentRepository, PasswordEncoder pass
         return baseUrl + "/agents/decode/" + jwtService().createJWT(id, name, effectiveTimeInMinutes);
     }
 
+    public Agent findByEmail(String email) {
+        return agentRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
+    }
 
 
 

@@ -108,4 +108,12 @@ public class AgentServiceTest {
         assertEquals(agentService.setAgentToActive(jwt), mockAgent);
 
     }
+    @Test
+    void shouldGetAgentWhenFindByEmail() {
+        shouldSaveNewAgentInAgentRepoWhenSignUpNewAgent();
+        String mockEmail = "test2@gmail.com";
+        when(agentRepository.findByEmail(mockEmail)).thenReturn(Optional.of(mockAgent));
+
+        assertEquals(agentService.findByEmail(mockEmail), mockAgent);
+    }
 }

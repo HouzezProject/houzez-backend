@@ -1,6 +1,5 @@
 package com.eta.houzezbackend.controller;
 
-
 import com.eta.houzezbackend.dto.AgentGetDto;
 import com.eta.houzezbackend.dto.AgentSignUpDto;
 import com.eta.houzezbackend.model.Agent;
@@ -10,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-
 
 @RestController
 @RequestMapping("agents")
@@ -36,4 +34,8 @@ public class AgentController {
         return agentService.setAgentToActive(token);
     }
 
+    @RequestMapping(method = {RequestMethod.HEAD})
+    public void getAgentByEmail(@RequestParam String email) {
+        agentService.findByEmail(email);
+    }
 }
