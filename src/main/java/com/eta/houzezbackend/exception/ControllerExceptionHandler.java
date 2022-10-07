@@ -47,4 +47,10 @@ public class ControllerExceptionHandler {
 
         return new ErrorDto(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), List.of(e.getMessage()));
     }
+
+    @ExceptionHandler(value = {EmailAddressException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorDto handleEmailAddressException(EmailAddressException e){
+        return new ErrorDto(HttpStatus.BAD_REQUEST.getReasonPhrase(),List.of(e.getMessage()));
+    }
 }
