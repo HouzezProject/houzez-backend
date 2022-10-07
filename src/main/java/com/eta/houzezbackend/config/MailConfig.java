@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 public class MailConfig {
     private final SystemParam systemParam;
+
     @Bean
     @ConditionalOnProperty(name = "system-param.aws-active",havingValue = "true")
     public AmazonSimpleEmailService amazonSimpleEmailService() {

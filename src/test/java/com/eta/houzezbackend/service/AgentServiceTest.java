@@ -6,6 +6,7 @@ import com.eta.houzezbackend.mapper.AgentMapper;
 import com.eta.houzezbackend.model.Agent;
 import com.eta.houzezbackend.repository.AgentRepository;
 
+import com.eta.houzezbackend.service.email.AmazonEmailService;
 import com.eta.houzezbackend.util.SystemParam;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,12 +14,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Date;
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
@@ -36,7 +35,7 @@ public class AgentServiceTest {
     private JwtService jwtService;
 
     @Mock
-    private EmailService emailService;
+    private AmazonEmailService emailService;
 
     @Mock
     private SystemParam systemParam;
