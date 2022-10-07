@@ -35,7 +35,7 @@ public record AgentService(AgentRepository agentRepository, PasswordEncoder pass
             throw e;
         }
 
-        String registerLink = createSignUpLink(systemParam.getBASE_URL(),agent.getId().toString(),agent.getName(),10);
+        String registerLink = createSignUpLink(systemParam.getBaseUrl(),agent.getId().toString(),agent.getName(),10);
 
         try {
             emailService.sendEmail(agent.getEmail(), registerLink);

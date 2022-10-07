@@ -19,8 +19,8 @@ public class MailConfig {
     @Bean
     @ConditionalOnProperty(name = "system-param.aws-active",havingValue = "true")
     public AmazonSimpleEmailService amazonSimpleEmailService() {
-        String awsAccessKey = systemParam.getAWS_ACCESS_KEY();
-        String awsSecretKey = systemParam.getAWS_SECRET_KEY();
+        String awsAccessKey = systemParam.getAwsAccessKey();
+        String awsSecretKey = systemParam.getAwsSecretKey();
         return AmazonSimpleEmailServiceClientBuilder.standard()
                 .withCredentials(new AWSStaticCredentialsProvider(
                         new BasicAWSCredentials(

@@ -11,21 +11,21 @@ import org.springframework.stereotype.Component;
 @Getter
 public class SystemParam {
     @Value("${system-param.secret-key}")
-    private String SECRET_KEY;
+    private String secretKey;
 
     @Value("${system-param.aws-access-key}")
-    private String AWS_ACCESS_KEY;
+    private String awsAccessKey;
 
     @Value("${system-param.aws-secret-key}")
-    private String AWS_SECRET_KEY;
+    private String awsSecretKey;
 
     @Value("${system-param.sender-email}")
-    private String SENDER_EMAIL;
+    private String senderEmail;
 
     @Value("${system-param.base-url}")
-    private String BASE_URL;
+    private String baseUrl;
 
     @Value("${system-param.aws-active}")
-    private String AWS_ACTIVE;
+    private String awsActive;
 
 }

@@ -15,7 +15,7 @@ public record AmazonEmailService (AmazonSimpleEmailService amazonSimpleEmailServ
 
     @Override
     public void sendEmail(String receiverEmail, String link) {
-        String senderEmail = systemParam.getSENDER_EMAIL();
+        String senderEmail = systemParam.getSenderEmail();
         String templateData = "{ \"link\":\"" + link + "\"}";
         Destination destination = new Destination();
         List<String> toAddresses = List.of(receiverEmail);

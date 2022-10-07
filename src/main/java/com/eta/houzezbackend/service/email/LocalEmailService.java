@@ -8,5 +8,6 @@ import org.springframework.stereotype.Service;
 public class LocalEmailService implements EmailService{
     @Override
     public void sendEmail(String receiverEmail, String link) {
+//      Sending email function is disabled in the local environment
     }
 }
