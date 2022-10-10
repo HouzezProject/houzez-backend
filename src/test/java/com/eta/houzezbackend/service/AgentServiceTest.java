@@ -6,6 +6,8 @@ import com.eta.houzezbackend.mapper.AgentMapper;
 import com.eta.houzezbackend.model.Agent;
 import com.eta.houzezbackend.repository.AgentRepository;
 
+import com.eta.houzezbackend.service.email.AmazonEmailService;
+import com.eta.houzezbackend.util.SystemParam;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -16,7 +18,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Date;
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
@@ -32,6 +33,12 @@ public class AgentServiceTest {
     private AgentMapper agentMapper;
     @Mock
     private JwtService jwtService;
+
+    @Mock
+    private AmazonEmailService emailService;
+
+    @Mock
+    private SystemParam systemParam;
 
     @InjectMocks
     private AgentService agentService;
@@ -65,7 +72,6 @@ public class AgentServiceTest {
     @Test
     void shouldSaveNewAgentInAgentRepoWhenSignUpNewAgent() {
 
-
         when(agentMapper.agentSignUpDtoToAgent(mockAgentSignUpDto)).thenReturn(mockAgent);
         when(passwordEncoder.encode(mockAgent.getPassword())).thenReturn(mockAgent.getPassword());
         when(agentRepository.save(mockAgent)).thenReturn(mockAgent);
@@ -92,7 +98,7 @@ public class AgentServiceTest {
         Integer minute = 10;
         String jwt = "jwt";
         when(jwtService.createJWT(id,name,minute)).thenReturn(jwt);
-        assertEquals(agentService.createSignUpLink(baseUrl,id,name,minute), baseUrl + "/agents/decode/" + jwt);
+        assertEquals(agentService.createSignUpLink(baseUrl,id,name,minute), baseUrl + "/verification?code=" + jwt);
     }
 
     @Test
