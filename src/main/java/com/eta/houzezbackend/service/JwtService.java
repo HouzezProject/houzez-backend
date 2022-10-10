@@ -21,7 +21,7 @@ public record JwtService(SystemParam systemParam) {
 
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS384;
 
-        byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(systemParam.getSECRET_KEY());
+        byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(systemParam.getSecretKey());
 
         JwtBuilder builder = Jwts.builder()
                 .setId(id)
@@ -34,9 +34,8 @@ public record JwtService(SystemParam systemParam) {
 
     public Claims getJwtBody(String jwt) {
 
-
-        return Jwts.parserBuilder()
-                    .setSigningKey(DatatypeConverter.parseBase64Binary(systemParam.getSECRET_KEY()))
+            return Jwts.parserBuilder()
+                    .setSigningKey(DatatypeConverter.parseBase64Binary(systemParam.getSecretKey()))
                     .build()
                     .parseClaimsJws(jwt).getBody();
 

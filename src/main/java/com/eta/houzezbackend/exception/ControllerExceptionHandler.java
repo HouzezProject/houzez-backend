@@ -54,4 +54,10 @@ public class ControllerExceptionHandler {
     public ErrorDto handleLinkExpiredExceptions(JwtException e){
         return new ErrorDto(HttpStatus.UNAUTHORIZED.getReasonPhrase(),List.of(e.getMessage()));
     }
+
+    @ExceptionHandler(value = {EmailAddressException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorDto handleEmailAddressException(EmailAddressException e){
+        return new ErrorDto(HttpStatus.BAD_REQUEST.getReasonPhrase(),List.of(e.getMessage()));
+    }
 }
