@@ -77,14 +77,14 @@ class AgentControllerTests extends ApplicationIntTest{
 
     @Test
     void shouldReturn200AndAgentWhenSetAgentToActive() throws Exception{
-        mockMvc.perform(patch("/agents/verification/" + mockUserId +"?token=" + mockJwt))
+        mockMvc.perform(patch("/agents/" + mockUserId +"?token=" + mockJwt))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.activated").value(true));
     }
 
     @Test
     void shouldReturn401WhenSetAgentToActive() throws Exception{
-        mockMvc.perform(patch("/agents/verification/" + mockUserId +"?token=" + mockFakeJwt))
+        mockMvc.perform(patch("/agents/" + mockUserId +"?token=" + mockFakeJwt))
                 .andExpect(status().isUnauthorized());
 
     }
