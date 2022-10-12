@@ -29,8 +29,8 @@ public class AgentController {
     }
 
 
-    @PatchMapping("/verification")
-    public Agent activeAgent(@RequestParam String token){
+    @PatchMapping("/verification/{id}")
+    public Agent activeAgent(@RequestParam String token, @PathVariable Long id){
         return agentService.setAgentToActive(token);
     }
 
