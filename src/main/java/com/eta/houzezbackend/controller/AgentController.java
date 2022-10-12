@@ -29,8 +29,8 @@ public class AgentController {
     }
 
 
-    @PatchMapping("/decode/{token}")
-    public Agent activeAgent(@PathVariable String token){
+    @PatchMapping("/verification")
+    public Agent activeAgent(@RequestParam String token){
         return agentService.setAgentToActive(token);
     }
 
