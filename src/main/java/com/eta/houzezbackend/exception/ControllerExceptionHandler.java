@@ -3,6 +3,7 @@ package com.eta.houzezbackend.exception;
 
 
 import com.eta.houzezbackend.dto.ErrorDto;
+import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
@@ -46,6 +47,12 @@ public class ControllerExceptionHandler {
         log.error("There is an unexpected exception occurred", e);
 
         return new ErrorDto(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), List.of(e.getMessage()));
+    }
+
+    @ExceptionHandler(value = {LinkExpiredException.class})
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorDto handleLinkExpiredExceptions(JwtException e){
+        return new ErrorDto(HttpStatus.UNAUTHORIZED.getReasonPhrase(),List.of(e.getMessage()));
     }
 
     @ExceptionHandler(value = {EmailAddressException.class})

@@ -1,10 +1,8 @@
 package com.eta.houzezbackend.service;
 
 import com.eta.houzezbackend.util.SystemParam;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
+
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.DatatypeConverter;
@@ -40,6 +38,8 @@ public record JwtService(SystemParam systemParam) {
                     .setSigningKey(DatatypeConverter.parseBase64Binary(systemParam.getSecretKey()))
                     .build()
                     .parseClaimsJws(jwt).getBody();
+
+
     }
 
 }

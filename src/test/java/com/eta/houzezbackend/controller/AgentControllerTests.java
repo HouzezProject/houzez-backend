@@ -2,10 +2,12 @@ package com.eta.houzezbackend.controller;
 
 import com.eta.houzezbackend.dto.AgentSignUpDto;
 import com.eta.houzezbackend.repository.AgentRepository;
+import com.eta.houzezbackend.service.JwtService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -15,9 +17,16 @@ class AgentControllerTests extends ApplicationIntTest{
     @Autowired
     private AgentController agentController;
 
+    @Autowired
+    private JwtService jwtService;
+
     private Long mockUserId;
 
     private String mockUserEmail;
+
+    private String mockJwt;
+
+    private String mockFakeJwt;
 
     @Autowired
     private AgentRepository agentRepository;
@@ -30,6 +39,9 @@ class AgentControllerTests extends ApplicationIntTest{
                 .password("123qqqqq.").build()).getId();
         mockUserEmail = agentController.signUp(AgentSignUpDto.builder().email("agent002@gmail.com")
                 .password("agent002@gmail.comA.").build()).getEmail();
+        String mockUserName = agentController.getAgent(mockUserId).getName();
+        mockJwt = jwtService.createJWT(String.valueOf(mockUserId),mockUserName,80000);
+        mockFakeJwt = jwtService.createJWT(String.valueOf(mockUserId),mockUserName,-80000);
 
     }
 
@@ -61,5 +73,19 @@ class AgentControllerTests extends ApplicationIntTest{
     void shouldReturn404WhenCannotFindByEmail() throws Exception {
         mockMvc.perform(head("/agents?email=t" + mockUserEmail))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void shouldReturn200AndAgentWhenSetAgentToActive() throws Exception{
+        mockMvc.perform(patch("/agents/" + mockUserId +"?token=" + mockJwt))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.activated").value(true));
+    }
+
+    @Test
+    void shouldReturn401WhenSetAgentToActive() throws Exception{
+        mockMvc.perform(patch("/agents/" + mockUserId +"?token=" + mockFakeJwt))
+                .andExpect(status().isUnauthorized());
+
     }
 }

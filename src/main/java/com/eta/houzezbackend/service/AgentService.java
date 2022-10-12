@@ -3,17 +3,21 @@ package com.eta.houzezbackend.service;
 import com.eta.houzezbackend.dto.AgentGetDto;
 import com.eta.houzezbackend.dto.AgentSignUpDto;
 import com.eta.houzezbackend.exception.EmailAddressException;
+import com.eta.houzezbackend.exception.LinkExpiredException;
 import com.eta.houzezbackend.exception.ResourceNotFoundException;
 import com.eta.houzezbackend.exception.UniqueEmailViolationException;
 import com.eta.houzezbackend.mapper.AgentMapper;
 import com.eta.houzezbackend.model.Agent;
 import com.eta.houzezbackend.repository.AgentRepository;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import com.eta.houzezbackend.service.email.AmazonEmailService;
 import com.eta.houzezbackend.service.email.EmailService;
 import com.eta.houzezbackend.util.SystemParam;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 
 @Service
 public record AgentService(AgentRepository agentRepository, PasswordEncoder passwordEncoder, AgentMapper agentMapper,
@@ -26,10 +30,9 @@ public record AgentService(AgentRepository agentRepository, PasswordEncoder pass
         Agent agent = agentMapper.agentSignUpDtoToAgent(agentSignUpDto);
 
         agent.setPassword(passwordEncoder.encode(agentSignUpDto.getPassword()));
-        try{
+        try {
             agent = agentRepository.save(agent);
-        }
-        catch (DataIntegrityViolationException e) {
+        } catch (DataIntegrityViolationException e) {
             if (e.getMostSpecificCause().getClass().getName().equals("org.postgresql.util.PSQLException"))
                 throw new UniqueEmailViolationException(agent.getEmail());
             throw e;
@@ -60,5 +63,20 @@ public record AgentService(AgentRepository agentRepository, PasswordEncoder pass
 
     public Agent findByEmail(String email) {
         return agentRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
+    }
+
+
+
+    public Agent setAgentToActive(String jwt) {
+        Claims claims;
+        try {
+            claims = jwtService.getJwtBody(jwt);
+        } catch (JwtException e) {
+            throw new LinkExpiredException("Sign up");
+        }
+        Agent agent = find(Long.parseLong(claims.getId()));
+        agent.setActivated(true);
+        agentRepository.save(agent);
+        return agent;
     }
 }
