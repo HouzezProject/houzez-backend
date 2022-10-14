@@ -25,4 +25,9 @@ system-param:
   aws-secret-key: rvHELsfbo4xAWnlGRXoCs4ly/c9F
   sender-email: zhiyu_zhao7@163.com
   base-url: http://localhost:8080/api/v1
+cors:
+  allowed-origins: "*"
+  allowed-methods: "*"
+  allowed-headers: "*"
+
 
