@@ -2,10 +2,7 @@ package com.eta.houzezbackend.service;
 
 import com.eta.houzezbackend.dto.AgentGetDto;
 import com.eta.houzezbackend.dto.AgentSignUpDto;
-import com.eta.houzezbackend.exception.EmailAddressException;
-import com.eta.houzezbackend.exception.LinkExpiredException;
-import com.eta.houzezbackend.exception.ResourceNotFoundException;
-import com.eta.houzezbackend.exception.UniqueEmailViolationException;
+import com.eta.houzezbackend.exception.*;
 import com.eta.houzezbackend.mapper.AgentMapper;
 import com.eta.houzezbackend.model.Agent;
 import com.eta.houzezbackend.repository.AgentRepository;
@@ -81,6 +78,8 @@ public record AgentService(AgentRepository agentRepository, AgentMapper agentMap
     }
 
     public AgentGetDto signIn(String username) {
+        if (!findByEmail(username).getActivated())
+            throw new AgentInactiveException();
         return agentMapper.agentToAgentGetDto(findByEmail(username));
     }
 }

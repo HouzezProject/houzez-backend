@@ -26,9 +26,7 @@ public record AgentDetailService(AgentRepository agentRepository) implements Use
                 .isAccountNonLocked(true)
                 .isAccountNotExpired(true)
                 .isCredentialsNonExpired(true)
-                //.isEnabled(agent.getActivated())
                 .isEnabled(true)
-
                 .build();
     }
 }

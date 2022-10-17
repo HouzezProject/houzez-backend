@@ -8,6 +8,6 @@ import lombok.*;
 @Setter
 @Builder
 public class UsernameAndPasswordAuthenticationRequest {
-    private String username;
+    private String email;
     private String password;
 }

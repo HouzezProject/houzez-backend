@@ -43,7 +43,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                 .readValue(request.getInputStream(), UsernameAndPasswordAuthenticationRequest.class);
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(
-                authenticationRequest.getUsername(),
+                authenticationRequest.getEmail(),
                 authenticationRequest.getPassword()
         );
 

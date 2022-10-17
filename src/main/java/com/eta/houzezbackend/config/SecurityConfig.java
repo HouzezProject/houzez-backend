@@ -2,7 +2,9 @@ package com.eta.houzezbackend.config;
 
 import com.eta.houzezbackend.auth.AgentDetailService;
 import com.eta.houzezbackend.auth.JwtAuthenticationEntryPoint;
+import com.eta.houzezbackend.auth.JwtVerifyEntryPoint;
 import com.eta.houzezbackend.filter.JwtUsernameAndPasswordAuthenticationFilter;
+import com.eta.houzezbackend.filter.JwtVerifyFilter;
 import com.eta.houzezbackend.service.JwtService;
 import com.eta.houzezbackend.util.SystemParam;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 
 import javax.crypto.SecretKey;
@@ -67,10 +70,16 @@ public class SecurityConfig {
                         new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(),
                                 jwtService,
                                 systemParam))
-                //.addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig), JwtUsernameAndPasswordAuthenticationFilter.class)
-                .exceptionHandling().authenticationEntryPoint(new JwtAuthenticationEntryPoint())
-                .and().build();
+                .addFilterAfter(new JwtVerifyFilter(jwtService), JwtUsernameAndPasswordAuthenticationFilter.class)
 
+                .exceptionHandling()
+                .defaultAuthenticationEntryPointFor(
+                        new JwtAuthenticationEntryPoint(),
+                        new AntPathRequestMatcher("/agents/sign-in"))
+                .defaultAuthenticationEntryPointFor(
+                        new JwtVerifyEntryPoint(),
+                        new AntPathRequestMatcher("/**"))
+                .and().build();
     }
 
     public AuthenticationManager authenticationManager() {
