@@ -58,6 +58,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
         HttpServletRequestWrapper wrappedSavedRequest = new HttpServletRequestWrapper(request);
         String token = jwtService.createLoginJWT(((AgentDetail) authResult.getPrincipal()).getId().toString(), authResult.getName(), Integer.parseInt(systemParam.getSignInJwtExpiredMinute()), authResult);
         response.addHeader(HttpHeaders.AUTHORIZATION, BEARER + token);
+        response.addHeader(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.AUTHORIZATION);
         wrappedSavedRequest.setAttribute("username", ((AgentDetail) authResult.getPrincipal()).getUsername());
         chain.doFilter(wrappedSavedRequest, response);
     }

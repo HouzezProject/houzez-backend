@@ -18,5 +18,4 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.getWriter().print("Username or password is wrong.");
     }
-
 }

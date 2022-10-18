@@ -74,9 +74,6 @@ public class SecurityConfig {
 
                 .exceptionHandling()
                 .defaultAuthenticationEntryPointFor(
-                        new JwtAuthenticationEntryPoint(),
-                        new AntPathRequestMatcher("/agents/sign-in"))
-                .defaultAuthenticationEntryPointFor(
                         new JwtVerifyEntryPoint(),
                         new AntPathRequestMatcher("/**"))
                 .and().build();
