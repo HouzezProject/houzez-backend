@@ -37,7 +37,7 @@ public record JwtService(SystemParam systemParam) {
         return builder.compact();
     }
 
-    public String createLoginJWT(String id, String name, int expDateInMinutes, Authentication authResult) {
+    public String createLoginJWT(String id, int expDateInMinutes, Authentication authResult) {
 
         LocalDateTime dateTime = LocalDateTime.now().plus(Duration.of(expDateInMinutes, ChronoUnit.MINUTES));
         Date expDate = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
