@@ -33,7 +33,7 @@ public class JwtVerifyFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authKey = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if (authKey == null || !authKey.startsWith("Bearer ")) {
+        if (authKey == null || !authKey.startsWith(BEARER)) {
             filterChain.doFilter(request, response);
             return;
         }
