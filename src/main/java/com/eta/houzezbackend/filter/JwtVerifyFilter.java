@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class JwtVerifyFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-    private final String BEARER = "Bearer ";
+    private static final String BEARER = "Bearer ";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
