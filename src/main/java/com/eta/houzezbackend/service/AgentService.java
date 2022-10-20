@@ -59,10 +59,13 @@ public record AgentService(AgentRepository agentRepository, AgentMapper agentMap
         return baseUrl + "/verification?code=" + jwtService().createJWT(id, name, effectiveTimeInMinutes);
     }
 
+    public String createResetPasswordLink(String baseUrl, String email, int effectiveTimeInMinutes) {
+        return baseUrl + "/reset-password?code=" + jwtService().createResetPasswordJWT(effectiveTimeInMinutes, email);
+    }
+
     public Agent findByEmail(String email) {
         return agentRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
     }
-
 
     public Agent setAgentToActive(String jwt) {
         Claims claims;

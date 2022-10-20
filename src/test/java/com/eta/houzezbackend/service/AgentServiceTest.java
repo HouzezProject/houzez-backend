@@ -6,6 +6,8 @@ import com.eta.houzezbackend.mapper.AgentMapper;
 import com.eta.houzezbackend.model.Agent;
 import com.eta.houzezbackend.repository.AgentRepository;
 
+import com.eta.houzezbackend.service.email.EmailService;
+import com.eta.houzezbackend.util.SystemParam;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.junit.jupiter.api.Test;
@@ -20,6 +22,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Date;
 import java.util.Optional;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -30,6 +36,10 @@ public class AgentServiceTest {
     private AgentMapper agentMapper;
     @Mock
     private JwtService jwtService;
+    @Mock
+    private SystemParam systemParam;
+    @Mock
+    private EmailService emailService;
     @InjectMocks
     private AgentService agentService;
 
@@ -62,7 +72,6 @@ public class AgentServiceTest {
             .build();
 
 
-
     @Test
     void shouldSaveNewAgentInAgentRepoWhenSignUpNewAgent() {
 
@@ -70,7 +79,8 @@ public class AgentServiceTest {
         when(agentMapper.agentSignUpDtoToAgent(mockAgentSignUpDto)).thenReturn(mockAgent);
         when(agentRepository.save(mockAgent)).thenReturn(mockAgent);
         when(agentMapper.agentToAgentGetDto(mockAgent)).thenReturn(mockAgentGetDto);
-
+        when(systemParam.getBaseUrl()).thenReturn("http://localhost:8080/api/v1");
+        doNothing().when(emailService).sendEmail(eq(mockAgent.getEmail()), any());
         agentService.signUpNewAgent(mockAgentSignUpDto);
         assertEquals(agentService.signUpNewAgent(mockAgentSignUpDto).getId(), mockAgentGetDto.getId());
     }
@@ -85,14 +95,14 @@ public class AgentServiceTest {
     }
 
     @Test
-    void shouldGetActiveLinkWhenCreateSignUpLink(){
+    void shouldGetActiveLinkWhenCreateSignUpLink() {
         String baseUrl = "base";
         String id = "id";
         String name = "name";
         int minute = 10;
         String jwt = "jwt";
-        when(jwtService.createJWT(id,name,minute)).thenReturn(jwt);
-        assertEquals(agentService.createSignUpLink(baseUrl,id,name,minute), baseUrl + "/verification?code=" + jwt);
+        when(jwtService.createJWT(id, name, minute)).thenReturn(jwt);
+        assertEquals(agentService.createSignUpLink(baseUrl, id, name, minute), baseUrl + "/verification?code=" + jwt);
     }
 
     @Test
@@ -104,6 +114,7 @@ public class AgentServiceTest {
         assertEquals(agentService.setAgentToActive(jwt), mockAgent);
 
     }
+
     @Test
     void shouldGetAgentWhenFindByEmail() {
         shouldSaveNewAgentInAgentRepoWhenSignUpNewAgent();
