@@ -6,9 +6,12 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
+@Table(name = "agent")
 @Getter
 @Setter
 @RequiredArgsConstructor
@@ -39,6 +42,10 @@ public class Agent {
 
     @LastModifiedDate
     private Date updatedTime;
+
+    @OneToMany(orphanRemoval = true)
+    @JoinColumn(name = "agent_id")
+    private List<Property> property = new ArrayList<>();
 
 
 }

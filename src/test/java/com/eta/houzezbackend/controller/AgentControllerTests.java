@@ -51,8 +51,8 @@ class AgentControllerTests extends ControllerIntTest {
         AgentSignUpDto agentSignUpDto = AgentSignUpDto.builder().email("test4@gmail.com").password("123qqqqq.").build();
 
         mockMvc.perform(post("/agents")
-                        .content(objectMapper.writeValueAsString(agentSignUpDto))
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(agentSignUpDto)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.email").value("test4@gmail.com"));
     }

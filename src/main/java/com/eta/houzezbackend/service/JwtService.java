@@ -7,22 +7,17 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import javax.xml.bind.DatatypeConverter;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
-import static java.sql.Date.valueOf;
-import static java.time.LocalDateTime.now;
-
 
 @Service
 public record JwtService(SystemParam systemParam) {
 
-    public String createJWT(String id, String name, int expDateInMinutes) {
-
+    public String createJWT(String id, String name, Integer expDateInMinutes) {
         LocalDateTime dateTime = LocalDateTime.now().plus(Duration.of(expDateInMinutes, ChronoUnit.MINUTES));
         Date expDate = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
 
@@ -51,6 +46,23 @@ public record JwtService(SystemParam systemParam) {
                 .setExpiration(expDate)
                 .signWith(Keys.hmacShaKeyFor(systemParam().getSecretKey().getBytes()), signatureAlgorithm);
 
+
+        return builder.compact();
+    }
+
+
+    public String createResetPasswordJWT(int expDateInMinutes, String email) {
+
+        LocalDateTime dateTime = LocalDateTime.now().plus(Duration.of(expDateInMinutes, ChronoUnit.MINUTES));
+        Date expDate = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
+
+        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS384;
+
+        JwtBuilder builder = Jwts.builder()
+                .claim("email", email)
+                .setIssuedAt(new Date())
+                .setExpiration(expDate)
+                .signWith(Keys.hmacShaKeyFor(systemParam().getSecretKey().getBytes()), signatureAlgorithm);
         return builder.compact();
     }
 
@@ -62,5 +74,4 @@ public record JwtService(SystemParam systemParam) {
                 .parseClaimsJws(jwt).getBody();
 
     }
-
 }
