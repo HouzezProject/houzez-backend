@@ -2,10 +2,7 @@ package com.eta.houzezbackend.service;
 
 import com.eta.houzezbackend.dto.AgentGetDto;
 import com.eta.houzezbackend.dto.AgentSignUpDto;
-import com.eta.houzezbackend.exception.EmailAddressException;
-import com.eta.houzezbackend.exception.LinkExpiredException;
-import com.eta.houzezbackend.exception.ResourceNotFoundException;
-import com.eta.houzezbackend.exception.UniqueEmailViolationException;
+import com.eta.houzezbackend.exception.*;
 import com.eta.houzezbackend.mapper.AgentMapper;
 import com.eta.houzezbackend.model.Agent;
 import com.eta.houzezbackend.repository.AgentRepository;
@@ -15,12 +12,13 @@ import com.eta.houzezbackend.service.email.AmazonEmailService;
 import com.eta.houzezbackend.service.email.EmailService;
 import com.eta.houzezbackend.util.SystemParam;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
 @Service
-public record AgentService(AgentRepository agentRepository, PasswordEncoder passwordEncoder, AgentMapper agentMapper,
+public record AgentService(AgentRepository agentRepository, AgentMapper agentMapper,
                            JwtService jwtService, EmailService emailService, SystemParam systemParam) {
 
     private static final String RESOURCE = "Agent";
@@ -29,7 +27,7 @@ public record AgentService(AgentRepository agentRepository, PasswordEncoder pass
 
         Agent agent = agentMapper.agentSignUpDtoToAgent(agentSignUpDto);
 
-        agent.setPassword(passwordEncoder.encode(agentSignUpDto.getPassword()));
+        agent.setPassword(PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(agentSignUpDto.getPassword()));
         try {
             agent = agentRepository.save(agent);
         } catch (DataIntegrityViolationException e) {
@@ -38,7 +36,7 @@ public record AgentService(AgentRepository agentRepository, PasswordEncoder pass
             throw e;
         }
 
-        String registerLink = createSignUpLink(systemParam.getBaseUrl(),agent.getId().toString(),agent.getName(),10);
+        String registerLink = createSignUpLink(systemParam.getBaseUrl(), agent.getId().toString(), agent.getName(), 10);
 
         try {
             emailService.sendEmail(agent.getEmail(), registerLink);
@@ -66,7 +64,6 @@ public record AgentService(AgentRepository agentRepository, PasswordEncoder pass
     }
 
 
-
     public Agent setAgentToActive(String jwt) {
         Claims claims;
         try {
@@ -78,5 +75,11 @@ public record AgentService(AgentRepository agentRepository, PasswordEncoder pass
         agent.setActivated(true);
         agentRepository.save(agent);
         return agent;
+    }
+
+    public AgentGetDto signIn(String username) {
+        if (!findByEmail(username).getActivated())
+            throw new AgentInactiveException();
+        return agentMapper.agentToAgentGetDto(findByEmail(username));
     }
 }

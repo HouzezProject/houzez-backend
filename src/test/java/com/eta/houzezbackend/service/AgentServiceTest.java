@@ -27,12 +27,9 @@ public class AgentServiceTest {
     @Mock
     private AgentRepository agentRepository;
     @Mock
-    private PasswordEncoder passwordEncoder;
-    @Mock
     private AgentMapper agentMapper;
     @Mock
     private JwtService jwtService;
-
     @InjectMocks
     private AgentService agentService;
 
@@ -71,7 +68,6 @@ public class AgentServiceTest {
 
 
         when(agentMapper.agentSignUpDtoToAgent(mockAgentSignUpDto)).thenReturn(mockAgent);
-        when(passwordEncoder.encode(mockAgent.getPassword())).thenReturn(mockAgent.getPassword());
         when(agentRepository.save(mockAgent)).thenReturn(mockAgent);
         when(agentMapper.agentToAgentGetDto(mockAgent)).thenReturn(mockAgentGetDto);
 

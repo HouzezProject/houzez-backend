@@ -7,8 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 @SpringBootTest
-@AutoConfigureMockMvc
-public class ApplicationIntTest {
+@AutoConfigureMockMvc(addFilters = false)
+public class ControllerIntTest {
     @Autowired
     public MockMvc mockMvc;
 

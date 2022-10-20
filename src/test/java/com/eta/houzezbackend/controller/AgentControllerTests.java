@@ -13,7 +13,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class AgentControllerTests extends ApplicationIntTest{
+
+class AgentControllerTests extends ControllerIntTest {
     @Autowired
     private AgentController agentController;
 
@@ -40,8 +41,8 @@ class AgentControllerTests extends ApplicationIntTest{
         mockUserEmail = agentController.signUp(AgentSignUpDto.builder().email("agent002@gmail.com")
                 .password("agent002@gmail.comA.").build()).getEmail();
         String mockUserName = agentController.getAgent(mockUserId).getName();
-        mockJwt = jwtService.createJWT(String.valueOf(mockUserId),mockUserName,80000);
-        mockFakeJwt = jwtService.createJWT(String.valueOf(mockUserId),mockUserName,-80000);
+        mockJwt = jwtService.createJWT(String.valueOf(mockUserId), mockUserName, 80000);
+        mockFakeJwt = jwtService.createJWT(String.valueOf(mockUserId), mockUserName, -80000);
 
     }
 
@@ -76,15 +77,15 @@ class AgentControllerTests extends ApplicationIntTest{
     }
 
     @Test
-    void shouldReturn200AndAgentWhenSetAgentToActive() throws Exception{
-        mockMvc.perform(patch("/agents/" + mockUserId +"?token=" + mockJwt))
+    void shouldReturn200AndAgentWhenSetAgentToActive() throws Exception {
+        mockMvc.perform(patch("/agents/" + mockUserId + "?token=" + mockJwt))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.activated").value(true));
     }
 
     @Test
-    void shouldReturn401WhenSetAgentToActive() throws Exception{
-        mockMvc.perform(patch("/agents/" + mockUserId +"?token=" + mockFakeJwt))
+    void shouldReturn401WhenSetAgentToActive() throws Exception {
+        mockMvc.perform(patch("/agents/" + mockUserId + "?token=" + mockFakeJwt))
                 .andExpect(status().isUnauthorized());
 
     }
