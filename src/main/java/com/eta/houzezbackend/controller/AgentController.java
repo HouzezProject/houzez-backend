@@ -23,6 +23,12 @@ public class AgentController {
         return agentService.signUpNewAgent(agentSignUpDto);
     }
 
+    @PostMapping("/sign-in")
+    @ResponseStatus(HttpStatus.OK)
+    public AgentGetDto signIn(@RequestAttribute String username) {
+        return agentService.signIn(username);
+    }
+
     @GetMapping("/{id}")
     public AgentGetDto getAgent(@PathVariable Long id) {
         return agentService.getAgent(id);
@@ -30,7 +36,7 @@ public class AgentController {
 
 
     @PatchMapping("/{id}")
-    public Agent activeAgent(@RequestParam String token, @PathVariable Long id){
+    public Agent activeAgent(@RequestParam String token, @PathVariable Long id) {
         return agentService.setAgentToActive(token);
     }
 

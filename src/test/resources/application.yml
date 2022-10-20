@@ -14,3 +14,8 @@ system-param:
   aws-secret-key: wJalrXUtnFEMI/K7MDENG/bPxRfiCY
   sender-email: zhiyu_zhao7@163.com
   base-url: http://localhost:8080/api/v1
+  sign-in-jwt-expired-minute: 3600
+cors:
+  allowed-origins: "*"
+  allowed-methods: "*"
+  allowed-headers: "*"

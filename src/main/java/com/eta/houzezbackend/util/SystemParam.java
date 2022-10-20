@@ -28,4 +28,7 @@ public class SystemParam {
     @Value("${system-param.aws-active}")
     private String awsActive;
 
+    @Value("${system-param.sign-in-jwt-expired-minute}")
+    private String signInJwtExpiredMinute;
+
 }
