@@ -1,7 +1,6 @@
 package com.eta.houzezbackend.config;
 
 import com.eta.houzezbackend.auth.AgentDetailService;
-import com.eta.houzezbackend.auth.JwtAuthenticationEntryPoint;
 import com.eta.houzezbackend.auth.JwtVerifyEntryPoint;
 import com.eta.houzezbackend.filter.JwtUsernameAndPasswordAuthenticationFilter;
 import com.eta.houzezbackend.filter.JwtVerifyFilter;
@@ -18,14 +17,11 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 
-import javax.crypto.SecretKey;
 import java.util.List;
 
 @Setter

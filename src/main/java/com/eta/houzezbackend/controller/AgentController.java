@@ -24,7 +24,7 @@ public class AgentController {
     }
 
     @PostMapping("/sign-in")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     public AgentGetDto signIn(@RequestAttribute String username) {
         return agentService.signIn(username);
     }

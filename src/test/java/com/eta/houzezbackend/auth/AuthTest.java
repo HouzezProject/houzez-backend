@@ -1,37 +1,42 @@
-package com.eta.houzezbackend;
+package com.eta.houzezbackend.auth;
 
-
-import com.eta.houzezbackend.controller.AgentController;
-import com.eta.houzezbackend.controller.ApplicationIntTest;
 import com.eta.houzezbackend.dto.AgentSignUpDto;
 import com.eta.houzezbackend.dto.UsernameAndPasswordAuthenticationRequest;
 import com.eta.houzezbackend.repository.AgentRepository;
 import com.eta.houzezbackend.service.AgentService;
 import com.eta.houzezbackend.service.JwtService;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
+import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@SpringBootTest
+@AutoConfigureMockMvc
+class AuthTest {
 
-class AuthTest extends ApplicationIntTest {
-
+    @Autowired
+    public MockMvc mockMvc;
+    @Autowired
+    public ObjectMapper objectMapper;
     @Autowired
     private JwtService jwtService;
     @Autowired
     private AgentService agentService;
     @Autowired
     private AgentRepository agentRepository;
-
 
     private UsernameAndPasswordAuthenticationRequest mockRequest;
 
@@ -57,14 +62,14 @@ class AuthTest extends ApplicationIntTest {
     }
 
     @Test
-    void shouldReturn201AndAgentGetDtoWhenSignIn() throws Exception {
+    void shouldReturn403WhenSignInButNotActive() throws Exception {
         mockRequest = UsernameAndPasswordAuthenticationRequest.builder().email("test1@gmail.com").password("123right.").build();
 
         mockMvc.perform(post("/agents/sign-in")
                         .content(objectMapper.writeValueAsString(mockRequest))
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.email").value("test1@gmail.com"));
+                .andExpect(status().isForbidden());
+
     }
 
     @Test
