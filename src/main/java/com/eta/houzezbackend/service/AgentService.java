@@ -38,7 +38,7 @@ public record AgentService(AgentRepository agentRepository, PasswordEncoder pass
             throw e;
         }
 
-        String registerLink = createSignUpLink(systemParam.getBaseUrl(),agent.getId().toString(),agent.getName(),10);
+        String registerLink = createSignUpLink(systemParam.getBaseUrl(), agent.getId().toString(), agent.getName(), 10);
 
         try {
             emailService.sendEmail(agent.getEmail(), registerLink);
@@ -61,11 +61,13 @@ public record AgentService(AgentRepository agentRepository, PasswordEncoder pass
         return baseUrl + "/verification?code=" + jwtService().createJWT(id, name, effectiveTimeInMinutes);
     }
 
+    public String createResetPasswordLink(String baseUrl, String email, int effectiveTimeInMinutes) {
+        return baseUrl + "/reset-password?code=" + jwtService().createResetPasswordJWT(effectiveTimeInMinutes, email);
+    }
+
     public Agent findByEmail(String email) {
         return agentRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
     }
-
-
 
     public Agent setAgentToActive(String jwt) {
         Claims claims;
@@ -79,4 +81,6 @@ public record AgentService(AgentRepository agentRepository, PasswordEncoder pass
         agentRepository.save(agent);
         return agent;
     }
+
+
 }
