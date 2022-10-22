@@ -6,14 +6,12 @@ import com.eta.houzezbackend.exception.*;
 import com.eta.houzezbackend.mapper.AgentMapper;
 import com.eta.houzezbackend.model.Agent;
 import com.eta.houzezbackend.repository.AgentRepository;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtException;
-import com.eta.houzezbackend.service.email.AmazonEmailService;
 import com.eta.houzezbackend.service.email.EmailService;
 import com.eta.houzezbackend.util.SystemParam;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
