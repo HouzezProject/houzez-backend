@@ -5,8 +5,13 @@ public class ResourceNotFoundException extends RuntimeException {
         super("Resource is not Found");
     }
 
+    public ResourceNotFoundException(String email) {
+        super(email + " is not Found");
+    }
+
     public ResourceNotFoundException(String resource, Long id) {
         super(resource + " " + id + " not found");
     }
+
 
 }

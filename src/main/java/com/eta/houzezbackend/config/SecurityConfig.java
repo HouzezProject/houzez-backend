@@ -33,7 +33,9 @@ public class SecurityConfig {
 
     private static final String[] AUTH_URL_WHITELIST = {
             "/agents",
-            "/agents/sign-in"
+            "/agents/sign-in",
+            "/agents/reset-password",
+
     };
     private final AgentDetailService agentDetailService;
     private final JwtService jwtService;
@@ -69,9 +71,9 @@ public class SecurityConfig {
                 .addFilterAfter(new JwtVerifyFilter(jwtService), JwtUsernameAndPasswordAuthenticationFilter.class)
 
                 .exceptionHandling()
-                .defaultAuthenticationEntryPointFor(
-                        new JwtVerifyEntryPoint(),
-                        new AntPathRequestMatcher("/**"))
+                .authenticationEntryPoint(
+                        new JwtVerifyEntryPoint()
+                )
                 .and().build();
     }
 

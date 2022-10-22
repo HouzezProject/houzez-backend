@@ -47,6 +47,14 @@ public record AgentService(AgentRepository agentRepository, AgentMapper agentMap
         return agentMapper.agentToAgentGetDto(agent);
     }
 
+    public AgentGetDto resetPassword(AgentSignUpDto agentSignUpDto) {
+
+        Agent agent = agentRepository.findByEmail(agentSignUpDto.getEmail()).orElseThrow(() -> new ResourceNotFoundException(agentSignUpDto.getEmail()));
+        agent.setPassword(PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(agentSignUpDto.getPassword()));
+        agent = agentRepository.save(agent);
+        return agentMapper.agentToAgentGetDto(agent);
+    }
+
     public AgentGetDto getAgent(Long id) {
         return agentMapper.agentToAgentGetDto(find(id));
     }

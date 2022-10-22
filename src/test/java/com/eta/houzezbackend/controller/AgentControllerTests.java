@@ -39,7 +39,7 @@ class AgentControllerTests extends ControllerIntTest {
         mockUserId = agentController.signUp(AgentSignUpDto.builder().email("test3@gmail.com")
                 .password("123qqqqq.").build()).getId();
         mockUserEmail = agentController.signUp(AgentSignUpDto.builder().email("agent002@gmail.com")
-                .password("agent002@gmail.comA.").build()).getEmail();
+                .password("agent002@gmail.com.").build()).getEmail();
         String mockUserName = agentController.getAgent(mockUserId).getName();
         mockJwt = jwtService.createJWT(String.valueOf(mockUserId), mockUserName, 80000);
         mockFakeJwt = jwtService.createJWT(String.valueOf(mockUserId), mockUserName, -80000);
@@ -81,6 +81,17 @@ class AgentControllerTests extends ControllerIntTest {
         mockMvc.perform(patch("/agents/" + mockUserId + "?token=" + mockJwt))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.activated").value(true));
+    }
+
+    @Test
+    void shouldReturn200AndAgentGetDtoWhenResetPassword() throws Exception {
+
+        AgentSignUpDto agentSignUpDtoReset = AgentSignUpDto.builder().email("test3@gmail.com")
+                .password("123reset.").build();
+        mockMvc.perform(patch("/agents/reset-password")
+                        .content(objectMapper.writeValueAsString(agentSignUpDtoReset))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
     @Test

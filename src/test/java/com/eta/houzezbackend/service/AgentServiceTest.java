@@ -116,6 +116,16 @@ public class AgentServiceTest {
     }
 
     @Test
+    void shouldResetPasswordWhenResetPassword() {
+
+        when(agentRepository.findByEmail(mockAgentSignUpDto.getEmail())).thenReturn(Optional.of(mockAgent));
+        when(agentRepository.save(mockAgent)).thenReturn(mockAgent);
+        when(agentMapper.agentToAgentGetDto(mockAgent)).thenReturn(mockAgentGetDto);
+        assertEquals(agentService.resetPassword(mockAgentSignUpDto), mockAgentGetDto);
+
+    }
+
+    @Test
     void shouldGetAgentWhenFindByEmail() {
         shouldSaveNewAgentInAgentRepoWhenSignUpNewAgent();
         String mockEmail = "test2@gmail.com";

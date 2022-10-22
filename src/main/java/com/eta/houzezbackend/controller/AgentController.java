@@ -40,6 +40,12 @@ public class AgentController {
         return agentService.setAgentToActive(token);
     }
 
+    @PatchMapping("/reset-password")
+    public AgentGetDto resetPassword(@Valid @RequestBody AgentSignUpDto agentSignUpDto) {
+        return agentService.resetPassword(agentSignUpDto);
+    }
+
+
     @RequestMapping(method = {RequestMethod.HEAD})
     public void getAgentByEmail(@RequestParam String email) {
         agentService.findByEmail(email);
