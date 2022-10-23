@@ -1,6 +1,7 @@
 package com.eta.houzezbackend.controller;
 
 import com.eta.houzezbackend.dto.AgentSignUpDto;
+import com.eta.houzezbackend.dto.ResetPasswordDto;
 import com.eta.houzezbackend.repository.AgentRepository;
 import com.eta.houzezbackend.service.JwtService;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,6 +30,8 @@ class AgentControllerTests extends ControllerIntTest {
 
     private String mockFakeJwt;
 
+    private String resetPasswordToken;
+
     @Autowired
     private AgentRepository agentRepository;
 
@@ -41,6 +44,7 @@ class AgentControllerTests extends ControllerIntTest {
         mockUserEmail = agentController.signUp(AgentSignUpDto.builder().email("agent002@gmail.com")
                 .password("agent002@gmail.com.").build()).getEmail();
         String mockUserName = agentController.getAgent(mockUserId).getName();
+        resetPasswordToken = jwtService.createResetPasswordJWT(3600, "test3@gmail.com");
         mockJwt = jwtService.createJWT(String.valueOf(mockUserId), mockUserName, 80000);
         mockFakeJwt = jwtService.createJWT(String.valueOf(mockUserId), mockUserName, -80000);
 
@@ -86,10 +90,10 @@ class AgentControllerTests extends ControllerIntTest {
     @Test
     void shouldReturn200AndAgentGetDtoWhenResetPassword() throws Exception {
 
-        AgentSignUpDto agentSignUpDtoReset = AgentSignUpDto.builder().email("test3@gmail.com")
+        ResetPasswordDto resetPasswordDto = ResetPasswordDto.builder().token(resetPasswordToken)
                 .password("123reset.").build();
         mockMvc.perform(patch("/agents/reset-password")
-                        .content(objectMapper.writeValueAsString(agentSignUpDtoReset))
+                        .content(objectMapper.writeValueAsString(resetPasswordDto))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }

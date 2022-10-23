@@ -2,6 +2,7 @@ package com.eta.houzezbackend.controller;
 
 import com.eta.houzezbackend.dto.AgentGetDto;
 import com.eta.houzezbackend.dto.AgentSignUpDto;
+import com.eta.houzezbackend.dto.ResetPasswordDto;
 import com.eta.houzezbackend.model.Agent;
 import com.eta.houzezbackend.service.AgentService;
 import lombok.RequiredArgsConstructor;
@@ -41,8 +42,8 @@ public class AgentController {
     }
 
     @PatchMapping("/reset-password")
-    public AgentGetDto resetPassword(@Valid @RequestBody AgentSignUpDto agentSignUpDto) {
-        return agentService.resetPassword(agentSignUpDto);
+    public AgentGetDto resetPassword(@Valid @RequestBody ResetPasswordDto resetPasswordDto) {
+        return agentService.resetPassword(resetPasswordDto);
     }
 
 
