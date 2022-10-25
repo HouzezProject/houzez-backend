@@ -34,11 +34,12 @@ class AgentControllerTests extends ControllerIntTest {
 
     @BeforeEach
     void signUp() {
+
         agentRepository.deleteAll();
         agentRepository.flush();
         mockUserId = agentController.signUp(AgentSignUpDto.builder().email("test3@gmail.com")
                 .password("123qqqqq.").build()).getId();
-        mockUserEmail = agentController.signUp(AgentSignUpDto.builder().email("agent002@gmail.com")
+        mockUserEmail = agentController.signUp(AgentSignUpDto.builder().email("jessie.houjinzhi@gmail.com")
                 .password("agent002@gmail.comA.").build()).getEmail();
         String mockUserName = agentController.getAgent(mockUserId).getName();
         mockJwt = jwtService.createJWT(String.valueOf(mockUserId), mockUserName, 80000);
@@ -88,5 +89,16 @@ class AgentControllerTests extends ControllerIntTest {
         mockMvc.perform(patch("/agents/" + mockUserId + "?token=" + mockFakeJwt))
                 .andExpect(status().isUnauthorized());
 
+    }
+
+    @Test
+    void shouldReturn200AndForgetPasswordEmailSent() throws Exception {
+        mockMvc.perform(head("/agents/forget-password?email="+mockUserEmail))
+                .andExpect(status().isOk());
+    }
+    @Test
+    void shouldReturn400WhenForgetPasswordEmailSentFailed() throws Exception{
+        mockMvc.perform(head("/agents/forget-password?email=h"+mockUserEmail))
+                .andExpect(status().isBadRequest());
     }
 }
