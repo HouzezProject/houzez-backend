@@ -44,4 +44,8 @@ public class AgentController {
     public void getAgentByEmail(@RequestParam String email) {
         agentService.findByEmail(email);
     }
+
+    @PostMapping("/forget-password")
+    @ResponseStatus(HttpStatus.OK)
+    public AgentGetDto sendResetPasswordEmail(@RequestParam String email) { return agentService.sendResetPasswordEmail(email);}
 }

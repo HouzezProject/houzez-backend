@@ -8,12 +8,10 @@ import com.eta.houzezbackend.model.Agent;
 import com.eta.houzezbackend.repository.AgentRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
-import com.eta.houzezbackend.service.email.AmazonEmailService;
 import com.eta.houzezbackend.service.email.EmailService;
 import com.eta.houzezbackend.util.SystemParam;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -84,5 +82,16 @@ public record AgentService(AgentRepository agentRepository, AgentMapper agentMap
         if (!findByEmail(username).getActivated())
             throw new AgentInactiveException();
         return agentMapper.agentToAgentGetDto(findByEmail(username));
+    }
+
+    public AgentGetDto sendResetPasswordEmail(String email) {
+        String resetPasswordLink = createResetPasswordLink(systemParam.getBaseUrl(), email, 10);
+
+        try {
+            emailService.sendEmail(email, resetPasswordLink);
+            return agentMapper.agentToAgentGetDto(findByEmail(email));
+        } catch (Exception e) {
+            throw new EmailAddressException();
+        }
     }
 }
