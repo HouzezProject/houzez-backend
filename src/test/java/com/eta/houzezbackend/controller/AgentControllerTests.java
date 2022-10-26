@@ -93,12 +93,12 @@ class AgentControllerTests extends ControllerIntTest {
 
     @Test
     void shouldReturn200AndForgetPasswordEmailSent() throws Exception {
-        mockMvc.perform(head("/agents/forget-password?email="+mockUserEmail))
+        mockMvc.perform(post("/agents/forget-password?email="+mockUserEmail))
                 .andExpect(status().isOk());
     }
     @Test
     void shouldReturn400WhenForgetPasswordEmailSentFailed() throws Exception{
-        mockMvc.perform(head("/agents/forget-password?email=h"+mockUserEmail))
+        mockMvc.perform(post("/agents/forget-password?email=h"+mockUserEmail))
                 .andExpect(status().isBadRequest());
     }
 }

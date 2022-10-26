@@ -47,5 +47,5 @@ public class AgentController {
 
     @PostMapping("/forget-password")
     @ResponseStatus(HttpStatus.OK)
-    public AgentGetDto sendResetPasswordEmail(@RequestParam String email) { return agentService.sendResetPasswordEmail(email);}
+    public AgentGetDto sendResetPasswordEmail(@RequestParam String email) { return agentService.sendForgetPasswordEmail(email);}
 }

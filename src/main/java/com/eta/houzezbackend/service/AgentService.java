@@ -84,11 +84,11 @@ public record AgentService(AgentRepository agentRepository, AgentMapper agentMap
         return agentMapper.agentToAgentGetDto(findByEmail(username));
     }
 
-    public AgentGetDto sendResetPasswordEmail(String email) {
+    public AgentGetDto sendForgetPasswordEmail(String email) {
         String resetPasswordLink = createResetPasswordLink(systemParam.getBaseUrl(), email, 10);
-
         try {
             emailService.sendEmail(email, resetPasswordLink);
+            System.out.println(agentMapper.agentToAgentGetDto(findByEmail(email)));
             return agentMapper.agentToAgentGetDto(findByEmail(email));
         } catch (Exception e) {
             throw new EmailAddressException();
