@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -88,5 +87,13 @@ class AgentControllerTests extends ControllerIntTest {
         mockMvc.perform(patch("/agents/" + mockUserId + "?token=" + mockFakeJwt))
                 .andExpect(status().isUnauthorized());
 
+    }
+
+    @Test
+    void shouldReturn200WhenResendEmail() throws Exception {
+        mockMvc.perform((post("/agents/resend-email")
+                        .content(mockUserEmail)
+                        .contentType(MediaType.APPLICATION_JSON)))
+                .andExpect((status().isOk()));
     }
 }

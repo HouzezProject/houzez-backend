@@ -44,4 +44,10 @@ public class AgentController {
     public void getAgentByEmail(@RequestParam String email) {
         agentService.findByEmail(email);
     }
+
+    @PostMapping("/resend-email")
+    @ResponseStatus(HttpStatus.OK)
+    public void resendEmail(@RequestBody String email) {
+        agentService.resendEmail(email);
+    }
 }
