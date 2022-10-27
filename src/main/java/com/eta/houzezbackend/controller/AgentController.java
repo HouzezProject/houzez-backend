@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 @RestController
 @RequestMapping("agents")
@@ -47,7 +48,7 @@ public class AgentController {
 
     @PostMapping("/resend-email")
     @ResponseStatus(HttpStatus.OK)
-    public void resendEmail(@RequestBody String email) {
-        agentService.resendEmail(email);
+    public void resendEmail(@RequestBody Map<String, String> map) {
+        agentService.resendEmail(map.get("email"));
     }
 }
