@@ -88,12 +88,5 @@ class AgentControllerTests extends ControllerIntTest {
                 .andExpect(status().isUnauthorized());
 
     }
-
-    @Test
-    void shouldReturn200WhenResendEmail() throws Exception {
-        mockMvc.perform((post("/agents/resend-email")
-                        .content(mockUserEmail)
-                        .contentType(MediaType.APPLICATION_JSON)))
-                .andExpect((status().isOk()));
-    }
+    
 }
