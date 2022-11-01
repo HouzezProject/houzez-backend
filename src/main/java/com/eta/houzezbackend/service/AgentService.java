@@ -35,9 +35,10 @@ public record AgentService(AgentRepository agentRepository, AgentMapper agentMap
         }
 
         String registerLink = createSignUpLink(systemParam.getBaseUrl(), agent.getId().toString(), agent.getName(), 10);
+        String info = "register";
 
         try {
-            emailService.sendEmail(agent.getEmail(), registerLink);
+            emailService.sendEmail(agent.getEmail(), registerLink, info);
         } catch (Exception e) {
             throw new EmailAddressException();
         }
@@ -84,20 +85,22 @@ public record AgentService(AgentRepository agentRepository, AgentMapper agentMap
         return agentMapper.agentToAgentGetDto(findByEmail(username));
     }
 
-    public AgentGetDto sendForgetPasswordEmail(String email) {
+    public void sendForgetPasswordEmail(String email) {
         String resetPasswordLink = createResetPasswordLink(systemParam.getBaseUrl(), email, 10);
+        String info = "forgetPassword";
         try {
-            emailService.sendEmail(email, resetPasswordLink);
+            System.out.println("hello");
+            emailService.sendEmail(email, resetPasswordLink, info);
         } catch (Exception e) {
             throw new EmailAddressException();
         }
-        return agentMapper.agentToAgentGetDto(findByEmail(email));
     }
     public void resendEmail(String email) {
         Agent agent = findByEmail(email);
         String registerLink = createSignUpLink(systemParam.getBaseUrl(), agent.getId().toString(), agent.getName(), 10);
+        String info = "register";
         try {
-            emailService.sendEmail(agent.getEmail(), registerLink);
+            emailService.sendEmail(agent.getEmail(), registerLink, info);
         } catch (Exception e) {
             throw new EmailAddressException();
         }
