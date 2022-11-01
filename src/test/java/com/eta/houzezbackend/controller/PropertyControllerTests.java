@@ -34,7 +34,7 @@ public class PropertyControllerTests extends ControllerIntTest {
     private AgentRepository agentRepository;
 
     @BeforeEach
-    void AddProperty() {
+    void addProperty() {
         propertyRepository.deleteAll();
         propertyRepository.flush();
         agentRepository.deleteAll();
@@ -42,7 +42,7 @@ public class PropertyControllerTests extends ControllerIntTest {
 
         Agent mockAgent = agentMapper.agentGetDtoToAgent(agentController.signUp(AgentSignUpDto.builder().email("test3@gmail.com")
                 .password("123q¥@#aAq.").build()));
-        mockPropertyId = propertyController.AddProperty(PropertyCreateDto.builder().property_is_new(true).description("Mount house").garage(1).outdoor("Swimming pool").indoor("Gym").latitude(2.12232323).longitude(23.2443343).status("new")
+        mockPropertyId = propertyController.addProperty(PropertyCreateDto.builder().property_is_new(true).description("Mount house").garage(1).outdoor("Swimming pool").indoor("Gym").latitude(2.12232323).longitude(23.2443343).status("new")
                 .type(Type.House).title("House with sea view").price(800000).living_room(2).bedroom(4).bathroom(3).land_size(200).state("Tas").suburb("Kingston").postcode(7010).agent(mockAgent).build()).getId();
 
     }

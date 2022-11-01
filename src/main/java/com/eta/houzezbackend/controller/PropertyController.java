@@ -18,12 +18,12 @@ public class PropertyController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public PropertyGetDto AddProperty(@Valid @RequestBody PropertyCreateDto propertyCreateDto) {
+    public PropertyGetDto addProperty(@Valid @RequestBody PropertyCreateDto propertyCreateDto) {
         return propertyService.createNewProperty(propertyCreateDto);
     }
 
     @GetMapping("/{id}")
-    public PropertyGetDto GetProperty(@PathVariable Long id) {
+    public PropertyGetDto getProperty(@PathVariable Long id) {
         return propertyService.GetProperty(id);
     }
 
