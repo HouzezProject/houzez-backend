@@ -35,6 +35,7 @@ public class SecurityConfig {
             "/agents",
             "/agents/sign-in",
             "/agents/forget-password"
+            "/agents/resend-email"
     };
     private final AgentDetailService agentDetailService;
     private final JwtService jwtService;

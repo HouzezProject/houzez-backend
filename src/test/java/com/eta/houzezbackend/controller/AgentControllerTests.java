@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -101,4 +100,5 @@ class AgentControllerTests extends ControllerIntTest {
         mockMvc.perform(post("/agents/forget-password?email=h"+mockUserEmail))
                 .andExpect(status().isBadRequest());
     }
+    
 }

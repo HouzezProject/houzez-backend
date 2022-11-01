@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 @RestController
 @RequestMapping("agents")
@@ -48,4 +49,10 @@ public class AgentController {
     @PostMapping("/forget-password")
     @ResponseStatus(HttpStatus.OK)
     public AgentGetDto sendResetPasswordEmail(@RequestParam String email) { return agentService.sendForgetPasswordEmail(email);}
+   
+    @PostMapping("/resend-email")
+    @ResponseStatus(HttpStatus.OK)
+    public void resendEmail(@RequestBody Map<String, String> map) {
+        agentService.resendEmail(map.get("email"));
+    }
 }

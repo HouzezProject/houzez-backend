@@ -6,10 +6,10 @@ import com.eta.houzezbackend.exception.*;
 import com.eta.houzezbackend.mapper.AgentMapper;
 import com.eta.houzezbackend.model.Agent;
 import com.eta.houzezbackend.repository.AgentRepository;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtException;
 import com.eta.houzezbackend.service.email.EmailService;
 import com.eta.houzezbackend.util.SystemParam;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.stereotype.Service;
@@ -88,8 +88,17 @@ public record AgentService(AgentRepository agentRepository, AgentMapper agentMap
         String resetPasswordLink = createResetPasswordLink(systemParam.getBaseUrl(), email, 10);
         try {
             emailService.sendEmail(email, resetPasswordLink);
-            System.out.println(agentMapper.agentToAgentGetDto(findByEmail(email)));
-            return agentMapper.agentToAgentGetDto(findByEmail(email));
+        } catch (Exception e) {
+            throw new EmailAddressException();
+        }
+        System.out.println(agentMapper.agentToAgentGetDto(findByEmail(email)));
+        return agentMapper.agentToAgentGetDto(findByEmail(email));
+    }
+    public void resendEmail(String email) {
+        Agent agent = findByEmail(email);
+        String registerLink = createSignUpLink(systemParam.getBaseUrl(), agent.getId().toString(), agent.getName(), 10);
+        try {
+            emailService.sendEmail(agent.getEmail(), registerLink);
         } catch (Exception e) {
             throw new EmailAddressException();
         }
