@@ -12,6 +12,7 @@ import java.util.List;
 @ConditionalOnProperty(name = "system-param.aws-active",havingValue = "true")
 public record AmazonEmailService (AmazonSimpleEmailService amazonSimpleEmailService, SystemParam systemParam) implements EmailService {
     private static final String templateName = "registerTemplate";
+    private static final String forgetPasswordTemplateName = "resetpasswordTemplate";
 
     @Override
     public void sendEmail(String receiverEmail, String link) {
@@ -22,7 +23,7 @@ public record AmazonEmailService (AmazonSimpleEmailService amazonSimpleEmailServ
         destination.setToAddresses(toAddresses);
         SendTemplatedEmailRequest templatedEmailRequest = new SendTemplatedEmailRequest();
         templatedEmailRequest.withDestination(destination)
-                .withTemplate(templateName)
+                .withTemplate(forgetPasswordTemplateName)
                 .withTemplateData(templateData)
                 .withSource(senderEmail);
         amazonSimpleEmailService.sendTemplatedEmail(templatedEmailRequest);

@@ -91,7 +91,6 @@ public record AgentService(AgentRepository agentRepository, AgentMapper agentMap
         } catch (Exception e) {
             throw new EmailAddressException();
         }
-        System.out.println(agentMapper.agentToAgentGetDto(findByEmail(email)));
         return agentMapper.agentToAgentGetDto(findByEmail(email));
     }
     public void resendEmail(String email) {
