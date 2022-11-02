@@ -86,8 +86,8 @@ public class PropertyServiceTest {
         when(propertyRepository.findById(mockId)).thenReturn(Optional.of((mockProperty)));
         when(propertyMapper.propertyToPropertyGetDto(mockProperty)).thenReturn(mockPropertyGetDto);
 
-        propertyService.GetProperty(mockId);
-        assertEquals(propertyService.GetProperty(mockId), mockPropertyGetDto);
+        propertyService.getProperty(mockId);
+        assertEquals(propertyService.getProperty(mockId), mockPropertyGetDto);
 
     }
 

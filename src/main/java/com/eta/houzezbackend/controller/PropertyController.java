@@ -24,7 +24,7 @@ public class PropertyController {
 
     @GetMapping("/{id}")
     public PropertyGetDto getProperty(@PathVariable Long id) {
-        return propertyService.GetProperty(id);
+        return propertyService.getProperty(id);
     }
 
 }

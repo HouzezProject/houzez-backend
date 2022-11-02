@@ -33,7 +33,7 @@ public class PropertyService {
     }
 
     @Transactional
-    public PropertyGetDto GetProperty(Long id) {
+    public PropertyGetDto getProperty(Long id) {
         Property property = propertyRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Property", id));
         return propertyMapper.propertyToPropertyGetDto(property);
     }
