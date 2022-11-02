@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Mapper(componentModel = "spring", unmappedSourcePolicy = ReportingPolicy.IGNORE, imports = UUID.class)
 public interface AgentMapper {
-    
+
     AgentGetDto agentToAgentGetDto(Agent agent);
 
     @Mapping(target = "password", ignore = true)

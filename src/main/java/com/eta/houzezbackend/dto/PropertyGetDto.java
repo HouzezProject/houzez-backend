@@ -17,11 +17,11 @@ public class PropertyGetDto {
 
     private String title;
     private Integer price;
-    private Integer living_room;
+    private Integer livingRoom;
     private Integer bedroom;
     private Integer bathroom;
     private Integer garage;
-    private Integer land_size;
+    private Integer landSize;
     private String description;
     private String state;
     private String suburb;
@@ -30,7 +30,7 @@ public class PropertyGetDto {
     private Double longitude;
     private String indoor;
     private String outdoor;
-    private Boolean property_is_new;
+    private Boolean propertyIsNew;
     private String status;
     private Date createdTime;
     private Date updatedTime;

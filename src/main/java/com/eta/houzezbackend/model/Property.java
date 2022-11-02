@@ -32,7 +32,7 @@ public class Property {
     private Integer price;
 
     @Column(nullable = false)
-    private Integer living_room;
+    private Integer livingRoom;
 
     @Column(nullable = false)
     private Integer bedroom;
@@ -44,7 +44,7 @@ public class Property {
     private Integer garage;
 
     @Column(nullable = false)
-    private Integer land_size;
+    private Integer landSize;
 
     @Column(nullable = false)
     private String description;
@@ -71,7 +71,7 @@ public class Property {
     private String outdoor;
 
     @Column(nullable = false)
-    private Boolean property_is_new;
+    private Boolean propertyIsNew;
 
     @Column(nullable = false)
     private String status;

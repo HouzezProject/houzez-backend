@@ -45,7 +45,7 @@ public class Agent {
 
     @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "agent_id")
-    private List<Property> property = new ArrayList<>();
+    private final List<Property> property = new ArrayList<>();
 
 
 }

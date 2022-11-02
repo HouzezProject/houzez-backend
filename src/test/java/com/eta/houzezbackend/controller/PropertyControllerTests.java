@@ -42,19 +42,19 @@ public class PropertyControllerTests extends ControllerIntTest {
 
         Agent mockAgent = agentMapper.agentGetDtoToAgent(agentController.signUp(AgentSignUpDto.builder().email("test3@gmail.com")
                 .password("123q¥@#aAq.").build()));
-        mockPropertyId = propertyController.addProperty(PropertyCreateDto.builder().property_is_new(true).description("Mount house").garage(1).outdoor("Swimming pool").indoor("Gym").latitude(2.12232323).longitude(23.2443343).status("new")
-                .type(Type.House).title("House with sea view").price(800000).living_room(2).bedroom(4).bathroom(3).land_size(200).state("Tas").suburb("Kingston").postcode(7010).agent(mockAgent).build()).getId();
+        mockPropertyId = propertyController.addProperty(PropertyCreateDto.builder().propertyIsNew(true).description("Mount house").garage(1).outdoor("Swimming pool").indoor("Gym").latitude(2.12232323).longitude(23.2443343).status("new")
+                .type(Type.HOUSE).title("HOUSE with sea view").price(800000).livingRoom(2).bedroom(4).bathroom(3).landSize(200).state("Tas").suburb("Kingston").postcode(7010).agent(mockAgent).build()).getId();
 
     }
 
     @Test
     void shouldReturn201AndPropertyCreateDtoWhenPropertyIsCreated() throws Exception {
-        PropertyCreateDto propertyCreateDto = PropertyCreateDto.builder().type(Type.House).title("House with sea view").price(800000).living_room(2).bedroom(4).bathroom(3).land_size(200).state("Tas").suburb("Kingston").postcode(7010).agent(Agent.builder().build()).build();
+        PropertyCreateDto propertyCreateDto = PropertyCreateDto.builder().type(Type.HOUSE).description("Mount house").title("HOUSE with sea view").price(800000).livingRoom(2).bedroom(4).bathroom(3).landSize(200).state("Tas").suburb("Kingston").postcode(7010).agent(Agent.builder().build()).build();
         mockMvc.perform(post("/properties")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(propertyCreateDto)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.title").value("House with sea view"));
+                .andExpect(jsonPath("$.title").value("HOUSE with sea view"));
     }
 
     @Test

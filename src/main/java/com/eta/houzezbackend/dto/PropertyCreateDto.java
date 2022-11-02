@@ -25,7 +25,7 @@ public class PropertyCreateDto {
     private Integer price;
 
     @NotNull(message = "LivingRoom must not be empty")
-    private Integer living_room;
+    private Integer livingRoom;
 
     @NotNull(message = "LivingRoom must not be empty")
     private Integer bedroom;
@@ -35,7 +35,7 @@ public class PropertyCreateDto {
     private Integer garage;
 
     @NotNull(message = "Land_size must not be empty")
-    private Integer land_size;
+    private Integer landSize;
 
     @NotEmpty(message = "State must not be empty")
     private String state;
@@ -52,7 +52,7 @@ public class PropertyCreateDto {
     private String status;
     private String indoor;
     private String outdoor;
-    private Boolean property_is_new;
+    private Boolean propertyIsNew;
 
     @NotNull(message = "agent_id must not be empty")
     private Agent agent;

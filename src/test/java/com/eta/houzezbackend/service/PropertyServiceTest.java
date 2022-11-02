@@ -31,17 +31,17 @@ public class PropertyServiceTest {
     @InjectMocks
     private PropertyService propertyService;
 
-    private final PropertyCreateDto MockPropertyCreateDto = PropertyCreateDto.builder().type(Type.House).title("House with sea view").price(800000).living_room(2).bedroom(4).bathroom(3).land_size(200).state("Tas").suburb("Kingston").postcode(7010).agent(Agent.builder().build()).build();
+    private final PropertyCreateDto MockPropertyCreateDto = PropertyCreateDto.builder().type(Type.HOUSE).title("HOUSE with sea view").price(800000).livingRoom(2).bedroom(4).bathroom(3).landSize(200).state("Tas").suburb("Kingston").postcode(7010).agent(Agent.builder().build()).build();
     private final Property mockProperty = Property.builder()
-            .type(Type.Apartment)
+            .type(Type.APARTMENT)
             .title("Good View")
             .price(300003)
-            .property_is_new(true)
+            .propertyIsNew(true)
             .bedroom(3)
-            .land_size(2323)
+            .landSize(2323)
             .garage(2)
             .indoor("gym")
-            .living_room(5)
+            .livingRoom(5)
             .state("TAS")
             .description("Mount house")
             .outdoor("swimming pool")
@@ -52,15 +52,15 @@ public class PropertyServiceTest {
 
     private final PropertyGetDto mockPropertyGetDto = PropertyGetDto.builder()
             .id(1L)
-            .type(Type.Apartment)
+            .type(Type.APARTMENT)
             .title("Good View")
             .price(300003)
-            .property_is_new(true)
+            .propertyIsNew(true)
             .bedroom(3)
-            .land_size(2323)
+            .landSize(2323)
             .garage(2)
             .indoor("gym")
-            .living_room(5)
+            .livingRoom(5)
             .state("TAS")
             .description("Mount house")
             .outdoor("swimming pool")
