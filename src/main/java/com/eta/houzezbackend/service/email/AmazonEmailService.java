@@ -23,7 +23,6 @@ public record AmazonEmailService (AmazonSimpleEmailService amazonSimpleEmailServ
         destination.setToAddresses(toAddresses);
         SendTemplatedEmailRequest templatedEmailRequest = new SendTemplatedEmailRequest();
         if(info.equals("register")) {
-            System.out.println("jerere");
             templatedEmailRequest.withDestination(destination)
                     .withTemplate(templateName)
                     .withTemplateData(templateData)
