@@ -46,6 +46,10 @@ public class AgentController {
         agentService.findByEmail(email);
     }
 
+    @PostMapping("/forget-password")
+    @ResponseStatus(HttpStatus.OK)
+    public void sendResetPasswordEmail(@RequestBody Map<String, String> map) { agentService.sendForgetPasswordEmail(map.get("email"));}
+   
     @PostMapping("/resend-email")
     @ResponseStatus(HttpStatus.OK)
     public void resendEmail(@RequestBody Map<String, String> map) {

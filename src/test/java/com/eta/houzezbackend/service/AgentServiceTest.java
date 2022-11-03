@@ -16,7 +16,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -25,8 +24,7 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class AgentServiceTest {
@@ -48,6 +46,7 @@ public class AgentServiceTest {
             .email("test2@gmail.com")
             .password("123qqqqq.")
             .build();
+
     private final AgentGetDto mockAgentGetDto = AgentGetDto
             .builder().id(1L)
             .name("name")
@@ -71,7 +70,6 @@ public class AgentServiceTest {
             .updatedTime(new Date())
             .build();
 
-
     @Test
     void shouldSaveNewAgentInAgentRepoWhenSignUpNewAgent() {
 
@@ -80,7 +78,7 @@ public class AgentServiceTest {
         when(agentRepository.save(mockAgent)).thenReturn(mockAgent);
         when(agentMapper.agentToAgentGetDto(mockAgent)).thenReturn(mockAgentGetDto);
         when(systemParam.getBaseUrl()).thenReturn("http://localhost:8080/api/v1");
-        doNothing().when(emailService).sendEmail(eq(mockAgent.getEmail()), any());
+        doNothing().when(emailService).sendEmail(eq(mockAgent.getEmail()), any(), any());
         agentService.signUpNewAgent(mockAgentSignUpDto);
         assertEquals(agentService.signUpNewAgent(mockAgentSignUpDto).getId(), mockAgentGetDto.getId());
     }
@@ -120,7 +118,17 @@ public class AgentServiceTest {
         shouldSaveNewAgentInAgentRepoWhenSignUpNewAgent();
         String mockEmail = "test2@gmail.com";
         when(agentRepository.findByEmail(mockEmail)).thenReturn(Optional.of(mockAgent));
-
         assertEquals(agentService.findByEmail(mockEmail), mockAgent);
+    }
+
+    @Test
+    void shouldGetAgentGetDtoWhenForgetEmailSent() {
+        String mockEmail = "test2@gmail.com";
+        when(agentRepository.findByEmail(mockEmail)).thenReturn(Optional.of(mockAgent));
+        assertEquals(agentService.findByEmail(mockEmail), mockAgent);
+        lenient().when(jwtService.createResetPasswordJWT(10,mockAgent.getEmail())).thenReturn("jwt");
+        lenient().when(systemParam.getBaseUrl()).thenReturn("http://localhost:8080/api/v1");
+        String resetLink = "http://localhost:8080/api/v1" + "/reset-password?code=" + "jwt";
+        lenient().doNothing().when(emailService).sendEmail(mockAgent.getEmail(), resetLink, "forgetPassword");
     }
 }

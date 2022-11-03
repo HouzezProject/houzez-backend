@@ -33,6 +33,7 @@ class AgentControllerTests extends ControllerIntTest {
 
     @BeforeEach
     void signUp() {
+
         agentRepository.deleteAll();
         agentRepository.flush();
         mockUserId = agentController.signUp(AgentSignUpDto.builder().email("test3@gmail.com")
@@ -87,6 +88,21 @@ class AgentControllerTests extends ControllerIntTest {
         mockMvc.perform(patch("/agents/" + mockUserId + "?token=" + mockFakeJwt))
                 .andExpect(status().isUnauthorized());
 
+    }
+
+    @Test
+    void shouldReturn200AndForgetPasswordEmailSent() throws Exception {
+        mockMvc.perform(post("/agents/forget-password")
+                        .content("{\"email\":\"agent002@gmail.com\"}")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+    @Test
+    void shouldReturn400WhenForgetPasswordEmailSentFailed() throws Exception{
+        mockMvc.perform(post("/agents/forget-password")
+                        .content("{\"email\":\"hagent002@gmail.com\"}")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
     
 }
