@@ -1,12 +1,18 @@
 package com.eta.houzezbackend.controller;
 
 import com.eta.houzezbackend.dto.AgentSignUpDto;
+import com.eta.houzezbackend.dto.PropertyCreateDto;
+import com.eta.houzezbackend.mapper.AgentMapper;
+import com.eta.houzezbackend.model.Agent;
 import com.eta.houzezbackend.repository.AgentRepository;
 import com.eta.houzezbackend.service.JwtService;
+import com.eta.houzezbackend.util.PropertyType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+
+import java.util.Date;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -20,16 +26,22 @@ class AgentControllerTests extends ControllerIntTest {
     @Autowired
     private JwtService jwtService;
 
-    private Long mockUserId;
+
+    @Autowired
+    private AgentRepository agentRepository;
+    @Autowired
+    private AgentMapper agentMapper;
+
+    private PropertyCreateDto mockPropertyCreateDto;
+    private Agent mockAgent;
+    private long mockAgentId;
+    private long mockUserId;
 
     private String mockUserEmail;
 
     private String mockJwt;
 
     private String mockFakeJwt;
-
-    @Autowired
-    private AgentRepository agentRepository;
 
     @BeforeEach
     void signUp() {
@@ -42,6 +54,24 @@ class AgentControllerTests extends ControllerIntTest {
         String mockUserName = agentController.getAgent(mockUserId).getName();
         mockJwt = jwtService.createJWT(String.valueOf(mockUserId), mockUserName, 80000);
         mockFakeJwt = jwtService.createJWT(String.valueOf(mockUserId), mockUserName, -80000);
+
+        mockAgent = agentMapper.agentGetDtoToAgent(agentController.signUp(AgentSignUpDto.builder()
+                .email("test2@gmail.com")
+                .password("123qqqqq.")
+                .build()));
+        mockAgent.setActivated(true);
+        mockAgentId = mockAgent.getId();
+        mockPropertyCreateDto = PropertyCreateDto.builder()
+                .garage(1).
+                propertyType(PropertyType.HOUSE)
+                .description("Mount house")
+                .title("HOUSE with sea view")
+                .propertyIsNew(true)
+                .price(800000)
+                .livingRoom(2)
+                .bedroom(4).bathroom(3)
+                .landSize(200).state("Tas")
+                .suburb("Kingston").postcode(7010).build();
 
     }
 
@@ -83,10 +113,19 @@ class AgentControllerTests extends ControllerIntTest {
     }
 
     @Test
+    void shouldReturn201AndPropertyCreateDtoWhenPropertyIsCreated() throws Exception {
+        mockMvc.perform(post("/agents/" + mockAgentId + "/properties")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(mockPropertyCreateDto)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.title").value("HOUSE with sea view"));
+    }
+
+    @Test
     void shouldReturn401WhenSetAgentToActive() throws Exception {
         mockMvc.perform(patch("/agents/" + mockUserId + "?token=" + mockFakeJwt))
                 .andExpect(status().isUnauthorized());
 
     }
-    
+
 }

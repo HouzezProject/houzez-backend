@@ -1,7 +1,7 @@
 package com.eta.houzezbackend.dto;
 
 import com.eta.houzezbackend.model.Agent;
-import com.eta.houzezbackend.util.Type;
+import com.eta.houzezbackend.util.PropertyType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,26 +16,26 @@ import javax.validation.constraints.NotNull;
 @Builder
 public class PropertyCreateDto {
     @NotNull(message = "Type must not be empty")
-    private Type type;
+    private PropertyType propertyType;
 
     @NotEmpty(message = "Title must not be empty")
     private String title;
 
     @NotNull(message = "Price must not be empty")
-    private Integer price;
+    private int price;
 
     @NotNull(message = "LivingRoom must not be empty")
-    private Integer livingRoom;
+    private int livingRoom;
 
     @NotNull(message = "LivingRoom must not be empty")
-    private Integer bedroom;
+    private int bedroom;
 
     @NotNull(message = "bathroom must not be empty")
-    private Integer bathroom;
+    private int bathroom;
     private Integer garage;
 
     @NotNull(message = "Land_size must not be empty")
-    private Integer landSize;
+    private int landSize;
 
     @NotEmpty(message = "State must not be empty")
     private String state;
@@ -44,7 +44,10 @@ public class PropertyCreateDto {
     private String suburb;
 
     @NotNull(message = "Postcode must not be empty")
-    private Integer postcode;
+    private int postcode;
+    
+    @NotNull(message = "Postcode must not be empty")
+    private boolean propertyIsNew;
 
     private String description;
     private Double latitude;
@@ -52,8 +55,5 @@ public class PropertyCreateDto {
     private String status;
     private String indoor;
     private String outdoor;
-    private Boolean propertyIsNew;
 
-    @NotNull(message = "agent_id must not be empty")
-    private Agent agent;
 }

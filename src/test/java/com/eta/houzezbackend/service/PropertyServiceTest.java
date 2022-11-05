@@ -6,8 +6,9 @@ import com.eta.houzezbackend.dto.PropertyGetDto;
 import com.eta.houzezbackend.mapper.PropertyMapper;
 import com.eta.houzezbackend.model.Agent;
 import com.eta.houzezbackend.model.Property;
+import com.eta.houzezbackend.repository.AgentRepository;
 import com.eta.houzezbackend.repository.PropertyRepository;
-import com.eta.houzezbackend.util.Type;
+import com.eta.houzezbackend.util.PropertyType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,12 +29,26 @@ public class PropertyServiceTest {
     @Mock
     private PropertyRepository propertyRepository;
 
+    @Mock
+    private AgentRepository agentRepository;
+
     @InjectMocks
     private PropertyService propertyService;
 
-    private final PropertyCreateDto MockPropertyCreateDto = PropertyCreateDto.builder().type(Type.HOUSE).title("HOUSE with sea view").price(800000).livingRoom(2).bedroom(4).bathroom(3).landSize(200).state("Tas").suburb("Kingston").postcode(7010).agent(Agent.builder().build()).build();
+    private final PropertyCreateDto MockPropertyCreateDto = PropertyCreateDto.builder().propertyType(PropertyType.HOUSE).title("HOUSE with sea view").price(800000).livingRoom(2).bedroom(4).bathroom(3).landSize(200).state("Tas").suburb("Kingston").postcode(7010).build();
+
+    private final Agent mockAgent = Agent.builder()
+            .id(1L)
+            .name("name")
+            .email("test2@gmail.com")
+            .password("123qqqqq.")
+            .activated(false)
+            .deleted(false)
+            .createdTime(new Date())
+            .updatedTime(new Date())
+            .build();
     private final Property mockProperty = Property.builder()
-            .type(Type.APARTMENT)
+            .propertyType(PropertyType.APARTMENT)
             .title("Good View")
             .price(300003)
             .propertyIsNew(true)
@@ -52,7 +67,7 @@ public class PropertyServiceTest {
 
     private final PropertyGetDto mockPropertyGetDto = PropertyGetDto.builder()
             .id(1L)
-            .type(Type.APARTMENT)
+            .propertyType(PropertyType.APARTMENT)
             .title("Good View")
             .price(300003)
             .propertyIsNew(true)
@@ -69,27 +84,27 @@ public class PropertyServiceTest {
             .createdTime(new Date())
             .updatedTime(new Date())
             .build();
+    private final long mockAgentId = mockAgent.getId();
 
     @Test
     void shouldSaveNewPropertyInPropertyRepoWhenAddNewProperty() {
         when(propertyMapper.propertyCreateDtoToProperty(MockPropertyCreateDto)).thenReturn(mockProperty);
+        when(agentRepository.findById(mockAgentId)).thenReturn(Optional.of(mockAgent));
         when(propertyRepository.save(mockProperty)).thenReturn(mockProperty);
         when(propertyMapper.propertyToPropertyGetDto(mockProperty)).thenReturn(mockPropertyGetDto);
 
-        propertyService.createNewProperty(MockPropertyCreateDto);
-        assertEquals(propertyService.createNewProperty(MockPropertyCreateDto).getId(), mockPropertyGetDto.getId());
+        propertyService.createNewProperty(MockPropertyCreateDto, mockAgentId);
+        assertEquals(propertyService.createNewProperty(MockPropertyCreateDto, mockAgentId).getId(), mockPropertyGetDto.getId());
     }
 
     @Test
-    void shouldGetPropertyGetDtoWhenGetProperty() {
+    void shouldReturnSuccessWhenGetProperty() {
         Long mockId = 1L;
         when(propertyRepository.findById(mockId)).thenReturn(Optional.of((mockProperty)));
         when(propertyMapper.propertyToPropertyGetDto(mockProperty)).thenReturn(mockPropertyGetDto);
 
         propertyService.getProperty(mockId);
         assertEquals(propertyService.getProperty(mockId), mockPropertyGetDto);
-
     }
-
 
 }

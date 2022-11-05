@@ -42,6 +42,12 @@ public class ControllerExceptionHandler {
         return new ErrorDto(HttpStatus.UNPROCESSABLE_ENTITY.getReasonPhrase(), List.of(Objects.requireNonNull(e.getMessage())));
     }
 
+    @ExceptionHandler(value = {UniquePropertyViolationException.class})
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public ErrorDto handleUniquePropertyViolationException(UniquePropertyViolationException e) {
+        return new ErrorDto(HttpStatus.UNPROCESSABLE_ENTITY.getReasonPhrase(), List.of(Objects.requireNonNull(e.getMessage())));
+    }
+
     @ExceptionHandler(value = {LinkExpiredException.class})
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ErrorDto handleLinkExpiredExceptions(JwtException e) {

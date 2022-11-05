@@ -1,6 +1,8 @@
 package com.eta.houzezbackend.model;
 
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -11,7 +13,6 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "agent")
 @Getter
 @Setter
 @RequiredArgsConstructor
@@ -43,9 +44,8 @@ public class Agent {
     @LastModifiedDate
     private Date updatedTime;
 
-    @OneToMany(orphanRemoval = true)
-    @JoinColumn(name = "agent_id")
-    private final List<Property> property = new ArrayList<>();
-
+    @Fetch(FetchMode.SUBSELECT)
+    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "agent")
+    private List<Property> property = new ArrayList<>();
 
 }

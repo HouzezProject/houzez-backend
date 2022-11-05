@@ -15,13 +15,6 @@ import javax.validation.Valid;
 public class PropertyController {
     private final PropertyService propertyService;
 
-
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public PropertyGetDto addProperty(@Valid @RequestBody PropertyCreateDto propertyCreateDto) {
-        return propertyService.createNewProperty(propertyCreateDto);
-    }
-
     @GetMapping("/{id}")
     public PropertyGetDto getProperty(@PathVariable Long id) {
         return propertyService.getProperty(id);

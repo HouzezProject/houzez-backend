@@ -1,6 +1,6 @@
 package com.eta.houzezbackend.util;
 
-public enum Type {
+public enum PropertyType {
     ALL_TYPES,
     HOUSE,
     APARTMENT,

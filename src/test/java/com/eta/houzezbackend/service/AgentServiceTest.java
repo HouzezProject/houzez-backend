@@ -2,11 +2,15 @@ package com.eta.houzezbackend.service;
 
 import com.eta.houzezbackend.dto.AgentGetDto;
 import com.eta.houzezbackend.dto.AgentSignUpDto;
+import com.eta.houzezbackend.dto.PropertyCreateDto;
+import com.eta.houzezbackend.dto.PropertyGetDto;
 import com.eta.houzezbackend.mapper.AgentMapper;
 import com.eta.houzezbackend.model.Agent;
+import com.eta.houzezbackend.model.Property;
 import com.eta.houzezbackend.repository.AgentRepository;
 
 import com.eta.houzezbackend.service.email.EmailService;
+import com.eta.houzezbackend.util.PropertyType;
 import com.eta.houzezbackend.util.SystemParam;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -70,6 +74,44 @@ public class AgentServiceTest {
             .createdTime(new Date())
             .updatedTime(new Date())
             .build();
+    private final PropertyCreateDto MockPropertyCreateDto = PropertyCreateDto.builder().propertyType(PropertyType.HOUSE).title("HOUSE with sea view").price(800000).livingRoom(2).bedroom(4).bathroom(3).landSize(200).state("Tas").suburb("Kingston").postcode(7010).build();
+    private final Property mockProperty = Property.builder()
+            .propertyType(PropertyType.APARTMENT)
+            .title("Good View")
+            .price(300003)
+            .propertyIsNew(true)
+            .bedroom(3)
+            .landSize(2323)
+            .garage(2)
+            .indoor("gym")
+            .livingRoom(5)
+            .state("TAS")
+            .description("Mount house")
+            .outdoor("swimming pool")
+            .agent(new Agent())
+            .postcode(7004)
+            .build();
+
+
+    private final PropertyGetDto mockPropertyGetDto = PropertyGetDto.builder()
+            .id(1L)
+            .propertyType(PropertyType.APARTMENT)
+            .title("Good View")
+            .price(300003)
+            .propertyIsNew(true)
+            .bedroom(3)
+            .landSize(2323)
+            .garage(2)
+            .indoor("gym")
+            .livingRoom(5)
+            .state("TAS")
+            .description("Mount house")
+            .outdoor("swimming pool")
+            .agent(new AgentGetDto())
+            .postcode(7004)
+            .createdTime(new Date())
+            .updatedTime(new Date())
+            .build();
 
 
     @Test
@@ -123,4 +165,5 @@ public class AgentServiceTest {
 
         assertEquals(agentService.findByEmail(mockEmail), mockAgent);
     }
+
 }

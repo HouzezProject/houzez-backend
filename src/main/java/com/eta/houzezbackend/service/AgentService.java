@@ -4,8 +4,10 @@ import com.eta.houzezbackend.dto.AgentGetDto;
 import com.eta.houzezbackend.dto.AgentSignUpDto;
 import com.eta.houzezbackend.exception.*;
 import com.eta.houzezbackend.mapper.AgentMapper;
+import com.eta.houzezbackend.mapper.PropertyMapper;
 import com.eta.houzezbackend.model.Agent;
 import com.eta.houzezbackend.repository.AgentRepository;
+import com.eta.houzezbackend.repository.PropertyRepository;
 import com.eta.houzezbackend.service.email.EmailService;
 import com.eta.houzezbackend.util.SystemParam;
 import io.jsonwebtoken.Claims;
@@ -17,7 +19,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public record AgentService(AgentRepository agentRepository, AgentMapper agentMapper,
-                           JwtService jwtService, EmailService emailService, SystemParam systemParam) {
+                           JwtService jwtService, EmailService emailService, SystemParam systemParam,
+                           PropertyRepository propertyRepository, PropertyMapper propertyMapper) {
 
     private static final String RESOURCE = "Agent";
 
@@ -92,5 +95,7 @@ public record AgentService(AgentRepository agentRepository, AgentMapper agentMap
         } catch (Exception e) {
             throw new EmailAddressException();
         }
+
+
     }
 }

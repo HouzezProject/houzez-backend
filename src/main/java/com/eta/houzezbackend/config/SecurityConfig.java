@@ -34,8 +34,9 @@ public class SecurityConfig {
     private static final String[] AUTH_URL_WHITELIST = {
             "/agents",
             "/agents/sign-in",
-            "/properties",
             "/properties/*",
+            "/agents/properties",
+            "/agents/*/properties",
             "/agents/resend-email"
     };
     private final AgentDetailService agentDetailService;

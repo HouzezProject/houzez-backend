@@ -1,6 +1,6 @@
 package com.eta.houzezbackend.dto;
 
-import com.eta.houzezbackend.util.Type;
+import com.eta.houzezbackend.util.PropertyType;
 import lombok.*;
 
 import java.util.Date;
@@ -13,24 +13,24 @@ import java.util.Date;
 public class PropertyGetDto {
 
     private long id;
-    private Type type;
+    private PropertyType propertyType;
 
     private String title;
-    private Integer price;
-    private Integer livingRoom;
-    private Integer bedroom;
-    private Integer bathroom;
-    private Integer garage;
-    private Integer landSize;
+    private int price;
+    private int livingRoom;
+    private int bedroom;
+    private int bathroom;
+    private int garage;
+    private int landSize;
     private String description;
     private String state;
     private String suburb;
-    private Integer postcode;
+    private int postcode;
     private Double latitude;
     private Double longitude;
     private String indoor;
     private String outdoor;
-    private Boolean propertyIsNew;
+    private boolean propertyIsNew;
     private String status;
     private Date createdTime;
     private Date updatedTime;

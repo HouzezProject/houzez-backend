@@ -13,5 +13,5 @@ public interface PropertyMapper {
 
     PropertyGetDto propertyToPropertyGetDto(Property property);
 
-
+    Property propertyGetDtoToProperty(PropertyGetDto propertyGetDto);
 }

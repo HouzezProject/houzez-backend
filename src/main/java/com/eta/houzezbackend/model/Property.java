@@ -1,6 +1,6 @@
 package com.eta.houzezbackend.model;
 
-import com.eta.houzezbackend.util.Type;
+import com.eta.houzezbackend.util.PropertyType;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -10,7 +10,6 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "property")
 @Getter
 @Setter
 @RequiredArgsConstructor
@@ -23,28 +22,28 @@ public class Property {
     private Long id;
 
     @Column(nullable = false)
-    private Type type;
+    private PropertyType propertyType;
 
     @Column(nullable = false)
     private String title;
 
     @Column(nullable = false)
-    private Integer price;
+    private int price;
 
     @Column(nullable = false)
-    private Integer livingRoom;
+    private int livingRoom;
 
     @Column(nullable = false)
-    private Integer bedroom;
+    private int bedroom;
 
     @Column(nullable = false)
-    private Integer bathroom;
+    private int bathroom;
 
     @Column(nullable = false)
-    private Integer garage;
+    private int garage;
 
     @Column(nullable = false)
-    private Integer landSize;
+    private int landSize;
 
     @Column(nullable = false)
     private String description;
@@ -56,36 +55,24 @@ public class Property {
     private String suburb;
 
     @Column(nullable = false)
-    private Integer postcode;
+    private int postcode;
 
     @Column(nullable = false)
+    private boolean propertyIsNew;
+
     private Double latitude;
-
-    @Column(nullable = false)
     private Double longitude;
-
-    @Column(nullable = false)
     private String indoor;
-
-    @Column(nullable = false)
     private String outdoor;
-
-    @Column(nullable = false)
-    private Boolean propertyIsNew;
-
-    @Column(nullable = false)
     private String status;
 
     @JoinColumn(name = "agent_id")
     @ManyToOne
     private Agent agent;
 
-
     @CreatedDate
     private Date createdTime;
-
     @LastModifiedDate
     private Date updatedTime;
-
 
 }
