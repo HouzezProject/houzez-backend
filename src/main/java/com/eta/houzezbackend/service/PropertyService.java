@@ -29,6 +29,7 @@ public class PropertyService {
     private final PropertyMapper propertyMapper;
     private final AgentRepository agentRepository;
 
+
     public PropertyGetDto createNewProperty(PropertyCreateDto propertyCreateDto, long agentId) {
         Property property = propertyMapper.propertyCreateDtoToProperty(propertyCreateDto);
         Agent agent = agentRepository.findById(agentId).orElseThrow(() -> new ResourceNotFoundException("Agent", agentId));
@@ -42,6 +43,7 @@ public class PropertyService {
         Property property = propertyRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Property", id));
         return propertyMapper.propertyToPropertyGetDto(property);
     }
+
 
     public ResponseEntity<Map<String, Object>> getPropertiesByAgent(long id, int page, int size) {
         agentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Agent", id));

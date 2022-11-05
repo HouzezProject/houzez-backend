@@ -45,7 +45,7 @@ public class Agent {
     private Date updatedTime;
 
     @Fetch(FetchMode.SUBSELECT)
-    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "agent")
+    @OneToMany(orphanRemoval = true, mappedBy = "agent")
     private List<Property> property = new ArrayList<>();
 
 }
