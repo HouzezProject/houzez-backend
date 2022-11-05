@@ -21,6 +21,7 @@ public class AgentController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public AgentGetDto signUp(@Valid @RequestBody AgentSignUpDto agentSignUpDto) {
+        System.out.println(agentService.createResetPasswordLink("", "test1@gmail.com", 99999));
         return agentService.signUpNewAgent(agentSignUpDto);
     }
 
@@ -42,7 +43,7 @@ public class AgentController {
     }
 
     @PatchMapping("/reset-password")
-    public AgentGetDto resetPassword(@Valid @RequestBody ResetPasswordDto resetPasswordDto) {
+    public AgentGetDto patchPassword(@Valid @RequestBody ResetPasswordDto resetPasswordDto) {
         return agentService.resetPassword(resetPasswordDto);
     }
 

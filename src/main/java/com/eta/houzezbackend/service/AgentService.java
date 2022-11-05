@@ -23,7 +23,6 @@ public record AgentService(AgentRepository agentRepository, AgentMapper agentMap
     private static final String RESOURCE = "Agent";
 
     public AgentGetDto signUpNewAgent(AgentSignUpDto agentSignUpDto) {
-
         Agent agent = agentMapper.agentSignUpDtoToAgent(agentSignUpDto);
 
         agent.setPassword(PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(agentSignUpDto.getPassword()));
