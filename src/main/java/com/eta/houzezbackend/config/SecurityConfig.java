@@ -34,6 +34,7 @@ public class SecurityConfig {
             "/agents",
             "/agents/sign-in",
             "/agents/reset-password",
+            "/actuator/**",
 
     };
     private final AgentDetailService agentDetailService;
