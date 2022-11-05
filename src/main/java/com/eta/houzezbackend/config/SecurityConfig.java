@@ -37,6 +37,7 @@ public class SecurityConfig {
             "/properties/*",
             "/agents/*/properties/get-propertylistbyagent",
             "/agents/*/properties/create-property",
+            "/agents/forget-password",
             "/agents/resend-email"
     };
     private final AgentDetailService agentDetailService;

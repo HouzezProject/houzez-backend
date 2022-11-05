@@ -10,9 +10,9 @@ spring:
 system-param:
   secret-key: 5970337336763979244226452948404D6351665468576D5A7134743777217A25
   aws-active: false
-  aws-access-key: AKIAIOSFODNN
-  aws-secret-key: wJalrXUtnFEMI/K7MDENG/bPxRfiCY
-  sender-email: zhiyu_zhao7@163.com
+  aws-access-key: AKIAULAR7BWIR7IOEOXL111
+  aws-secret-key: rvHELsfbo4xAWnlGRXoCs4ly/c9F5B164ta7pNzi11
+  sender-email: zachary.zhao7@gmail.com
   base-url: http://localhost:8080/api/v1
   sign-in-jwt-expired-minute: 3600
 cors:
