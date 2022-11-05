@@ -20,6 +20,7 @@ import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -50,7 +51,7 @@ public class PropertyService {
         try {
             Pageable paging = PageRequest.of(page, size);
             Page<Property> pageTuts = propertyRepository.findAByAgentOrderById(id, paging);
-            List<Property> properties = pageTuts.getContent();
+            List<PropertyGetDto> properties = pageTuts.getContent().stream().map(propertyMapper::propertyToPropertyGetDto).collect(Collectors.toList());
 
             if (properties.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);

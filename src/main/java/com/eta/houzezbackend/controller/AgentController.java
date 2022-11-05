@@ -57,13 +57,13 @@ public class AgentController {
         agentService.resendEmail(map.get("email"));
     }
 
-    @PostMapping("/{id}/properties")
+    @PostMapping("/{id}/properties/create-property")
     @ResponseStatus(HttpStatus.CREATED)
     public PropertyGetDto addProperty(@Valid @RequestBody PropertyCreateDto propertyCreateDto, @PathVariable long id) {
         return propertyService.createNewProperty(propertyCreateDto, id);
     }
 
-    @GetMapping("/{id}/properties")
+    @GetMapping("/{id}/properties/get-propertylistbyagent")
     public ResponseEntity<Map<String, Object>> getPropertiesByAgent(@PathVariable long id, @RequestParam(defaultValue = "0") int page,
                                                                     @RequestParam(defaultValue = "10") int size) {
         return propertyService.getPropertiesByAgent(id, page, size);

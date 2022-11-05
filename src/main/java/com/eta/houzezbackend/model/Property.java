@@ -1,5 +1,6 @@
 package com.eta.houzezbackend.model;
 
+
 import com.eta.houzezbackend.util.PropertyType;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
