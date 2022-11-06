@@ -119,7 +119,7 @@ class AgentControllerTests extends ControllerIntTest {
 
         PatchPasswordDto patchPasswordDto = PatchPasswordDto.builder().token(resetPasswordToken)
                 .password("123reset.").build();
-        mockMvc.perform(patch("/agents/password/patch")
+        mockMvc.perform(patch("/agents/password")
                         .content(objectMapper.writeValueAsString(patchPasswordDto))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
