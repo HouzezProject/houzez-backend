@@ -2,7 +2,7 @@ package com.eta.houzezbackend.service;
 
 import com.eta.houzezbackend.dto.AgentGetDto;
 import com.eta.houzezbackend.dto.AgentSignUpDto;
-import com.eta.houzezbackend.dto.ResetPasswordDto;
+import com.eta.houzezbackend.dto.PatchPasswordDto;
 import com.eta.houzezbackend.mapper.AgentMapper;
 import com.eta.houzezbackend.model.Agent;
 import com.eta.houzezbackend.repository.AgentRepository;
@@ -115,7 +115,7 @@ public class AgentServiceTest {
     @Test
     void shouldResetPasswordWhenResetPassword() {
 
-        ResetPasswordDto resetPasswordDto = ResetPasswordDto
+        PatchPasswordDto patchPasswordDto = PatchPasswordDto
                 .builder()
                 .token("test2@gmail.com")
                 .password("123qqqqq.")
@@ -257,11 +257,11 @@ public class AgentServiceTest {
                 return null;
             }
         };
-        when(jwtService.getJwtBody(resetPasswordDto.getToken())).thenReturn(defaultClaims);
+        when(jwtService.getJwtBody(patchPasswordDto.getToken())).thenReturn(defaultClaims);
         when(agentRepository.findByEmail("email")).thenReturn(Optional.of(mockAgent));
         when(agentRepository.save(mockAgent)).thenReturn(mockAgent);
         when(agentMapper.agentToAgentGetDto(mockAgent)).thenReturn(mockAgentGetDto);
-        assertEquals(agentService.resetPassword(resetPasswordDto), mockAgentGetDto);
+        assertEquals(agentService.patchPassword(patchPasswordDto), mockAgentGetDto);
 
     }
 

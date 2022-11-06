@@ -1,12 +1,11 @@
 package com.eta.houzezbackend.controller;
 
 import com.eta.houzezbackend.dto.AgentSignUpDto;
-import com.eta.houzezbackend.dto.ResetPasswordDto;
+import com.eta.houzezbackend.dto.PatchPasswordDto;
 import com.eta.houzezbackend.dto.PropertyPostDto;
 import com.eta.houzezbackend.mapper.AgentMapper;
 import com.eta.houzezbackend.model.Agent;
 import com.eta.houzezbackend.repository.AgentRepository;
-import com.eta.houzezbackend.repository.PropertyRepository;
 import com.eta.houzezbackend.service.JwtService;
 import com.eta.houzezbackend.util.PropertyType;
 import org.junit.jupiter.api.BeforeEach;
@@ -118,10 +117,10 @@ class AgentControllerTests extends ControllerIntTest {
     @Test
     void shouldReturn200AndAgentGetDtoWhenResetPassword() throws Exception {
 
-        ResetPasswordDto resetPasswordDto = ResetPasswordDto.builder().token(resetPasswordToken)
+        PatchPasswordDto patchPasswordDto = PatchPasswordDto.builder().token(resetPasswordToken)
                 .password("123reset.").build();
-        mockMvc.perform(patch("/agents/reset-password")
-                        .content(objectMapper.writeValueAsString(resetPasswordDto))
+        mockMvc.perform(patch("/agents/password/patch")
+                        .content(objectMapper.writeValueAsString(patchPasswordDto))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }

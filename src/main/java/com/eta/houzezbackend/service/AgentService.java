@@ -2,7 +2,7 @@ package com.eta.houzezbackend.service;
 
 import com.eta.houzezbackend.dto.AgentGetDto;
 import com.eta.houzezbackend.dto.AgentSignUpDto;
-import com.eta.houzezbackend.dto.ResetPasswordDto;
+import com.eta.houzezbackend.dto.PatchPasswordDto;
 import com.eta.houzezbackend.exception.*;
 import com.eta.houzezbackend.mapper.AgentMapper;
 import com.eta.houzezbackend.mapper.PropertyMapper;
@@ -49,11 +49,11 @@ public record AgentService(AgentRepository agentRepository, AgentMapper agentMap
         return agentMapper.agentToAgentGetDto(agent);
     }
 
-    public AgentGetDto resetPassword(ResetPasswordDto resetPasswordDto) {
+    public AgentGetDto patchPassword(PatchPasswordDto patchPasswordDto) {
 
-        String email = jwtService.getJwtBody(resetPasswordDto.getToken()).get("email").toString();
+        String email = jwtService.getJwtBody(patchPasswordDto.getToken()).get("email").toString();
         Agent agent = agentRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException(email));
-        agent.setPassword(PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(resetPasswordDto.getPassword()));
+        agent.setPassword(PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(patchPasswordDto.getPassword()));
         agent = agentRepository.save(agent);
         return agentMapper.agentToAgentGetDto(agent);
     }

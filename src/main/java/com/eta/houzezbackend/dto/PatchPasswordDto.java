@@ -12,7 +12,7 @@ import javax.validation.constraints.Pattern;
 @Setter
 @AllArgsConstructor
 @Builder
-public class ResetPasswordDto {
+public class PatchPasswordDto {
     private String token;
 
     @NotEmpty(message = "Password must not be empty")

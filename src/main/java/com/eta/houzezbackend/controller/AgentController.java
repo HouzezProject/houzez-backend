@@ -4,7 +4,7 @@ import com.eta.houzezbackend.dto.AgentGetDto;
 import com.eta.houzezbackend.dto.AgentSignUpDto;
 import com.eta.houzezbackend.dto.PropertyPostDto;
 import com.eta.houzezbackend.dto.PropertyGetDto;
-import com.eta.houzezbackend.dto.ResetPasswordDto;
+import com.eta.houzezbackend.dto.PatchPasswordDto;
 import com.eta.houzezbackend.model.Agent;
 import com.eta.houzezbackend.service.AgentService;
 import com.eta.houzezbackend.service.PropertyService;
@@ -47,9 +47,9 @@ public class AgentController {
         return agentService.setAgentToActive(token);
     }
 
-    @PatchMapping("/reset-password")
-    public AgentGetDto patchPassword(@Valid @RequestBody ResetPasswordDto resetPasswordDto) {
-        return agentService.resetPassword(resetPasswordDto);
+    @PatchMapping("/password/patch")
+    public AgentGetDto patchPassword(@Valid @RequestBody PatchPasswordDto patchPasswordDto) {
+        return agentService.patchPassword(patchPasswordDto);
     }
 
 
