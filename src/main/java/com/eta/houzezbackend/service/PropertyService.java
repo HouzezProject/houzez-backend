@@ -40,7 +40,7 @@ public class PropertyService {
         return propertyMapper.propertyToPropertyGetDto(property);
     }
 
-
+    @Transactional
     public List<PropertyGetDto> getPropertiesByAgent(long id, int page, int size) {
         Pageable paging = PageRequest.of(page, size);
         Page<Property> properties = propertyRepository.findByAgent_Id(id, paging);
