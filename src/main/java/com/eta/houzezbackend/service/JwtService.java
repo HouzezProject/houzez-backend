@@ -47,10 +47,8 @@ public record JwtService(SystemParam systemParam) {
                 .signWith(Keys.hmacShaKeyFor(systemParam().getSecretKey().getBytes()), signatureAlgorithm);
 
 
-
         return builder.compact();
     }
-
 
 
     public String createResetPasswordJWT(int expDateInMinutes, String email) {
@@ -76,5 +74,4 @@ public record JwtService(SystemParam systemParam) {
                 .parseClaimsJws(jwt).getBody();
 
     }
-
 }

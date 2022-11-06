@@ -36,6 +36,7 @@ dependencies {
     implementation 'org.mapstruct:mapstruct:1.5.2.Final'
     implementation 'junit:junit:4.13.2'
 
+
     implementation 'io.awspring.cloud:spring-cloud-aws-ses:2.4.2'
 
 

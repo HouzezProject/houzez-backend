@@ -32,10 +32,12 @@ public class SecurityConfig {
 
     private static final String[] AUTH_URL_WHITELIST = {
             "/agents",
-            "/agents/sign-in",
-            "/agents/reset-password",
             "/actuator/**",
-
+            "/agents/sign-in",
+            "/properties/**",
+            "/agents/forget-password",
+            "/agents/resend-email",
+            "/agents/reset-password"
     };
     private final AgentDetailService agentDetailService;
     private final JwtService jwtService;
