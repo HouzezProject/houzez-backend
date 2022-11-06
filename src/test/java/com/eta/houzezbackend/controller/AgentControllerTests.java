@@ -1,18 +1,17 @@
 package com.eta.houzezbackend.controller;
 
 import com.eta.houzezbackend.dto.AgentSignUpDto;
-import com.eta.houzezbackend.dto.PropertyCreateDto;
+import com.eta.houzezbackend.dto.PropertyPostDto;
 import com.eta.houzezbackend.mapper.AgentMapper;
 import com.eta.houzezbackend.model.Agent;
 import com.eta.houzezbackend.repository.AgentRepository;
+import com.eta.houzezbackend.repository.PropertyRepository;
 import com.eta.houzezbackend.service.JwtService;
 import com.eta.houzezbackend.util.PropertyType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-
-import java.util.Date;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -32,7 +31,7 @@ class AgentControllerTests extends ControllerIntTest {
     @Autowired
     private AgentMapper agentMapper;
 
-    private PropertyCreateDto mockPropertyCreateDto;
+    private PropertyPostDto mockPropertyCreateDto;
     private Agent mockAgent;
     private long mockAgentId;
     private long mockUserId;
@@ -45,7 +44,6 @@ class AgentControllerTests extends ControllerIntTest {
 
     @BeforeEach
     void signUp() {
-
         agentRepository.deleteAll();
         agentRepository.flush();
         mockUserId = agentController.signUp(AgentSignUpDto.builder().email("test3@gmail.com")
@@ -62,12 +60,12 @@ class AgentControllerTests extends ControllerIntTest {
                 .build()));
         mockAgent.setActivated(true);
         mockAgentId = mockAgent.getId();
-        mockPropertyCreateDto = PropertyCreateDto.builder()
+        mockPropertyCreateDto = PropertyPostDto.builder()
                 .garage(1).
                 propertyType(PropertyType.HOUSE)
                 .description("Mount house")
                 .title("HOUSE with sea view")
-                .propertyIsNew(true)
+                .preowned(false)
                 .price(800000)
                 .livingRoom(2)
                 .bedroom(4).bathroom(3)

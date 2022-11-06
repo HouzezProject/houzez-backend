@@ -8,7 +8,5 @@ import org.springframework.data.jpa.repository.Query;
 
 
 public interface PropertyRepository extends JpaRepository<Property, Long> {
-    @Query(value = "select * from property as a left join agent as b on a.agent_id=b.id", nativeQuery = true)
-    Page<Property> findAByAgentOrderById(long agent_id, Pageable pageable);
-
+    Page<Property> findByAgent_Id(long agent_id, Pageable pageable);
 }
