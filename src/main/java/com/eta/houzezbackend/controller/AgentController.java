@@ -47,7 +47,7 @@ public class AgentController {
         return agentService.setAgentToActive(token);
     }
 
-    @PatchMapping("/password/patch")
+    @PatchMapping("/password")
     public AgentGetDto patchPassword(@Valid @RequestBody PatchPasswordDto patchPasswordDto) {
         return agentService.patchPassword(patchPasswordDto);
     }
