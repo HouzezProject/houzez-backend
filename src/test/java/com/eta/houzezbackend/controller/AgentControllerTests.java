@@ -26,7 +26,6 @@ class AgentControllerTests extends ControllerIntTest {
     @Autowired
     private JwtService jwtService;
 
-
     @Autowired
     private AgentRepository agentRepository;
     @Autowired
@@ -45,8 +44,6 @@ class AgentControllerTests extends ControllerIntTest {
 
     private String resetPasswordToken;
 
-    @Autowired
-    private AgentRepository agentRepository;
 
     @BeforeEach
     void signUp() {
