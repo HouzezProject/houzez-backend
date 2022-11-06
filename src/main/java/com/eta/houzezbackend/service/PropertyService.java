@@ -1,25 +1,20 @@
 package com.eta.houzezbackend.service;
 
-import com.eta.houzezbackend.dto.PropertyCreateDto;
+import com.eta.houzezbackend.dto.PropertyPostDto;
 import com.eta.houzezbackend.dto.PropertyGetDto;
 import com.eta.houzezbackend.exception.ResourceNotFoundException;
 import com.eta.houzezbackend.mapper.PropertyMapper;
 import com.eta.houzezbackend.model.Agent;
 import com.eta.houzezbackend.model.Property;
-import com.eta.houzezbackend.repository.AgentRepository;
 import com.eta.houzezbackend.repository.PropertyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,44 +23,29 @@ public class PropertyService {
 
     private final PropertyRepository propertyRepository;
     private final PropertyMapper propertyMapper;
-    private final AgentRepository agentRepository;
+    private final AgentService agentService;
 
 
-    public PropertyGetDto createNewProperty(PropertyCreateDto propertyCreateDto, long agentId) {
+    public PropertyGetDto createNewProperty(PropertyPostDto propertyCreateDto, long agentId) {
         Property property = propertyMapper.propertyCreateDtoToProperty(propertyCreateDto);
-        Agent agent = agentRepository.findById(agentId).orElseThrow(() -> new ResourceNotFoundException("Agent", agentId));
+        Agent agent = agentService.find(agentId);
         property.setAgent(agent);
         propertyRepository.save(property);
         return propertyMapper.propertyToPropertyGetDto(property);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public PropertyGetDto getProperty(Long id) {
         Property property = propertyRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Property", id));
         return propertyMapper.propertyToPropertyGetDto(property);
     }
 
 
-    public ResponseEntity<Map<String, Object>> getPropertiesByAgent(long id, int page, int size) {
-        agentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Agent", id));
-        try {
-            Pageable paging = PageRequest.of(page, size);
-            Page<Property> pageTuts = propertyRepository.findAByAgentOrderById(id, paging);
-            List<PropertyGetDto> properties = pageTuts.getContent().stream().map(propertyMapper::propertyToPropertyGetDto).collect(Collectors.toList());
-
-            if (properties.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-
-            Map<String, Object> response = new HashMap<>();
-            response.put("properties", properties);
-            response.put("currentPage", pageTuts.getNumber());
-            response.put("totalItems", pageTuts.getTotalElements());
-            response.put("totalPages", pageTuts.getTotalPages());
-
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public List<PropertyGetDto> getPropertiesByAgent(long id, int page, int size) {
+        Pageable paging = PageRequest.of(page, size);
+        Page<Property> properties = propertyRepository.findByAgent_Id(id, paging);
+        return properties.getContent().stream()
+                .map(propertyMapper::propertyToPropertyGetDto)
+                .collect(Collectors.toList());
     }
 }

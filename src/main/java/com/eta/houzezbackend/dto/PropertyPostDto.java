@@ -1,6 +1,5 @@
 package com.eta.houzezbackend.dto;
 
-import com.eta.houzezbackend.model.Agent;
 import com.eta.houzezbackend.util.PropertyType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,8 +13,8 @@ import javax.validation.constraints.NotNull;
 @Setter
 @AllArgsConstructor
 @Builder
-public class PropertyCreateDto {
-    @NotNull(message = "Type must not be empty")
+public class PropertyPostDto {
+    @NotNull(message = "Property type must not be empty")
     private PropertyType propertyType;
 
     @NotEmpty(message = "Title must not be empty")
@@ -45,9 +44,9 @@ public class PropertyCreateDto {
 
     @NotNull(message = "Postcode must not be empty")
     private int postcode;
-    
-    @NotNull(message = "Postcode must not be empty")
-    private boolean propertyIsNew;
+
+    @NotNull(message = "Pre-owned must not be empty")
+    private boolean preowned;
 
     private String description;
     private Double latitude;

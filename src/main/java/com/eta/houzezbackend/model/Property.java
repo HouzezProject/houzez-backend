@@ -59,7 +59,7 @@ public class Property {
     private int postcode;
 
     @Column(nullable = false)
-    private boolean propertyIsNew;
+    private boolean preowned;
 
     private Double latitude;
     private Double longitude;
@@ -68,7 +68,7 @@ public class Property {
     private String status;
 
     @JoinColumn(name = "agent_id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Agent agent;
 
     @CreatedDate

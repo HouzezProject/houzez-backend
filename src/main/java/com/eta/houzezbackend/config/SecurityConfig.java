@@ -33,10 +33,9 @@ public class SecurityConfig {
 
     private static final String[] AUTH_URL_WHITELIST = {
             "/agents",
+            "/actuator/**",
             "/agents/sign-in",
-            "/properties/*",
-            "/agents/*/properties/get-propertylistbyagent",
-            "/agents/*/properties/create-property",
+            "/properties/**",
             "/agents/forget-password",
             "/agents/resend-email"
     };

@@ -53,7 +53,7 @@ public record AgentService(AgentRepository agentRepository, AgentMapper agentMap
         return agentMapper.agentToAgentGetDto(find(id));
     }
 
-    private Agent find(Long id) {
+    public Agent find(Long id) {
         return agentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(RESOURCE, id));
     }
 
@@ -98,6 +98,7 @@ public record AgentService(AgentRepository agentRepository, AgentMapper agentMap
             throw new EmailAddressException();
         }
     }
+
     public void resendEmail(String email) {
         Agent agent = findByEmail(email);
         String registerLink = createSignUpLink(systemParam.getBaseUrl(), agent.getId().toString(), agent.getName(), 10);
