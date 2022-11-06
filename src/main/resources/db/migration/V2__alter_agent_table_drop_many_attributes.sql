@@ -1,8 +1,8 @@
 ALTER TABLE "agent"
-DROP COLUMN avatar,
+    DROP COLUMN avatar,
     DROP
-COLUMN company_name,
+        COLUMN company_name,
     DROP
-COLUMN company_logo,
+        COLUMN company_logo,
     DROP
-COLUMN phone_number
+        COLUMN phone_number
