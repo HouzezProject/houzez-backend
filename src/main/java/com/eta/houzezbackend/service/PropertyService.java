@@ -55,19 +55,20 @@ public class PropertyService {
         List<PropertyGetDto> propertiesGetDto = properties.getContent().stream()
                 .map(propertyMapper::propertyToPropertyGetDto)
                 .collect(Collectors.toList());
-        List<Long> propertiesId = propertiesGetDto.stream().map(PropertyGetDto::getId).collect(Collectors.toList());
+        List<Long> propertiesId = propertiesGetDto.stream().map(PropertyGetDto::getId).toList();
 
 
-        List<Image> images = propertiesId.stream().map(e -> imageRepository.findByProperty_Id(e).orElseThrow(() -> new ResourceNotFoundException("Property", e))).collect(Collectors.toList());
+        List<List<Image>> images = propertiesId.stream().map(imageRepository::findByProperty_Id).toList();
+        List<Image> imageList = images.stream().flatMap(Collection::stream).toList();
 
-        List<ImageGetDto> imageList = images.stream()
+        List<ImageGetDto> imageGetDtoList = imageList.stream()
                 .map(imageMapper::imageToImageGetDto)
                 .collect(Collectors.toList());
 
 
         return PropertyPaginationGetDto.builder().propertyGetDtoList(propertiesGetDto)
                 .totalPageNumber(properties.getTotalPages())
-                .imageGetDtoList(imageList).build();
+                .imageGetDtoList(imageGetDtoList).build();
 
     }
 }

@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface ImageRepository extends JpaRepository<Image, Long> {
     Page<Image> findByPropertyId(long id, Pageable paging);
 
-    Optional<Image> findByProperty_Id(long id);
+    List<Image> findByProperty_Id(long id);
 
 
 }
