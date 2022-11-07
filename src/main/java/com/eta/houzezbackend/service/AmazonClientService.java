@@ -42,8 +42,7 @@ public class AmazonClientService {
             String fileName=generateFileName(multipartFile);
             fileUrl=amazonProperties.getEndpointUrl()+"/"+amazonProperties.getBucketName()+"/"+fileName;
             uploadFileToS3bucket(fileName,file);
-            file.delete();
-
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
