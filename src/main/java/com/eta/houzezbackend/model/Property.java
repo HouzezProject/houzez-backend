@@ -60,6 +60,9 @@ public class Property {
     private String suburb;
 
     @Column(nullable = false)
+    private String street;
+
+    @Column(nullable = false)
     private int postcode;
 
     @Column(nullable = false)

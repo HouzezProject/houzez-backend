@@ -42,6 +42,9 @@ public class PropertyPostDto {
     @NotEmpty(message = "Suburb must not be empty")
     private String suburb;
 
+    @NotEmpty(message = "Street must not be empty")
+    private String street;
+
     @NotNull(message = "Postcode must not be empty")
     private int postcode;
 
