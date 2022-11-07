@@ -36,15 +36,15 @@ public class AmazonClientService {
         s3client.putObject(new PutObjectRequest(amazonProperties.getBucketName(),fileName,file).withCannedAcl(CannedAccessControlList.PublicRead));
     }
     public String uploadFile (MultipartFile multipartFile){
-        String fileUrl="";
+        String fileUrl;
         try{
             File file=convertMultiPartToFile(multipartFile);
             String fileName=generateFileName(multipartFile);
             fileUrl=amazonProperties.getEndpointUrl()+"/"+amazonProperties.getBucketName()+"/"+fileName;
             uploadFileToS3bucket(fileName,file);
-            
+
         } catch (Exception e) {
-            e.printStackTrace();
+            return "upload failed, please try again";
         }
 
         return fileUrl;
