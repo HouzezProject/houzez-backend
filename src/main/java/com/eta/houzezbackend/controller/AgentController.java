@@ -66,10 +66,10 @@ public class AgentController {
         return propertyService.createNewProperty(propertyCreateDto, id);
     }
 
-    @PostMapping("/{agent_id}/properties/{property_id}/images")
+    @PostMapping("/{agentId}/properties/{propertyId}/images")
     @ResponseStatus(HttpStatus.CREATED)
-    public ImageGetDto addImage(@Valid @RequestBody ImagePostDto imagePostDto, @PathVariable long agent_id, @PathVariable long property_id) {
-        return imageService.addImage(imagePostDto, agent_id, property_id);
+    public ImageGetDto addImage(@Valid @RequestBody ImagePostDto imagePostDto, @PathVariable long agentId, @PathVariable long propertyId) {
+        return imageService.addImage(imagePostDto, agentId, propertyId);
     }
 
     @GetMapping("/{id}/properties")

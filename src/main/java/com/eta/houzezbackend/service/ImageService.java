@@ -29,9 +29,9 @@ public class ImageService {
     private final ImageMapper imageMapper;
 
 
-    public ImageGetDto addImage(ImagePostDto imagePostDto, long agent_id, long property_id) {
-        Agent agent = agentRepository.findById(agent_id).orElseThrow(() -> new ResourceNotFoundException("Agent", agent_id));
-        Property property = propertyRepository.findById(property_id).orElseThrow(() -> new ResourceNotFoundException("Property", property_id));
+    public ImageGetDto addImage(ImagePostDto imagePostDto, long agentId, long propertyId) {
+        Agent agent = agentRepository.findById(agentId).orElseThrow(() -> new ResourceNotFoundException("Agent", agentId));
+        Property property = propertyRepository.findById(propertyId).orElseThrow(() -> new ResourceNotFoundException("Property", propertyId));
         property.setAgent(agent);
         Image image = imageMapper.imagePostDtoToImage(imagePostDto);
         image.setProperty(property);
