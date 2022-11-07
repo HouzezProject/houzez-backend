@@ -19,6 +19,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.List;
@@ -36,8 +37,7 @@ public class SecurityConfig {
             "/agents/sign-in",
             "/properties/**",
             "/agents/forget-password",
-            "/agents/resend-email",
-            "/agents/reset-password"
+            "/agents/resend-email"
     };
     private final AgentDetailService agentDetailService;
     private final JwtService jwtService;
@@ -73,9 +73,9 @@ public class SecurityConfig {
                 .addFilterAfter(new JwtVerifyFilter(jwtService), JwtUsernameAndPasswordAuthenticationFilter.class)
 
                 .exceptionHandling()
-                .authenticationEntryPoint(
-                        new JwtVerifyEntryPoint()
-                )
+                .defaultAuthenticationEntryPointFor(
+                        new JwtVerifyEntryPoint(),
+                        new AntPathRequestMatcher("/**"))
                 .and().build();
     }
 
