@@ -1,18 +1,16 @@
 package com.eta.houzezbackend.controller;
 
-import com.eta.houzezbackend.dto.AgentGetDto;
-import com.eta.houzezbackend.dto.AgentSignUpDto;
-import com.eta.houzezbackend.dto.PropertyPostDto;
-import com.eta.houzezbackend.dto.PropertyGetDto;
+import com.eta.houzezbackend.dto.*;
 import com.eta.houzezbackend.model.Agent;
 import com.eta.houzezbackend.service.AgentService;
+import com.eta.houzezbackend.service.ImageService;
 import com.eta.houzezbackend.service.PropertyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
+import javax.validation.constraints.Max;
 import java.util.Map;
 
 @RestController
@@ -23,6 +21,8 @@ public class AgentController {
     private final AgentService agentService;
     private final PropertyService propertyService;
 
+    private final ImageService imageService;
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public AgentGetDto signUp(@Valid @RequestBody AgentSignUpDto agentSignUpDto) {
@@ -30,7 +30,6 @@ public class AgentController {
     }
 
     @PostMapping("/sign-in")
-    @ResponseStatus(HttpStatus.OK)
     public AgentGetDto signIn(@RequestAttribute String username) {
         return agentService.signIn(username);
     }
@@ -51,14 +50,12 @@ public class AgentController {
         agentService.findByEmail(email);
     }
 
-    @PostMapping("/forget-password")
-    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/password")
     public void sendResetPasswordEmail(@RequestBody Map<String, String> map) {
         agentService.sendForgetPasswordEmail(map.get("email"));
     }
 
-    @PostMapping("/resend-email")
-    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/email")
     public void resendEmail(@RequestBody Map<String, String> map) {
         agentService.resendEmail(map.get("email"));
     }
@@ -69,9 +66,15 @@ public class AgentController {
         return propertyService.createNewProperty(propertyCreateDto, id);
     }
 
+    @PostMapping("/{agent_id}/properties/{property_id}/images")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ImageGetDto addImage(@Valid @RequestBody ImagePostDto imagePostDto, @PathVariable long agent_id, @PathVariable long property_id) {
+        return imageService.addImage(imagePostDto, agent_id, property_id);
+    }
+
     @GetMapping("/{id}/properties")
-    public List<PropertyGetDto> getPropertiesByAgent(@PathVariable long id, @RequestParam(defaultValue = "0") int page,
-                                                     @RequestParam(defaultValue = "10") int size) {
+    public PropertyPaginationGetDto getPropertiesByAgent(@PathVariable long id, @RequestParam(defaultValue = "0") int page,
+                                                         @RequestParam(defaultValue = "10") @Max(value = 50) int size) {
         return propertyService.getPropertiesByAgent(id, page, size);
     }
 }

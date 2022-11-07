@@ -1,11 +1,16 @@
 package com.eta.houzezbackend.service;
 
+import com.eta.houzezbackend.dto.ImageGetDto;
+import com.eta.houzezbackend.dto.PropertyPaginationGetDto;
 import com.eta.houzezbackend.dto.PropertyPostDto;
 import com.eta.houzezbackend.dto.PropertyGetDto;
 import com.eta.houzezbackend.exception.ResourceNotFoundException;
+import com.eta.houzezbackend.mapper.ImageMapper;
 import com.eta.houzezbackend.mapper.PropertyMapper;
 import com.eta.houzezbackend.model.Agent;
+import com.eta.houzezbackend.model.Image;
 import com.eta.houzezbackend.model.Property;
+import com.eta.houzezbackend.repository.ImageRepository;
 import com.eta.houzezbackend.repository.PropertyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,7 +30,9 @@ public class PropertyService {
     private final PropertyRepository propertyRepository;
     private final PropertyMapper propertyMapper;
     private final AgentService agentService;
+    private final ImageMapper imageMapper;
 
+    private final ImageRepository imageRepository;
 
     public PropertyGetDto createNewProperty(PropertyPostDto propertyCreateDto, long agentId) {
         Property property = propertyMapper.propertyCreateDtoToProperty(propertyCreateDto);
@@ -41,11 +49,25 @@ public class PropertyService {
     }
 
     @Transactional
-    public List<PropertyGetDto> getPropertiesByAgent(long id, int page, int size) {
+    public PropertyPaginationGetDto getPropertiesByAgent(long id, int page, int size) {
         Pageable paging = PageRequest.of(page, size);
         Page<Property> properties = propertyRepository.findByAgent_Id(id, paging);
-        return properties.getContent().stream()
+        List<PropertyGetDto> propertiesGetDto = properties.getContent().stream()
                 .map(propertyMapper::propertyToPropertyGetDto)
                 .collect(Collectors.toList());
+        List<Long> propertiesId = propertiesGetDto.stream().map(PropertyGetDto::getId).collect(Collectors.toList());
+
+
+        List<Image> images = propertiesId.stream().map(e -> imageRepository.findByProperty_Id(e).orElseThrow(() -> new ResourceNotFoundException("Property", e))).collect(Collectors.toList());
+
+        List<ImageGetDto> imageList = images.stream()
+                .map(imageMapper::imageToImageGetDto)
+                .collect(Collectors.toList());
+
+
+        return PropertyPaginationGetDto.builder().propertyGetDtoList(propertiesGetDto)
+                .totalPageNumber(properties.getTotalPages())
+                .imageGetDtoList(imageList).build();
+
     }
 }
