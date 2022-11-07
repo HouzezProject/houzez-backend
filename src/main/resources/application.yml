@@ -31,4 +31,10 @@ cors:
   allowed-methods: "*"
   allowed-headers: "*"
 
+amzaonProperties:
+  endpointUrl:
+  accessKey:
+  secretKey:
+  bucketName:
+
 

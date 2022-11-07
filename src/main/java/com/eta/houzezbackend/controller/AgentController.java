@@ -3,11 +3,13 @@ package com.eta.houzezbackend.controller;
 import com.eta.houzezbackend.dto.*;
 import com.eta.houzezbackend.model.Agent;
 import com.eta.houzezbackend.service.AgentService;
+import com.eta.houzezbackend.service.AmazonClientService;
 import com.eta.houzezbackend.service.ImageService;
 import com.eta.houzezbackend.service.PropertyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
@@ -22,6 +24,8 @@ public class AgentController {
     private final PropertyService propertyService;
 
     private final ImageService imageService;
+    private final AmazonClientService amazonClientService;
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -70,6 +74,11 @@ public class AgentController {
     @ResponseStatus(HttpStatus.CREATED)
     public ImageGetDto addImage(@Valid @RequestBody ImagePostDto imagePostDto, @PathVariable long agentId, @PathVariable long propertyId) {
         return imageService.addImage(imagePostDto, agentId, propertyId);
+    }
+
+    @PostMapping("/{id}/properties/images")
+    public String uploadFile(@RequestPart(value="file")MultipartFile file){
+        return amazonClientService.uploadFile(file);
     }
 
     @GetMapping("/{id}/properties")
