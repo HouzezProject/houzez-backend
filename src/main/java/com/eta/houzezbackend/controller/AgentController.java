@@ -70,20 +70,22 @@ public class AgentController {
         return propertyService.createNewProperty(propertyCreateDto, id);
     }
 
+    @GetMapping("/{id}/properties")
+    public PropertyPaginationGetDto getPropertiesByAgent(@PathVariable long id, @RequestParam(defaultValue = "0") int page,
+                                                         @RequestParam(defaultValue = "10") @Max(value = 50) int size) {
+        return propertyService.getPropertiesByAgent(id, page, size);
+    }
+
+    @PostMapping("/{id}/properties/{propertyId}/s3/images")
+    public String uploadFile(@RequestPart(value = "file") MultipartFile file){
+        return amazonClientService.uploadFile(file);
+    }
     @PostMapping("/{agentId}/properties/{propertyId}/images")
     @ResponseStatus(HttpStatus.CREATED)
     public ImageGetDto addImage(@Valid @RequestBody ImagePostDto imagePostDto, @PathVariable long agentId, @PathVariable long propertyId) {
         return imageService.addImage(imagePostDto, agentId, propertyId);
     }
 
-    @PostMapping("/{id}/properties/images")
-    public String uploadFile(@RequestPart(value="file")MultipartFile file){
-        return amazonClientService.uploadFile(file);
-    }
 
-    @GetMapping("/{id}/properties")
-    public PropertyPaginationGetDto getPropertiesByAgent(@PathVariable long id, @RequestParam(defaultValue = "0") int page,
-                                                         @RequestParam(defaultValue = "10") @Max(value = 50) int size) {
-        return propertyService.getPropertiesByAgent(id, page, size);
-    }
+
 }

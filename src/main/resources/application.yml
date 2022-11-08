@@ -31,7 +31,7 @@ cors:
   allowed-methods: "*"
   allowed-headers: "*"
 
-amzaonProperties:
+amazonProperties:
   endpointUrl:
   accessKey:
   secretKey:
