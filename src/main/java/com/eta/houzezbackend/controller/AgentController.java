@@ -1,6 +1,7 @@
 package com.eta.houzezbackend.controller;
 
 import com.eta.houzezbackend.dto.*;
+import com.eta.houzezbackend.dto.PatchPasswordDto;
 import com.eta.houzezbackend.model.Agent;
 import com.eta.houzezbackend.service.AgentService;
 import com.eta.houzezbackend.service.AmazonClientService;
@@ -49,6 +50,12 @@ public class AgentController {
         return agentService.setAgentToActive(token);
     }
 
+    @PatchMapping("/password")
+    public AgentGetDto patchPassword(@Valid @RequestBody PatchPasswordDto patchPasswordDto) {
+        return agentService.patchPassword(patchPasswordDto);
+    }
+
+
     @RequestMapping(method = {RequestMethod.HEAD})
     public void getAgentByEmail(@RequestParam String email) {
         agentService.findByEmail(email);
@@ -77,6 +84,7 @@ public class AgentController {
     }
 
     @PostMapping("/{id}/properties/{propertyId}/s3/images")
+    @ResponseStatus(HttpStatus.CREATED)
     public String uploadFile(@RequestPart(value = "file") MultipartFile file){
         return amazonClientService.uploadFile(file);
     }

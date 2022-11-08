@@ -2,6 +2,7 @@ package com.eta.houzezbackend.service;
 
 import com.eta.houzezbackend.dto.AgentGetDto;
 import com.eta.houzezbackend.dto.AgentSignUpDto;
+import com.eta.houzezbackend.dto.PatchPasswordDto;
 import com.eta.houzezbackend.exception.*;
 import com.eta.houzezbackend.mapper.AgentMapper;
 import com.eta.houzezbackend.mapper.PropertyMapper;
@@ -25,7 +26,6 @@ public record AgentService(AgentRepository agentRepository, AgentMapper agentMap
     private static final String RESOURCE = "Agent";
 
     public AgentGetDto signUpNewAgent(AgentSignUpDto agentSignUpDto) {
-
         Agent agent = agentMapper.agentSignUpDtoToAgent(agentSignUpDto);
 
         agent.setPassword(PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(agentSignUpDto.getPassword()));
@@ -46,6 +46,15 @@ public record AgentService(AgentRepository agentRepository, AgentMapper agentMap
             throw new EmailAddressException();
         }
 
+        return agentMapper.agentToAgentGetDto(agent);
+    }
+
+    public AgentGetDto patchPassword(PatchPasswordDto patchPasswordDto) {
+
+        String email = jwtService.getJwtBody(patchPasswordDto.getToken()).get("email").toString();
+        Agent agent = agentRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException(email));
+        agent.setPassword(PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(patchPasswordDto.getPassword()));
+        agent = agentRepository.save(agent);
         return agentMapper.agentToAgentGetDto(agent);
     }
 

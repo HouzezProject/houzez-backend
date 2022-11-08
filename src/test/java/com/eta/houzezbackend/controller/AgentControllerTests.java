@@ -1,11 +1,11 @@
 package com.eta.houzezbackend.controller;
 
 import com.eta.houzezbackend.dto.AgentSignUpDto;
+import com.eta.houzezbackend.dto.PatchPasswordDto;
 import com.eta.houzezbackend.dto.PropertyPostDto;
 import com.eta.houzezbackend.mapper.AgentMapper;
 import com.eta.houzezbackend.model.Agent;
 import com.eta.houzezbackend.repository.AgentRepository;
-import com.eta.houzezbackend.repository.PropertyRepository;
 import com.eta.houzezbackend.service.JwtService;
 import com.eta.houzezbackend.util.PropertyType;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +25,6 @@ class AgentControllerTests extends ControllerIntTest {
     @Autowired
     private JwtService jwtService;
 
-
     @Autowired
     private AgentRepository agentRepository;
     @Autowired
@@ -42,6 +41,9 @@ class AgentControllerTests extends ControllerIntTest {
 
     private String mockFakeJwt;
 
+    private String resetPasswordToken;
+
+
     @BeforeEach
     void signUp() {
         agentRepository.deleteAll();
@@ -49,8 +51,9 @@ class AgentControllerTests extends ControllerIntTest {
         mockUserId = agentController.signUp(AgentSignUpDto.builder().email("test3@gmail.com")
                 .password("123qqqqq.").build()).getId();
         mockUserEmail = agentController.signUp(AgentSignUpDto.builder().email("agent002@gmail.com")
-                .password("agent002@gmail.comA.").build()).getEmail();
+                .password("agent002@gmail.com.").build()).getEmail();
         String mockUserName = agentController.getAgent(mockUserId).getName();
+        resetPasswordToken = jwtService.createResetPasswordJWT(3600, "test3@gmail.com");
         mockJwt = jwtService.createJWT(String.valueOf(mockUserId), mockUserName, 80000);
         mockFakeJwt = jwtService.createJWT(String.valueOf(mockUserId), mockUserName, -80000);
 
@@ -109,6 +112,17 @@ class AgentControllerTests extends ControllerIntTest {
         mockMvc.perform(patch("/agents/" + mockUserId + "?token=" + mockJwt))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.activated").value(true));
+    }
+
+    @Test
+    void shouldReturn200AndAgentGetDtoWhenResetPassword() throws Exception {
+
+        PatchPasswordDto patchPasswordDto = PatchPasswordDto.builder().token(resetPasswordToken)
+                .password("123reset.").build();
+        mockMvc.perform(patch("/agents/password")
+                        .content(objectMapper.writeValueAsString(patchPasswordDto))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
     @Test
