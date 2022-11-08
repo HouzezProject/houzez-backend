@@ -20,7 +20,7 @@ spring:
         ddl-auto: none
 system-param:
   secret-key: 5970337336763979244226452948404D6351665468576D5A7134743777217A25
-  aws-active: false
+  aws-active: true
   aws-access-key: AKIAULAR7BW
   aws-secret-key: rvHELsfbo4xAWnlGRXoCs4ly/c9F
   sender-email: zhiyu_zhao7@163.com
