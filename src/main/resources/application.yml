@@ -5,8 +5,8 @@ server:
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://houzezdbuat.caogumlx5xdk.ap-southeast-2.rds.amazonaws.com:5432/postgres
-    username: houzezusername
+    url: jdbc:postgresql://houzezuatda.caogumlx5xdk.ap-southeast-2.rds.amazonaws.com:5432/postgres
+    username: username
     password: ${RDS_PASSWORD:username}
 
   jpa:
