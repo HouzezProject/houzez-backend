@@ -27,6 +27,7 @@ public class Property {
     private Long id;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private PropertyType propertyType;
 
     @Column(nullable = false)

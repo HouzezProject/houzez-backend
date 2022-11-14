@@ -24,42 +24,43 @@ public class AmazonClientService {
     private AmazonS3 s3client;
 
     private final AmazonProperties amazonProperties;
+
     @PostConstruct
-    private void initializeAmazon(){
-        AWSCredentials credentials=new BasicAWSCredentials(this.amazonProperties.getAccessKey(),this.amazonProperties.getSecretKey());
-        this.s3client=new AmazonS3Client(credentials);
+    private void initializeAmazon() {
+        AWSCredentials credentials = new BasicAWSCredentials(this.amazonProperties.getAccessKey(), this.amazonProperties.getSecretKey());
+        this.s3client = new AmazonS3Client(credentials);
     }
 
 
-
-    private File convertMultiPartToFile (MultipartFile file) throws IOException {
-            File convFile = new File((Objects.requireNonNull(file.getOriginalFilename())));
-            FileOutputStream fos = new FileOutputStream(convFile);
-            fos.write(file.getBytes());
-            fos.close();
-            return convFile;
-    }
-    private String generateFileName (MultipartFile file){
-
-            return new Date().getTime() + "-" + Objects.requireNonNull(file.getOriginalFilename()).replace(" ", "_");
+    private File convertMultiPartToFile(MultipartFile file) throws IOException {
+        File convFile = new File((Objects.requireNonNull(file.getOriginalFilename())));
+        FileOutputStream fos = new FileOutputStream(convFile);
+        fos.write(file.getBytes());
+        fos.close();
+        return convFile;
     }
 
-    private void uploadFileToS3bucket (String fileName, File file){
-            s3client.putObject(new PutObjectRequest(amazonProperties.getBucketName(), fileName, file).withCannedAcl(CannedAccessControlList.PublicRead));
+    private String generateFileName(MultipartFile file, long imageId) {
+        return "" + imageId + Objects.requireNonNull(file.getOriginalFilename()).split(".")[Objects.requireNonNull(file.getOriginalFilename()).split(".").length - 1];
     }
-    public String uploadFile (MultipartFile multipartFile){
-            String fileUrl;
-            try {
-                File file = convertMultiPartToFile(multipartFile);
-                String fileName = generateFileName(multipartFile);
-                fileUrl = amazonProperties.getEndpointUrl() + "/" + amazonProperties.getBucketName() + "/" + fileName;
-                uploadFileToS3bucket(fileName, file);
 
-            } catch (Exception e) {
-                return "upload failed, please try again";
-            }
+    private void uploadFileToS3bucket(String fileName, File file) {
+        s3client.putObject(new PutObjectRequest(amazonProperties.getBucketName(), fileName, file).withCannedAcl(CannedAccessControlList.PublicRead));
+    }
 
-            return fileUrl;
+    public String uploadFile(MultipartFile multipartFile, long imageId) {
+        String fileUrl;
+        try {
+            File file = convertMultiPartToFile(multipartFile);
+            String fileName = generateFileName(multipartFile, imageId);
+            fileUrl = amazonProperties.getEndpointUrl() + "/" + amazonProperties.getBucketName() + "/" + fileName;
+            uploadFileToS3bucket(fileName, file);
+
+        } catch (Exception e) {
+            return "upload failed, please try again";
+        }
+
+        return fileUrl;
     }
 
 }

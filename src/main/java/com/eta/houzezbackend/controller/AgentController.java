@@ -73,8 +73,8 @@ public class AgentController {
 
     @PostMapping("/{id}/properties")
     @ResponseStatus(HttpStatus.CREATED)
-    public PropertyGetDto addProperty(@Valid @RequestBody PropertyPostDto propertyCreateDto, @PathVariable long id) {
-        return propertyService.createNewProperty(propertyCreateDto, id);
+    public PropertyGetDto addProperty(@Valid @RequestBody PropertyPostDto propertyCreateDto, @PathVariable long id, @RequestPart(value = "file") MultipartFile file) {
+        return propertyService.createNewProperty(propertyCreateDto, file, id);
     }
 
     @GetMapping("/{id}/properties")
@@ -82,7 +82,7 @@ public class AgentController {
                                                          @RequestParam(defaultValue = "10") @Max(value = 50) int size) {
         return propertyService.getPropertiesByAgent(id, page, size);
     }
-
+/*
     @PostMapping("/{id}/properties/{propertyId}/s3/images")
     @ResponseStatus(HttpStatus.CREATED)
     public String uploadFile(@RequestPart(value = "file") MultipartFile file){
@@ -94,6 +94,6 @@ public class AgentController {
         return imageService.addImage(imagePostDto, agentId, propertyId);
     }
 
-
+ */
 
 }

@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,16 +28,18 @@ public class ImageService {
     private final PropertyRepository propertyRepository;
     private final AgentRepository agentRepository;
     private final ImageMapper imageMapper;
+    private final AmazonClientService amazonClientService;
 
 
-    public ImageGetDto addImage(ImagePostDto imagePostDto, long agentId, long propertyId) {
-        Agent agent = agentRepository.findById(agentId).orElseThrow(() -> new ResourceNotFoundException("Agent", agentId));
+    public ImageGetDto addImage(MultipartFile multipartFile, long propertyId) {
+        ImagePostDto imagePostDto = ImagePostDto.builder().url("url").tag("tag").build();
+
         Property property = propertyRepository.findById(propertyId).orElseThrow(() -> new ResourceNotFoundException("Property", propertyId));
-        property.setAgent(agent);
         Image image = imageMapper.imagePostDtoToImage(imagePostDto);
         image.setProperty(property);
         imageRepository.save(image);
-
+        image.setUrl(amazonClientService.uploadFile(multipartFile, image.getId()));
+        imageRepository.save(image);
         return imageMapper.imageToImageGetDto(image);
 
     }
