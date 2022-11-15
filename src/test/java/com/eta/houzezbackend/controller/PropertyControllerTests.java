@@ -27,7 +27,6 @@ public class PropertyControllerTests extends ControllerIntTest {
 
     private long mockPropertyId;
     private long mockAgentId;
-    private int page;
     private int size;
     private PropertyPostDto mockPropertyPostDto;
 
@@ -52,12 +51,13 @@ public class PropertyControllerTests extends ControllerIntTest {
                 .title("HOUSE with sea view")
                 .preowned(false)
                 .price(800000)
-                .street("Sds st")
+                .street("sandy st")
                 .livingRoom(2)
                 .bedroom(4)
                 .bathroom(3)
                 .landSize(200)
                 .state("Tas")
+                .street("sandy st")
                 .suburb("Kingston")
                 .postcode(7010)
                 .build();
