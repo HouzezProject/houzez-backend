@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -47,7 +48,12 @@ public class AmazonClientService {
     private void uploadFileToS3bucket (String fileName, File file){
             s3client.putObject(new PutObjectRequest(amazonProperties.getBucketName(), fileName, file).withCannedAcl(CannedAccessControlList.PublicRead));
     }
-    public String uploadFile (MultipartFile multipartFile){
+
+    public List<String> uploadMultipleFile (List<MultipartFile> multipartFiles){
+        return multipartFiles.stream().map(this::uploadSingleFile).toList();
+    }
+
+    public String uploadSingleFile (MultipartFile multipartFile){
             String fileUrl;
             try {
                 File file = convertMultiPartToFile(multipartFile);

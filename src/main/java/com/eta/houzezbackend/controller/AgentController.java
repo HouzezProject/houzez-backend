@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -85,13 +86,13 @@ public class AgentController {
 
     @PostMapping("/{id}/properties/{propertyId}/s3/images")
     @ResponseStatus(HttpStatus.CREATED)
-    public String uploadFile(@RequestPart(value = "file") MultipartFile file){
-        return amazonClientService.uploadFile(file);
+    public List<String> uploadFile(@RequestPart(value = "file") List<MultipartFile> file){
+        return amazonClientService.uploadMultipleFile(file);
     }
     @PostMapping("/{agentId}/properties/{propertyId}/images")
     @ResponseStatus(HttpStatus.CREATED)
-    public ImageGetDto addImage(@Valid @RequestBody ImagePostDto imagePostDto, @PathVariable long agentId, @PathVariable long propertyId) {
-        return imageService.addImage(imagePostDto, agentId, propertyId);
+    public List<ImageGetDto> addImage(@Valid @RequestBody List<ImagePostDto> imagePostDto, @PathVariable long agentId, @PathVariable long propertyId) {
+        return imageService.addMultipleImage(imagePostDto, agentId, propertyId);
     }
 
 

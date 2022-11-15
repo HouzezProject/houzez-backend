@@ -20,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toList;
+
 @Service
 @RequiredArgsConstructor
 public class ImageService {
@@ -28,7 +30,9 @@ public class ImageService {
     private final AgentRepository agentRepository;
     private final ImageMapper imageMapper;
 
-
+    public List<ImageGetDto> addMultipleImage(List<ImagePostDto> imagePostDtos,long agentId, long propertyId){
+        return imagePostDtos.stream().map(e->addImage(e,agentId, propertyId)).collect(toList());
+    }
     public ImageGetDto addImage(ImagePostDto imagePostDto, long agentId, long propertyId) {
         Agent agent = agentRepository.findById(agentId).orElseThrow(() -> new ResourceNotFoundException("Agent", agentId));
         Property property = propertyRepository.findById(propertyId).orElseThrow(() -> new ResourceNotFoundException("Property", propertyId));
@@ -47,7 +51,7 @@ public class ImageService {
         Page<Image> properties = imageRepository.findByPropertyId(id, paging);
         return properties.getContent().stream()
                 .map(imageMapper::imageToImageGetDto)
-                .collect(Collectors.toList());
+                .collect(toList());
 
     }
 }

@@ -19,5 +19,4 @@ public class AmazonProperties {
     @Value("${amazonProperties.bucketName}")
     private String bucketName;
 
-
 }
