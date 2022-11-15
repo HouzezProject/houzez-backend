@@ -32,7 +32,7 @@ cors:
   allowed-headers: "*"
 
 amazonProperties:
-  endpointUrl: e
+  endpointUrl:
   accessKey:
   secretKey:
   bucketName:

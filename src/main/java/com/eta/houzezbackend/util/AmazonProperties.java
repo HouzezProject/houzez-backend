@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 @Getter
 @Configuration
 public class AmazonProperties {
-
     @Value("${amazonProperties.endpointUrl}")
     private String endpointUrl;
     @Value("${amazonProperties.accessKey}")
@@ -18,5 +17,4 @@ public class AmazonProperties {
     private String secretKey;
     @Value("${amazonProperties.bucketName}")
     private String bucketName;
-
 }
