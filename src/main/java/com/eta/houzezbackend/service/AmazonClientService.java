@@ -46,14 +46,14 @@ public class AmazonClientService {
     }
 
     private void uploadFileToS3bucket (String fileName, File file){
-            s3client.putObject(new PutObjectRequest(amazonProperties.getBucketName(), fileName, file).withCannedAcl(CannedAccessControlList.PublicRead));
+            s3client.putObject(new PutObjectRequest(amazonProperties.getBucketName(), fileName, file).withCannedAcl(CannedAccessControlList.PublicReadWrite));
     }
 
     public List<String> uploadMultipleFile (List<MultipartFile> multipartFiles){
         return multipartFiles.stream().map(this::uploadSingleFile).toList();
     }
 
-    public String uploadSingleFile (MultipartFile multipartFile){
+    private String uploadSingleFile (MultipartFile multipartFile){
             String fileUrl;
             try {
                 File file = convertMultiPartToFile(multipartFile);
