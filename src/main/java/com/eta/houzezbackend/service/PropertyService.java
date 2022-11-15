@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collection;
 import java.util.List;
@@ -31,14 +32,16 @@ public class PropertyService {
     private final PropertyMapper propertyMapper;
     private final AgentService agentService;
     private final ImageMapper imageMapper;
+    private final ImageService imageService;
 
     private final ImageRepository imageRepository;
 
-    public PropertyGetDto createNewProperty(PropertyPostDto propertyCreateDto, long agentId) {
+    public PropertyGetDto createNewProperty(PropertyPostDto propertyCreateDto, MultipartFile multipartFile, long agentId) {
         Property property = propertyMapper.propertyCreateDtoToProperty(propertyCreateDto);
         Agent agent = agentService.find(agentId);
         property.setAgent(agent);
         propertyRepository.save(property);
+        imageService.addImage(multipartFile, property.getId());
         return propertyMapper.propertyToPropertyGetDto(property);
     }
 
