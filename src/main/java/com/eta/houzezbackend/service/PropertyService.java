@@ -72,6 +72,7 @@ public class PropertyService {
 
     }
 
+    @Transactional
     public List<PropertyGetDto> getAllProperty(int page, int size) {
         Pageable paging = PageRequest.of(page, size);
         Page<Property> properties = propertyRepository.findAll(paging);
