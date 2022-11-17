@@ -71,4 +71,13 @@ public class PropertyService {
                 .imageGetDtoList(imageGetDtoList).build();
 
     }
+
+    public List<PropertyGetDto> getAllProperty(int page, int size) {
+        Pageable paging = PageRequest.of(page, size);
+        Page<Property> properties = propertyRepository.findAll(paging);
+        List<PropertyGetDto> propertiesGetDto = properties.getContent().stream()
+                .map(propertyMapper::propertyToPropertyGetDto)
+                .collect(Collectors.toList());
+        return propertiesGetDto;
+    }
 }

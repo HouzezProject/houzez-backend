@@ -7,6 +7,7 @@ import com.eta.houzezbackend.service.PropertyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import java.util.List;
 
@@ -25,8 +26,14 @@ public class PropertyController {
     @GetMapping("/{id}/images")
     public List<ImageGetDto> getImage(@PathVariable long id,
                                       @RequestParam(defaultValue = "0") int page,
-                                      @RequestParam(defaultValue = "10") @Max(value = 50) int size) {
+                                     @Valid @RequestParam(defaultValue = "10") @Max(value = 50) int size) {
         return imageService.getImage(id, page, size);
+    }
+
+    @GetMapping
+    public List<PropertyGetDto>  getAllProperty(@RequestParam(defaultValue = "0") int page,
+                                               @Valid @RequestParam(defaultValue = "10") @Max(value = 50) int size){
+        return propertyService.getAllProperty(page,size);
     }
 
 }
