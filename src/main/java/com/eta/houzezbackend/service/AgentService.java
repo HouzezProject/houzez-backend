@@ -118,6 +118,13 @@ public record AgentService(AgentRepository agentRepository, AgentMapper agentMap
             throw new EmailAddressException();
         }
 
-
     }
+
+    public String addIcon(String url, Long id) {
+       Agent agent= agentRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Agent", id));
+       agent.setIcon(url);
+       agentRepository.save(agent);
+       return agent.getIcon();
+    }
+
 }

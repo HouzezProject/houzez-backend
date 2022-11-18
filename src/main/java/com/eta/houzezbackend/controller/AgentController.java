@@ -35,6 +35,13 @@ public class AgentController {
         return agentService.signUpNewAgent(agentSignUpDto);
     }
 
+    @PostMapping("/{id}/icon")
+    @ResponseStatus(HttpStatus.CREATED)
+    public String uploadIcon(@RequestPart(value = "file") MultipartFile file, @PathVariable Long id){
+        String url= amazonClientService.uploadSingleFile(file);
+        return agentService.addIcon(url, id);
+    }
+
     @PostMapping("/sign-in")
     public AgentGetDto signIn(@RequestAttribute String username) {
         return agentService.signIn(username);
@@ -91,8 +98,12 @@ public class AgentController {
     }
     @PostMapping("/{agentId}/properties/{propertyId}/images")
     @ResponseStatus(HttpStatus.CREATED)
-    public List<ImageGetDto> addImage(@Valid @RequestBody List<ImagePostDto> imagePostDto, @PathVariable long agentId, @PathVariable long propertyId) {
+    public List<ImageGetDto> addImage( @Valid @RequestBody List<ImagePostDto> imagePostDto, @PathVariable long agentId, @PathVariable long propertyId) {
+
         return imageService.addMultipleImage(imagePostDto, agentId, propertyId);
+
+
+
     }
 
 

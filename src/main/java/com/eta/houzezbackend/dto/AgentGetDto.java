@@ -18,5 +18,6 @@ public class AgentGetDto {
     private Boolean activated;
     private Date createdTime;
     private Date updatedTime;
+    private String icon;
 
 }

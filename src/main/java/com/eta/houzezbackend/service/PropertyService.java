@@ -52,33 +52,33 @@ public class PropertyService {
     public PropertyPaginationGetDto getPropertiesByAgent(long id, int page, int size) {
         Pageable paging = PageRequest.of(page, size);
         Page<Property> properties = propertyRepository.findByAgent_Id(id, paging);
+        return this.getPagination(properties);
+    }
+
+    @Transactional
+    public PropertyPaginationGetDto getAllProperty(int page, int size) {
+        Pageable paging = PageRequest.of(page, size);
+        Page<Property> properties = propertyRepository.findAll(paging);
+        return this.getPagination(properties);
+    }
+
+    private PropertyPaginationGetDto getPagination(Page<Property> properties){
         List<PropertyGetDto> propertiesGetDto = properties.getContent().stream()
                 .map(propertyMapper::propertyToPropertyGetDto)
                 .collect(Collectors.toList());
         List<Long> propertiesId = propertiesGetDto.stream().map(PropertyGetDto::getId).toList();
 
 
-        List<List<Image>> images = propertiesId.stream().map(imageRepository::findByProperty_Id).toList();
+        List<List<Image>> images = propertiesId.stream().map(imageRepository::findByPropertyId).toList();
         List<Image> imageList = images.stream().flatMap(Collection::stream).toList();
 
         List<ImageGetDto> imageGetDtoList = imageList.stream()
                 .map(imageMapper::imageToImageGetDto)
                 .collect(Collectors.toList());
 
-
         return PropertyPaginationGetDto.builder().propertyGetDtoList(propertiesGetDto)
                 .totalPageNumber(properties.getTotalPages())
                 .imageGetDtoList(imageGetDtoList).build();
-
     }
 
-    @Transactional
-    public List<PropertyGetDto> getAllProperty(int page, int size) {
-        Pageable paging = PageRequest.of(page, size);
-        Page<Property> properties = propertyRepository.findAll(paging);
-        List<PropertyGetDto> propertiesGetDto = properties.getContent().stream()
-                .map(propertyMapper::propertyToPropertyGetDto)
-                .collect(Collectors.toList());
-        return propertiesGetDto;
-    }
 }

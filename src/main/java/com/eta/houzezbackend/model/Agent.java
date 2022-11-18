@@ -44,6 +44,7 @@ public class Agent {
     @LastModifiedDate
     private Date updatedTime;
 
+    private String icon;
     @Fetch(FetchMode.SUBSELECT)
     @OneToMany(orphanRemoval = true, mappedBy = "agent")
     private List<Property> property = new ArrayList<>();

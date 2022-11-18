@@ -10,7 +10,6 @@ import com.eta.houzezbackend.util.AmazonProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,11 +33,11 @@ public class AmazonClientService {
 
 
     private File convertMultiPartToFile (MultipartFile file) throws IOException {
-            File convFile = new File((Objects.requireNonNull(file.getOriginalFilename())));
-            FileOutputStream fos = new FileOutputStream(convFile);
-            fos.write(file.getBytes());
-            fos.close();
-            return convFile;
+        File convFile = new File((Objects.requireNonNull(file.getOriginalFilename())));
+        FileOutputStream fos = new FileOutputStream(convFile);
+        fos.write(file.getBytes());
+        fos.close();
+        return convFile;
     }
     private String generateFileName (MultipartFile file){
 
@@ -53,7 +52,7 @@ public class AmazonClientService {
         return multipartFiles.stream().map(this::uploadSingleFile).toList();
     }
 
-    private String uploadSingleFile (MultipartFile multipartFile){
+    public String uploadSingleFile(MultipartFile multipartFile){
             String fileUrl;
             try {
                 File file = convertMultiPartToFile(multipartFile);

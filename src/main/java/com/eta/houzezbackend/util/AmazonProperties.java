@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 @Getter
 @Configuration
 public class AmazonProperties {
+
     @Value("${amazonProperties.endpointUrl}")
     private String endpointUrl;
     @Value("${amazonProperties.accessKey}")

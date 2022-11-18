@@ -2,6 +2,7 @@ package com.eta.houzezbackend.controller;
 
 import com.eta.houzezbackend.dto.ImageGetDto;
 import com.eta.houzezbackend.dto.PropertyGetDto;
+import com.eta.houzezbackend.dto.PropertyPaginationGetDto;
 import com.eta.houzezbackend.service.ImageService;
 import com.eta.houzezbackend.service.PropertyService;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +32,8 @@ public class PropertyController {
     }
 
     @GetMapping
-    public List<PropertyGetDto>  getAllProperty(@RequestParam(defaultValue = "0") int page,
-                                               @Valid @RequestParam(defaultValue = "10") @Max(value = 50) int size){
+    public PropertyPaginationGetDto getAllProperty(@RequestParam(defaultValue = "0") int page,
+                                                   @Valid @RequestParam(defaultValue = "10") @Max(value = 50) int size){
         return propertyService.getAllProperty(page,size);
     }
 
