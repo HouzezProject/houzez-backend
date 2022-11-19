@@ -74,7 +74,7 @@ public class PropertyService {
 
         List<ImageGetDto> imageGetDtoList = imageList.stream()
                 .map(imageMapper::imageToImageGetDto)
-                .collect(Collectors.toList());
+                .toList();
 
         return PropertyPaginationGetDto.builder().propertyGetDtoList(propertiesGetDto)
                 .totalPageNumber(properties.getTotalPages())
