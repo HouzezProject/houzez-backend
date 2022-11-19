@@ -34,7 +34,7 @@ public class AmazonClientService {
     }
 
     public File convertMultiPartToFile(MultipartFile multipart, String fileName) throws IllegalStateException, IOException {
-        File convFile = new File(System.getProperty("java.io.tmpdir")+"/"+fileName);
+        File convFile = new File(System.getProperty("java.io.tmpdir")+fileName);
         multipart.transferTo(convFile);
         return convFile;
     }
@@ -62,7 +62,6 @@ public class AmazonClientService {
             } catch (Exception e) {
                 return "upload failed, please try again";
             }
-
             return fileUrl;
     }
 
