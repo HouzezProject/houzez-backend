@@ -15,9 +15,10 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.*;
+
 
 @Service
 @RequiredArgsConstructor
@@ -32,13 +33,13 @@ public class AmazonClientService {
     }
 
     public File convertMultiPartToFile(MultipartFile multipart, String fileName) throws IllegalStateException, IOException {
-        File convFile = new File(System.getProperty("java.io.tmpdir")+"/"+fileName);
+        File convFile = new File(System.getProperty("java.io.tmpdir")+fileName);
         multipart.transferTo(convFile);
         return convFile;
     }
 
-    private String generateFileName (MultipartFile file){
-        return new Date().getTime() + "-" + Objects.requireNonNull(file.getOriginalFilename()).replace(" ", "_");
+    private String generateFileName (){
+        return new Date().getTime() + "-" + UUID.randomUUID() +".jpeg";
     }
 
     private void uploadFileToS3bucket (String fileName, File file){
@@ -51,14 +52,12 @@ public class AmazonClientService {
 
     public String uploadSingleFile(MultipartFile multipartFile){
             String fileUrl;
-            boolean bool;
             try {
-                String fileName = generateFileName(multipartFile);
+                String fileName = generateFileName();
                 File file = convertMultiPartToFile(multipartFile, fileName);
                 fileUrl = amazonProperties.getEndpointUrl() + "/" + fileName;
                 uploadFileToS3bucket(fileName, file);
-                bool=file.delete();
-                System.out.println(bool);
+                Files.delete(Path.of(file.getPath()));
             } catch (Exception e) {
                 return "upload failed, please try again";
             }
