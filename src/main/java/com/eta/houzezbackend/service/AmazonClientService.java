@@ -38,10 +38,6 @@ public class AmazonClientService {
         return convFile;
     }
 
-    private String generateFileName (){
-        return new Date().getTime() + "-" + UUID.randomUUID() +".jpeg";
-    }
-
     private void uploadFileToS3bucket (String fileName, File file){
         s3client.putObject(new PutObjectRequest(amazonProperties.getBucketName(), fileName, file).withCannedAcl(CannedAccessControlList.PublicRead));
     }
@@ -53,7 +49,7 @@ public class AmazonClientService {
     public String uploadSingleFile(MultipartFile multipartFile){
             String fileUrl;
             try {
-                String fileName = generateFileName();
+                String fileName = UUID.randomUUID() +".jpeg";
                 File file = convertMultiPartToFile(multipartFile, fileName);
                 fileUrl = amazonProperties.getEndpointUrl() + "/" + fileName;
                 uploadFileToS3bucket(fileName, file);
