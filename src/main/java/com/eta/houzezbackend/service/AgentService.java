@@ -92,7 +92,7 @@ public record AgentService(AgentRepository agentRepository, AgentMapper agentMap
     }
 
     public AgentGetDto signIn(String userName) {
-        if (Boolean.FALSE.equals(findByEmail(userName).getActivated()))
+        if (!(findByEmail(userName).isActivated()))
             throw new AgentInactiveException();
         return agentMapper.agentToAgentGetDto(findByEmail(userName));
     }
@@ -121,10 +121,10 @@ public record AgentService(AgentRepository agentRepository, AgentMapper agentMap
     }
 
     public String addIcon(String url, Long id) {
-       Agent agent= agentRepository.findById(id).orElseThrow(()->new ResourceNotFoundException(RESOURCE, id));
-       agent.setIcon(url);
-       agentRepository.save(agent);
-       return agent.getIcon();
+        Agent agent = agentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(RESOURCE, id));
+        agent.setIcon(url);
+        agentRepository.save(agent);
+        return agent.getIcon();
     }
 
 }

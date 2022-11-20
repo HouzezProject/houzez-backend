@@ -36,7 +36,7 @@ public class Agent {
     private Boolean deleted;
 
     @Column(nullable = false)
-    private Boolean activated;
+    private boolean activated;
 
     @CreatedDate
     private Date createdTime;
