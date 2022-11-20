@@ -91,10 +91,10 @@ public record AgentService(AgentRepository agentRepository, AgentMapper agentMap
         return agent;
     }
 
-    public AgentGetDto signIn(String username) {
-        if (!findByEmail(username).getActivated())
+    public AgentGetDto signIn(String userName) {
+        if (!(findByEmail(userName).isActivated()))
             throw new AgentInactiveException();
-        return agentMapper.agentToAgentGetDto(findByEmail(username));
+        return agentMapper.agentToAgentGetDto(findByEmail(userName));
     }
 
     public void sendForgetPasswordEmail(String email) {
@@ -118,6 +118,13 @@ public record AgentService(AgentRepository agentRepository, AgentMapper agentMap
             throw new EmailAddressException();
         }
 
-
     }
+
+    public String addIcon(String url, Long id) {
+        Agent agent = agentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(RESOURCE, id));
+        agent.setIcon(url);
+        agentRepository.save(agent);
+        return agent.getIcon();
+    }
+
 }

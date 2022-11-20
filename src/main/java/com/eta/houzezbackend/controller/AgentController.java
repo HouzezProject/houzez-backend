@@ -1,18 +1,19 @@
 package com.eta.houzezbackend.controller;
 
-import com.eta.houzezbackend.dto.AgentGetDto;
-import com.eta.houzezbackend.dto.AgentSignUpDto;
-import com.eta.houzezbackend.dto.PropertyPostDto;
-import com.eta.houzezbackend.dto.PropertyGetDto;
+import com.eta.houzezbackend.dto.*;
 import com.eta.houzezbackend.dto.PatchPasswordDto;
 import com.eta.houzezbackend.model.Agent;
 import com.eta.houzezbackend.service.AgentService;
+import com.eta.houzezbackend.service.AmazonClientService;
+import com.eta.houzezbackend.service.ImageService;
 import com.eta.houzezbackend.service.PropertyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
 import java.util.List;
 import java.util.Map;
 
@@ -24,14 +25,24 @@ public class AgentController {
     private final AgentService agentService;
     private final PropertyService propertyService;
 
+    private final ImageService imageService;
+    private final AmazonClientService amazonClientService;
+
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public AgentGetDto signUp(@Valid @RequestBody AgentSignUpDto agentSignUpDto) {
         return agentService.signUpNewAgent(agentSignUpDto);
     }
 
+    @PostMapping("/{id}/icon")
+    @ResponseStatus(HttpStatus.CREATED)
+    public String uploadIcon(@RequestPart(value = "file") MultipartFile file, @PathVariable Long id){
+        String url= amazonClientService.uploadSingleFile(file);
+        return agentService.addIcon(url, id);
+    }
+
     @PostMapping("/sign-in")
-    @ResponseStatus(HttpStatus.OK)
     public AgentGetDto signIn(@RequestAttribute String username) {
         return agentService.signIn(username);
     }
@@ -58,14 +69,12 @@ public class AgentController {
         agentService.findByEmail(email);
     }
 
-    @PostMapping("/forget-password")
-    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/password")
     public void sendResetPasswordEmail(@RequestBody Map<String, String> map) {
         agentService.sendForgetPasswordEmail(map.get("email"));
     }
 
-    @PostMapping("/resend-email")
-    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/email")
     public void resendEmail(@RequestBody Map<String, String> map) {
         agentService.resendEmail(map.get("email"));
     }
@@ -77,8 +86,26 @@ public class AgentController {
     }
 
     @GetMapping("/{id}/properties")
-    public List<PropertyGetDto> getPropertiesByAgent(@PathVariable long id, @RequestParam(defaultValue = "0") int page,
-                                                     @RequestParam(defaultValue = "10") int size) {
+    public PropertyPaginationGetDto getPropertiesByAgent(@PathVariable long id, @RequestParam(defaultValue = "0") int page,
+                                                         @RequestParam(defaultValue = "10") @Max(value = 50) int size) {
         return propertyService.getPropertiesByAgent(id, page, size);
     }
+
+    @PostMapping("/{id}/properties/{propertyId}/s3/images")
+    @ResponseStatus(HttpStatus.CREATED)
+    public List<String> uploadFile(@RequestPart(value = "file") List<MultipartFile> file){
+        return amazonClientService.uploadMultipleFile(file);
+    }
+    @PostMapping("/{agentId}/properties/{propertyId}/images")
+    @ResponseStatus(HttpStatus.CREATED)
+    public List<ImageGetDto> addImage( @Valid @RequestBody List<ImagePostDto> imagePostDto, @PathVariable long agentId, @PathVariable long propertyId) {
+
+        return imageService.addMultipleImage(imagePostDto, agentId, propertyId);
+
+
+
+    }
+
+
+
 }

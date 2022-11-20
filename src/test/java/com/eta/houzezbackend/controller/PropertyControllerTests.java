@@ -27,6 +27,7 @@ public class PropertyControllerTests extends ControllerIntTest {
 
     private long mockPropertyId;
     private long mockAgentId;
+    private int size;
     private PropertyPostDto mockPropertyPostDto;
 
     @BeforeEach
@@ -50,15 +51,18 @@ public class PropertyControllerTests extends ControllerIntTest {
                 .title("HOUSE with sea view")
                 .preowned(false)
                 .price(800000)
+                .street("sandy st")
                 .livingRoom(2)
                 .bedroom(4)
                 .bathroom(3)
                 .landSize(200)
                 .state("Tas")
+                .street("sandy st")
                 .suburb("Kingston")
                 .postcode(7010)
                 .build();
         mockPropertyId = agentController.addProperty(mockPropertyPostDto, mockAgentId).getId();
+        size = 2;
     }
 
 
@@ -71,9 +75,11 @@ public class PropertyControllerTests extends ControllerIntTest {
 
     @Test
     void shouldGetPropertyInfoByAgent() throws Exception {
-        mockMvc.perform(get("/agents/" + mockAgentId + "/properties"))
+        mockMvc.perform(get("/agents/" + mockAgentId + "/properties")
+                .param("page", String.valueOf(0))
+                .param("size", String.valueOf(size)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].agent.id").value(mockAgentId));
+                .andExpect(jsonPath("$.propertyGetDtoList[0].agent.id").value(mockAgentId));
     }
 
 }

@@ -1,52 +1,38 @@
 package com.eta.houzezbackend.model;
 
 import lombok.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Entity
+@Table(name = "property_image")
 @Getter
 @Setter
 @RequiredArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @Builder
-public class Agent {
+public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-
-    @Column(unique = true, nullable = false)
-    private String email;
+    @Column(nullable = false, unique = true)
+    private String url;
 
     @Column(nullable = false)
-    private String password;
-
-    @Column(nullable = false)
-    private Boolean deleted;
-
-    @Column(nullable = false)
-    private boolean activated;
+    private String tag;
+    @JoinColumn(name = "property_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Property property;
 
     @CreatedDate
     private Date createdTime;
 
     @LastModifiedDate
     private Date updatedTime;
-
-    private String icon;
-    @Fetch(FetchMode.SUBSELECT)
-    @OneToMany(orphanRemoval = true, mappedBy = "agent")
-    private List<Property> property = new ArrayList<>();
-
 }

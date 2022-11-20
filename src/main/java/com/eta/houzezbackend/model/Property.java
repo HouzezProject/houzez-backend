@@ -3,12 +3,16 @@ package com.eta.houzezbackend.model;
 
 import com.eta.houzezbackend.util.PropertyType;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -56,6 +60,9 @@ public class Property {
     private String suburb;
 
     @Column(nullable = false)
+    private String street;
+
+    @Column(nullable = false)
     private int postcode;
 
     @Column(nullable = false)
@@ -70,6 +77,10 @@ public class Property {
     @JoinColumn(name = "agent_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Agent agent;
+
+    @Fetch(FetchMode.SUBSELECT)
+    @OneToMany(orphanRemoval = true, mappedBy = "property")
+    private List<Image> image = new ArrayList<>();
 
     @CreatedDate
     private Date createdTime;

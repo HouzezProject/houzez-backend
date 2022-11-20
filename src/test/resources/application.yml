@@ -19,3 +19,9 @@ cors:
   allowed-origins: "*"
   allowed-methods: "*"
   allowed-headers: "*"
+
+amazonProperties:
+  endpointUrl: ""
+  accessKey: ""
+  secretKey: ""
+  bucketName: ""

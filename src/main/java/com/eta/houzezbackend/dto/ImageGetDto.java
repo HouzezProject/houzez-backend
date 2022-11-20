@@ -9,15 +9,12 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AgentGetDto {
-
+public class ImageGetDto {
     private long id;
-    private String name;
-    private String email;
-    private Boolean deleted;
-    private Boolean activated;
+
+    private String url;
+    private String tag;
     private Date createdTime;
     private Date updatedTime;
-    private String icon;
-
+    private PropertyGetDto property;
 }

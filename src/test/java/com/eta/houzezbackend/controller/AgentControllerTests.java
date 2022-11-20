@@ -69,6 +69,7 @@ class AgentControllerTests extends ControllerIntTest {
                 .description("Mount house")
                 .title("HOUSE with sea view")
                 .preowned(false)
+                .street("sand street")
                 .price(800000)
                 .livingRoom(2)
                 .bedroom(4).bathroom(3)
@@ -143,7 +144,7 @@ class AgentControllerTests extends ControllerIntTest {
 
     @Test
     void shouldReturn200AndForgetPasswordEmailSent() throws Exception {
-        mockMvc.perform(post("/agents/forget-password")
+        mockMvc.perform(post("/agents/password")
                         .content("{\"email\":\"agent002@gmail.com\"}")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -151,7 +152,7 @@ class AgentControllerTests extends ControllerIntTest {
 
     @Test
     void shouldReturn400WhenForgetPasswordEmailSentFailed() throws Exception {
-        mockMvc.perform(post("/agents/forget-password")
+        mockMvc.perform(post("/agents/password")
                         .content("{\"email\":\"hagent002@gmail.com\"}")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
