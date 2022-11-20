@@ -1,2 +1,0 @@
-ALTER TABLE "agent"
-    ADD COLUMN icon VARCHAR(1024);

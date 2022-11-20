@@ -24,7 +24,6 @@ public class PropertyGetDto {
     private int landSize;
     private String description;
     private String state;
-    private String street;
     private String suburb;
     private int postcode;
     private Double latitude;
