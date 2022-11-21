@@ -11,10 +11,8 @@ import java.util.Date;
 @Builder
 public class ImageGetDto {
     private long id;
-
     private String url;
     private String tag;
     private Date createdTime;
     private Date updatedTime;
-    private PropertyGetDto property;
 }

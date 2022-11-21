@@ -4,6 +4,7 @@ import com.eta.houzezbackend.util.PropertyType;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -36,5 +37,5 @@ public class PropertyGetDto {
     private Date createdTime;
     private Date updatedTime;
     private AgentGetDto agent;
-
+    private List<ImageGetDto> image;
 }
