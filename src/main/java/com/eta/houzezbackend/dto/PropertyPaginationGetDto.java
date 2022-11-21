@@ -12,5 +12,4 @@ import java.util.List;
 public class PropertyPaginationGetDto {
     private List<PropertyGetDto> propertyGetDtoList;
     private int totalPageNumber;
-    private List<ImageGetDto> imageGetDtoList;
 }

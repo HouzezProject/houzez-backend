@@ -6,7 +6,7 @@ import com.eta.houzezbackend.model.Image;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring", imports = PropertyMapper.class, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ImageMapper {
     Image imagePostDtoToImage(ImagePostDto imagePostDto);
 
