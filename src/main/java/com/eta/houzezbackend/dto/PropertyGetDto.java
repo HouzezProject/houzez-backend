@@ -32,7 +32,7 @@ public class PropertyGetDto {
     private Double longitude;
     private String indoor;
     private String outdoor;
-    private boolean propertyIsNew;
+    private boolean preowned;
     private String status;
     private Date createdTime;
     private Date updatedTime;

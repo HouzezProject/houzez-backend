@@ -10,7 +10,6 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring", imports = {AgentMapper.class, ImageMapper.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface PropertyMapper {
 
-    @Mapping(target = "status", constant = "true")
     Property propertyCreateDtoToProperty(PropertyPostDto propertyCreateDto);
 
     PropertyGetDto propertyToPropertyGetDto(Property property);
