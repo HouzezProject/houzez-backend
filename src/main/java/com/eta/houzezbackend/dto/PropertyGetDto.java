@@ -15,7 +15,6 @@ public class PropertyGetDto {
 
     private long id;
     private PropertyType propertyType;
-
     private String title;
     private int price;
     private int livingRoom;
