@@ -60,7 +60,7 @@ public class PropertyService {
                 .collect(Collectors.toList());
 
         return PropertyPaginationGetDto.builder().propertyGetDtoList(propertiesGetDto)
-                .totalPropertyNumber(propertiesGetDto.size()).build();
+                .totalPropertyNumber(properties.getTotalElements()).build();
     }
 
 }
