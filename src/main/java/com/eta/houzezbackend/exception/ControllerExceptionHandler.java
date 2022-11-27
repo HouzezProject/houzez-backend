@@ -55,6 +55,12 @@ public class ControllerExceptionHandler {
         return new ErrorDto(HttpStatus.BAD_REQUEST.getReasonPhrase(), List.of(e.getMessage()));
     }
 
+    @ExceptionHandler(value = {PropertyNotFoundException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorDto handlePropertyNotFoundException(PropertyNotFoundException e) {
+        return new ErrorDto(HttpStatus.BAD_REQUEST.getReasonPhrase(), List.of(e.getMessage()));
+    }
+
     @ExceptionHandler(value = {AgentInactiveException.class})
     @ResponseStatus(FORBIDDEN)
     public ErrorDto handleAgentInactiveException(AgentInactiveException e) {

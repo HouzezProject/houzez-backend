@@ -27,14 +27,41 @@ public class PropertyController {
     @GetMapping("/{id}/images")
     public List<ImageGetDto> getImage(@PathVariable long id,
                                       @RequestParam(defaultValue = "0") int page,
-                                     @Valid @RequestParam(defaultValue = "10") @Max(value = 50) int size) {
+                                      @Valid @RequestParam(defaultValue = "10") @Max(value = 50) int size) {
         return imageService.getImage(id, page, size);
     }
 
     @GetMapping
-    public PropertyPaginationGetDto getAllProperty(@RequestParam(defaultValue = "0") int page,
-                                                   @Valid @RequestParam(defaultValue = "10") @Max(value = 50) int size){
-        return propertyService.getAllProperty(page,size);
+    public PropertyPaginationGetDto getPropertyByCriteria(@RequestParam(defaultValue = "0") int page,
+                                                          @Valid @RequestParam(defaultValue = "10") @Max(value = 50) int size,
+                                                          @RequestParam(defaultValue = "0") int filter_livingroom,
+                                                          @RequestParam(defaultValue = "0") int filter_bedroom,
+                                                          @RequestParam(defaultValue = "0") int filter_bathroom,
+                                                          @RequestParam(defaultValue = "0") int filter_garage,
+                                                          @RequestParam(defaultValue = "-10") int ne_lat,
+                                                          @RequestParam(defaultValue = "154") int ne_lng,
+                                                          @RequestParam(defaultValue = "-43") int sw_lat,
+                                                          @RequestParam(defaultValue = "112") int sw_lng,
+                                                          @RequestParam(defaultValue = "0") int filter_postcode,
+                                                          @RequestParam(defaultValue = "0") int filter_min_price,
+                                                          @RequestParam(defaultValue = "100000000") int filter_max_price,
+                                                          @RequestParam(defaultValue = "") String filter_property_type) {
+        return propertyService.getPropertyByCriteria(
+                page,
+                size,
+                filter_livingroom,
+                filter_bedroom,
+                filter_bathroom,
+                filter_garage,
+                ne_lat,
+                ne_lng,
+                sw_lat,
+                sw_lng,
+                filter_postcode,
+                filter_min_price,
+                filter_max_price,
+                filter_property_type
+        );
     }
 
 }
