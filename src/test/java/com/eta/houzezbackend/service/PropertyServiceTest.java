@@ -81,7 +81,7 @@ public class PropertyServiceTest {
             .propertyType(PropertyType.APARTMENT)
             .title("Good View")
             .price(300003)
-            .propertyIsNew(true)
+            .preowned(true)
             .bedroom(3)
             .landSize(2323)
             .garage(2)

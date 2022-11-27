@@ -11,5 +11,5 @@ import java.util.List;
 @Builder
 public class PropertyPaginationGetDto {
     private List<PropertyGetDto> propertyGetDtoList;
-    private int totalPageNumber;
+    private long totalPropertyNumber;
 }

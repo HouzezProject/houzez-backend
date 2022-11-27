@@ -28,6 +28,7 @@ public class Property {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private PropertyType propertyType;
 
     @Column(nullable = false)
