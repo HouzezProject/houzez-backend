@@ -61,8 +61,8 @@ public class PropertyService {
 
     @Transactional
     public PropertyPaginationGetDto getPropertyByCriteria(int page, int size, int livingRoom, int bedroom,
-                                                          int bathroom, int garage, int maxLatitude, int maxLongitude,
-                                                          int minLatitude, int minLongitude, int postcode, int minPrice,
+                                                          int bathroom, int garage, double maxLatitude, double maxLongitude,
+                                                          double minLatitude, double minLongitude, int postcode, int minPrice,
                                                           int maxPrice, String propertyType) {
 
         Pageable paging = PageRequest.of(page, size);
@@ -114,7 +114,7 @@ public class PropertyService {
                 .collect(Collectors.toList());
 
         return PropertyPaginationGetDto.builder().propertyGetDtoList(propertiesGetDto)
-                .totalPageNumber(properties.getTotalPages()).build();
+                .totalPropertyNumber(properties.getTotalElements()).build();
 
     }
 
