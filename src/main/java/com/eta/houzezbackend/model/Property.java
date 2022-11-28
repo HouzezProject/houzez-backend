@@ -26,6 +26,7 @@ public class Property {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private PropertyType propertyType;
