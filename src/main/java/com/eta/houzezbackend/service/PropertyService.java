@@ -70,16 +70,16 @@ public class PropertyService {
         Specification<Property> queryCondition = (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (livingRoom != 0) {
-                predicateList.add(criteriaBuilder.greaterThan(root.get("livingRoom"), livingRoom));
+                predicateList.add(criteriaBuilder.greaterThan(root.get("livingRoom"), livingRoom - 1));
             }
             if (bedroom != 0) {
-                predicateList.add(criteriaBuilder.greaterThan(root.get("bedroom"), bedroom));
+                predicateList.add(criteriaBuilder.greaterThan(root.get("bedroom"), bedroom - 1));
             }
             if (bathroom != 0) {
-                predicateList.add(criteriaBuilder.greaterThan(root.get("bathroom"), bathroom));
+                predicateList.add(criteriaBuilder.greaterThan(root.get("bathroom"), bathroom - 1));
             }
             if (garage != 0) {
-                predicateList.add(criteriaBuilder.greaterThan(root.get("garage"), garage));
+                predicateList.add(criteriaBuilder.greaterThan(root.get("garage"), garage - 1));
             }
             if (maxLatitude != -10 && minLatitude != -43) {
                 predicateList.add(criteriaBuilder.between(root.get("latitude"), minLatitude, maxLatitude));
