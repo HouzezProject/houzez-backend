@@ -5,7 +5,6 @@ import com.eta.houzezbackend.dto.PatchPasswordDto;
 import com.eta.houzezbackend.model.Agent;
 import com.eta.houzezbackend.service.AgentService;
 import com.eta.houzezbackend.service.AmazonClientService;
-import com.eta.houzezbackend.service.ImageService;
 import com.eta.houzezbackend.service.PropertyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,8 +23,6 @@ public class AgentController {
 
     private final AgentService agentService;
     private final PropertyService propertyService;
-
-    private final ImageService imageService;
     private final AmazonClientService amazonClientService;
 
 
@@ -93,19 +90,8 @@ public class AgentController {
 
     @PostMapping("/{id}/properties/{propertyId}/s3/images")
     @ResponseStatus(HttpStatus.CREATED)
-    public List<String> uploadFile(@RequestPart(value = "file") List<MultipartFile> file){
-        return amazonClientService.uploadMultipleFile(file);
+    public List<ImageGetDto> uploadFile(@RequestPart(value = "file") List<MultipartFile> file, @PathVariable long id, @PathVariable long propertyId){
+        return amazonClientService.uploadMultipleFile(file, id, propertyId);
     }
-    @PostMapping("/{agentId}/properties/{propertyId}/images")
-    @ResponseStatus(HttpStatus.CREATED)
-    public List<ImageGetDto> addImage( @Valid @RequestBody List<ImagePostDto> imagePostDto, @PathVariable long agentId, @PathVariable long propertyId) {
-
-        return imageService.addMultipleImage(imagePostDto, agentId, propertyId);
-
-
-
-    }
-
-
 
 }

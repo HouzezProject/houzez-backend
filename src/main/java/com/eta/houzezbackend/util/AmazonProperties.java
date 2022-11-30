@@ -17,5 +17,4 @@ public class AmazonProperties {
     private String secretKey;
     @Value("${amazonProperties.bucketName}")
     private String bucketName;
-
 }

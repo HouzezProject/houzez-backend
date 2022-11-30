@@ -8,8 +8,11 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.eta.houzezbackend.dto.ImageGetDto;
+import com.eta.houzezbackend.dto.ImagePostDto;
 import com.eta.houzezbackend.util.AmazonProperties;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.PostConstruct;
@@ -20,12 +23,16 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AmazonClientService {
     private AmazonS3 s3client;
 
     private final AmazonProperties amazonProperties;
+
+    private final ImageService imageService;
+
     @PostConstruct
     private void initializeAmazon(){
         AWSCredentials credentials=new BasicAWSCredentials(this.amazonProperties.getAccessKey(),this.amazonProperties.getSecretKey());
@@ -42,8 +49,12 @@ public class AmazonClientService {
         s3client.putObject(new PutObjectRequest(amazonProperties.getBucketName(), fileName, file).withCannedAcl(CannedAccessControlList.PublicRead));
     }
 
-    public List<String> uploadMultipleFile (List<MultipartFile> multipartFiles){
-        return multipartFiles.stream().map(this::uploadSingleFile).toList();
+    public List<ImageGetDto> uploadMultipleFile (List<MultipartFile> multipartFiles, long agentId, long propertyId){
+        return multipartFiles.stream().map((file) -> {
+            String url = uploadSingleFile(file);
+            ImagePostDto imagePostDto = new ImagePostDto(url, file.getName());
+            return imageService.addImage(imagePostDto, agentId, propertyId);
+        }).toList();
     }
 
     public String uploadSingleFile(MultipartFile multipartFile){

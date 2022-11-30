@@ -26,16 +26,13 @@ public class ImageService {
     private final AgentRepository agentRepository;
     private final ImageMapper imageMapper;
 
-    public List<ImageGetDto> addMultipleImage(List<ImagePostDto> imagePostDtos,long agentId, long propertyId){
-        return imagePostDtos.stream().map(e->addImage(e,agentId, propertyId)).toList();
-    }
     public ImageGetDto addImage(ImagePostDto imagePostDto, long agentId, long propertyId) {
         Agent agent = agentRepository.findById(agentId).orElseThrow(() -> new ResourceNotFoundException("Agent", agentId));
         Property property = propertyRepository.findById(propertyId).orElseThrow(() -> new ResourceNotFoundException("Property", propertyId));
         property.setAgent(agent);
         Image image = imageMapper.imagePostDtoToImage(imagePostDto);
         image.setProperty(property);
-        imageRepository.save(image);
+        imageRepository.saveAndFlush(image);
 
         return imageMapper.imageToImageGetDto(image);
 
